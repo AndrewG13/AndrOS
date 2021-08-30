@@ -66,7 +66,7 @@ var TSOS;
             // Determine the command and execute it.
             //
             // TypeScript/JavaScript may not support associative arrays in all browsers so we have to iterate over the
-            // command list in attempt to find a match. 
+            // command list in attempt to find a match.
             // TODO: Is there a better way? Probably. Someone work it out and tell me in class.
             var index = 0;
             var found = false;
@@ -164,7 +164,7 @@ var TSOS;
                 _StdOut.putText("For what?");
             }
         }
-        // Although args is unused in some of these functions, it is always provided in the 
+        // Although args is unused in some of these functions, it is always provided in the
         // actual parameter list when this function is called, so I feel like we need it.
         shellVer(args) {
             _StdOut.putText(APP_NAME + " version " + APP_VERSION);
@@ -192,6 +192,9 @@ var TSOS;
                 switch (topic) {
                     case "help":
                         _StdOut.putText("Help displays a list of (hopefully) valid commands.");
+                        break;
+                    case "man":
+                        _StdOut.putText("Prompts a brief description for a specified command.");
                         break;
                     // TODO: Make descriptive MANual page entries for the the rest of the shell commands here.
                     default:
