@@ -1,4 +1,8 @@
-Andrew Giardina - Operating Systems Project
+### Andrew Giardina - Operating Systems Project
+
+> #  **AndrOS**
+
+*Not to be confused with the Starfox 64 villain*
 
 2019 - 2021 Browser-based Operating System in TypeScript
 ========================================================
