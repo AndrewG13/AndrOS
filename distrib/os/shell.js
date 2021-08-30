@@ -190,11 +190,29 @@ var TSOS;
             if (args.length > 0) {
                 var topic = args[0];
                 switch (topic) {
+                    case "ver":
+                        _StdOut.putText("Displays the current version of AndrOS.");
+                        break;
                     case "help":
                         _StdOut.putText("Help displays a list of (hopefully) valid commands.");
                         break;
+                    case "shutdown":
+                        _StdOut.putText("");
+                        break;
+                    case "cls":
+                        _StdOut.putText("");
+                        break;
                     case "man":
                         _StdOut.putText("Prompts a brief description for a specified command.");
+                        break;
+                    case "trace":
+                        _StdOut.putText("");
+                        break;
+                    case "rot13":
+                        _StdOut.putText("");
+                        break;
+                    case "prompt":
+                        _StdOut.putText("");
                         break;
                     // TODO: Make descriptive MANual page entries for the the rest of the shell commands here.
                     default:
