@@ -97,7 +97,7 @@ module TSOS {
             // Determine the command and execute it.
             //
             // TypeScript/JavaScript may not support associative arrays in all browsers so we have to iterate over the
-            // command list in attempt to find a match.
+            // command list in attempt to find a match. 
             // TODO: Is there a better way? Probably. Someone work it out and tell me in class.
             var index: number = 0;
             var found: boolean = false;
@@ -200,7 +200,7 @@ module TSOS {
            }
         }
 
-        // Although args is unused in some of these functions, it is always provided in the
+        // Although args is unused in some of these functions, it is always provided in the 
         // actual parameter list when this function is called, so I feel like we need it.
 
         public shellVer(args: string[]) {
@@ -222,8 +222,8 @@ module TSOS {
             // TODO: Stop the final prompt from being displayed. If possible. Not a high priority. (Damn OCD!)
         }
 
-        public shellCls(args: string[]) {
-            _StdOut.clearScreen();
+        public shellCls(args: string[]) {         
+            _StdOut.clearScreen();     
             _StdOut.resetXY();
         }
 
@@ -233,9 +233,6 @@ module TSOS {
                 switch (topic) {
                     case "help":
                         _StdOut.putText("Help displays a list of (hopefully) valid commands.");
-                        break;
-                    case "man":
-                        _StdOut.putText("Prompts a brief description of command entered");
                         break;
                     // TODO: Make descriptive MANual page entries for the the rest of the shell commands here.
                     default:
