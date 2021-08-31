@@ -294,7 +294,7 @@ var TSOS;
         }
         shellWhereami(args) {
             // Displays user's location
-            _StdOut.putText("");
+            _StdOut.putText("The Lylat System");
         }
         shellDoabarrelroll(args) {
             // Rotates the screen because the meme exists

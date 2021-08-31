@@ -350,7 +350,7 @@ module TSOS {
 
         public shellWhereami(args: string[]) {
             // Displays user's location
-            _StdOut.putText("");
+            _StdOut.putText("The Lylat System");
         }
 
         public shellDoabarrelroll(args: string[]) {
