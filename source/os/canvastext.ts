@@ -15,10 +15,10 @@
  *
  * Note #1: You could theoretically make up your own letters and symbols for your OS.
  *          That might be fun.
- * 
- * Note #2: The current version on the HTML5 canvas object has text routines that are 
+ *
+ * Note #2: The current version on the HTML5 canvas object has text routines that are
  *          probably far better than this. But I like the brutal low-level-ness of this,
- * 
+ *
  *  * ----------------- */
 
 module TSOS {
@@ -157,7 +157,7 @@ module TSOS {
             ctx.save();
             ctx.lineCap = "round";
             ctx.lineWidth = 2.0 * mag;
-            ctx.strokeStyle = "black";
+            ctx.strokeStyle = "orangered";
 
             for (var i = 0; i < len; i++) {
                 var c = CanvasTextFunctions.letter(str.charAt(i));
