@@ -17,6 +17,7 @@ module TSOS {
         public curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
         public apologies = "[sorry]";
 
+
         constructor() {
         }
 
@@ -71,6 +72,24 @@ module TSOS {
             sc = new ShellCommand(this.shellPrompt,
                                   "prompt",
                                   "<string> - Sets the prompt.");
+            this.commandList[this.commandList.length] = sc;
+
+            // date
+            sc = new ShellCommand(this.shellDate,
+                                  "date",
+                                  "- Displays the current Date & Time.");
+            this.commandList[this.commandList.length] = sc;
+
+            // whereami
+            sc = new ShellCommand(this.shellWhereami,
+                                  "whereami",
+                                  "- Displays the user's location.");
+            this.commandList[this.commandList.length] = sc;
+
+            // doabarrelroll
+            sc = new ShellCommand(this.shellDoabarrelroll,
+                                  "doabarrelroll",
+                                  "- Impress Peppy Hare.");
             this.commandList[this.commandList.length] = sc;
 
             // ps  - list the running processes and their IDs
@@ -255,6 +274,9 @@ module TSOS {
                     case "prompt":
                         _StdOut.putText("Sets the prompt to the specified text.");
                         break;
+                    case "date":
+                        _StdOut.putText("Displays current Time & Date.");
+                        break;
 
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
@@ -303,6 +325,37 @@ module TSOS {
             } else {
                 _StdOut.putText("Usage: prompt <string>  Please supply a string.");
             }
+        }
+
+        public shellDate(args: string[]) {
+            // Fetch current time
+            let dateTime: Date = new Date();
+            // Fetch current hours (for Military Time handling)
+            let hours: number = dateTime.getHours();
+
+            // If past afternoon, format like Standard Time
+            if (hours > 12) {
+              hours -= 12;
+            }
+
+            _StdOut.putText("Time: " + hours + ":"
+                            + dateTime.getMinutes());
+
+            _StdOut.advanceLine();
+            _StdOut.putText("Date: " + (dateTime.getMonth() + 1) + "/"
+                            + dateTime.getDate() + "/"
+                            + dateTime.getFullYear());
+
+        }
+
+        public shellWhereami(args: string[]) {
+            // Displays user's location
+            _StdOut.putText("");
+        }
+
+        public shellDoabarrelroll(args: string[]) {
+            // Rotates the screen because the meme exists
+            _StdOut.putText("");
         }
 
     }

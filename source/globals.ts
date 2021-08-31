@@ -15,6 +15,7 @@ const APP_NAME: string    = "AndrOS";   // The name just came to me, ya know?
 const APP_VERSION: string = "64";     // I'm trying to make you laugh like as if all thousands
  																				// of students you've taught haven't done the same.
 																				// ... tough competition ...
+//const DATETIME: Date = new Date();
 
 const CPU_CLOCK_INTERVAL: number = 100;   // This is in ms (milliseconds) so 1000 = 1 second.
 

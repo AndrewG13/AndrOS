@@ -7,7 +7,7 @@ var TSOS;
 (function (TSOS) {
     class DeviceDriver {
         constructor() {
-            this.version = '0.07';
+            this.version = '64';
             this.status = 'unloaded';
             this.preemptable = false;
             this.driverEntry = null;
