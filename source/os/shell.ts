@@ -238,24 +238,24 @@ module TSOS {
                         _StdOut.putText("Help displays a list of (hopefully) valid commands.");
                         break;
                     case "shutdown":
-                        _StdOut.putText("");
+                        _StdOut.putText("Shuts down AndrOS.");
                         break;
                     case "cls":
-                        _StdOut.putText("");
+                        _StdOut.putText("Clears the screen & resets cursor position.");
                         break;
                     case "man":
                         _StdOut.putText("Prompts a brief description for a specified command.");
                         break;
                     case "trace":
-                        _StdOut.putText("");
+                        _StdOut.putText("Turns the OS tracing on or off.");
                         break;
                     case "rot13":
-                        _StdOut.putText("");
+                        _StdOut.putText("Does rot13 obfuscation on <string>.");
                         break;
                     case "prompt":
-                        _StdOut.putText("");
+                        _StdOut.putText("Sets the prompt to the specified text.");
                         break;
-                    // TODO: Make descriptive MANual page entries for the the rest of the shell commands here.
+
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
