@@ -36,6 +36,24 @@ h3 {
   cursor: default;
 }
 
+.barrelroll {
+  animation-name: rollAnimation;
+  animation-duration: 2s;
+  animation-iteration-count: once;
+}
+
+@keyframes rollAnimation {
+
+  from {
+    transform: rotate(0turn);
+  }
+
+  to {
+    transform: rotate(3turn);
+  }
+}
+
+
 .normal_button {
   width: 100px;
 }

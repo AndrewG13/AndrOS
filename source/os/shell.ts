@@ -277,6 +277,12 @@ module TSOS {
                     case "date":
                         _StdOut.putText("Displays current Time & Date.");
                         break;
+                    case "whereami":
+                        _StdOut.putText("Displays user's location.");
+                        break;
+                    case "doabarrelroll":
+                        _StdOut.putText("Its time you learned, Fox.");
+                        break;
 
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
@@ -332,6 +338,7 @@ module TSOS {
             let dateTime: Date = new Date();
             // Fetch current hours (for Military Time handling)
             let hours: number = dateTime.getHours();
+            let minutes : string = (dateTime.getMinutes()).toString();
 
             // If past afternoon, format like Standard Time
             if (hours > 12) {
@@ -339,7 +346,7 @@ module TSOS {
             }
 
             _StdOut.putText("Time: " + hours + ":"
-                            + dateTime.getMinutes());
+                            + minutes.padStart(2, '0'));
 
             _StdOut.advanceLine();
             _StdOut.putText("Date: " + (dateTime.getMonth() + 1) + "/"
@@ -354,8 +361,15 @@ module TSOS {
         }
 
         public shellDoabarrelroll(args: string[]) {
-            // Rotates the screen because the meme exists
-            _StdOut.putText("");
+            // Rotates the screen
+            document.getElementById("divConsole").setAttribute("class", "barrelroll");
+            // After two seconds, remove the rolling effect
+            setTimeout(function () {
+              document.getElementById("divConsole").removeAttribute("class");
+            }, 2000);
+
+            _StdOut.putText("W H H A A A A AAAAAAAAAAA!!!");
+
         }
 
     }
