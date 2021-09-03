@@ -92,6 +92,12 @@ module TSOS {
                                   "- Impress Peppy Hare.");
             this.commandList[this.commandList.length] = sc;
 
+            // status <string>
+            sc = new ShellCommand(this.shellStatus,
+                                  "status",
+                                  "<string> - Input a status to be displayed.");
+            this.commandList[this.commandList.length] = sc;
+
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -283,6 +289,9 @@ module TSOS {
                     case "doabarrelroll":
                         _StdOut.putText("Its time you learned, Fox.");
                         break;
+                    case "status":
+                        _StdOut.putText("Displays a user-inputted status.");
+                        break;
 
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
@@ -358,6 +367,17 @@ module TSOS {
         public shellWhereami(args: string[]) {
             // Displays user's location
             _StdOut.putText("The Lylat System");
+        }
+
+        public shellStatus(args: string[]) {
+            if (args.length > 0) {
+                // Set the status message to the UI
+                let statusMsg = args[0];
+                _StdOut.putText("Status updated: " + statusMsg);
+                document.getElementById("status").innerHTML = statusMsg;
+            } else {
+                _StdOut.putText("Usage: status <string>  Please supply a string.");
+            }
         }
 
         public shellDoabarrelroll(args: string[]) {
