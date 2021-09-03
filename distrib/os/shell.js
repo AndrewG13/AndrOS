@@ -176,7 +176,7 @@ var TSOS;
         // Although args is unused in some of these functions, it is always provided in the
         // actual parameter list when this function is called, so I feel like we need it.
         shellVer(args) {
-            _StdOut.putText(APP_NAME + " version " + APP_VERSION);
+            _StdOut.putText(APP_NAME + " version: " + APP_VERSION);
         }
         shellHelp(args) {
             _StdOut.putText("Commands:");
@@ -310,7 +310,7 @@ var TSOS;
             setTimeout(function () {
                 document.getElementById("divConsole").removeAttribute("class");
             }, 2000);
-            _StdOut.putText("W H H A A A A AAAAAAAAAAA!!!");
+            _StdOut.putText(" \"W H H A A A A AAAAAAAAAAA!!!\" ");
         }
     }
     TSOS.Shell = Shell;

@@ -5,7 +5,7 @@
    <meta name="author"             content="Alan G. Labouseur" />
    <link rel="stylesheet" href="tsos.css" type="text/css" media="screen" />
    <title>
-      TSOS - a browser-based virtual Operating System in TypeScript
+      AndrOS - a browser-based virtual Operating System in TypeScript
    </title>
 
    <!-- Globals CONSTANTS and _Variables. Must included be first. -->
@@ -67,9 +67,13 @@
              onclick="TSOS.Control.hostBtnReset_click(this);">
    </div>
 
-   <div id="divConsole" style="margin:4px; width:600px; height:500px; float:left;">
+   <div id="timeAndDate">
+     Date will go here onload
+   </div>
+
+   <div id="divConsole" style="margin:4px; width:650px; height:500px; float:left;">
       <canvas id="display"
-              width="500px"
+              width="600px"
               height="500px"
               tabindex="3">
       </canvas>

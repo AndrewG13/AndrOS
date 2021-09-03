@@ -15,7 +15,6 @@ const APP_NAME: string    = "AndrOS";   // The name just came to me, ya know?
 const APP_VERSION: string = "64";     // I'm trying to make you laugh like as if all thousands
  																				// of students you've taught haven't done the same.
 																				// ... tough competition ...
-//const DATETIME: Date = new Date();
 
 const CPU_CLOCK_INTERVAL: number = 100;   // This is in ms (milliseconds) so 1000 = 1 second.
 
@@ -71,3 +70,14 @@ var _GLaDOS: any = null; // If the above is linked in, this is the instantiated 
 var onDocumentLoad = function() {
 	TSOS.Control.hostInit();
 };
+
+var timeDateDisplay = setInterval(timeDate, 1000);
+
+function timeDate() {
+   let currentTime = new Date();
+   document.getElementById("timeAndDate").innerHTML = (currentTime.getMonth() + 1) + "/"
+                                                    +  currentTime.getDate()       + "/"
+                                                    +  currentTime.getFullYear()   + ", "
+                                                    +  currentTime.toLocaleTimeString();
+
+}

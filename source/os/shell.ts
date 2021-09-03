@@ -223,7 +223,7 @@ module TSOS {
         // actual parameter list when this function is called, so I feel like we need it.
 
         public shellVer(args: string[]) {
-            _StdOut.putText(APP_NAME + " version " + APP_VERSION);
+            _StdOut.putText(APP_NAME + " version: " + APP_VERSION);
         }
 
         public shellHelp(args: string[]) {
@@ -368,7 +368,7 @@ module TSOS {
               document.getElementById("divConsole").removeAttribute("class");
             }, 2000);
 
-            _StdOut.putText("W H H A A A A AAAAAAAAAAA!!!");
+            _StdOut.putText(" \"W H H A A A A AAAAAAAAAAA!!!\" ");
 
         }
 
