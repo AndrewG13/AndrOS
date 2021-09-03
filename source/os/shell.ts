@@ -370,9 +370,18 @@ module TSOS {
         }
 
         public shellStatus(args: string[]) {
+            // Check if strings were inputted
             if (args.length > 0) {
+                let index = 0;
+                let statusMsg = "";
+                
+                // Concatenate all strings
+                while (index < args.length) {
+                    statusMsg += " " + args[index];
+                    index++;
+                }
+                
                 // Set the status message to the UI
-                let statusMsg = args[0];
                 _StdOut.putText("Status updated: " + statusMsg);
                 document.getElementById("status").innerHTML = statusMsg;
             } else {
