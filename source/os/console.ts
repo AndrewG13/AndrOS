@@ -76,7 +76,17 @@ module TSOS {
         *  removeText will remove the last inputted char, like popping a stack
         */
         public removeText(): void {
+             
+            var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, "_");
 
+            // not working
+            //_DrawingContext.clearRect(0, this.currentYPosition, this.currentXPosition, this.currentYPosition);
+
+            this.currentXPosition = this.currentXPosition - offset;
+
+            // Draw the buffer at the current X and Y coordinates.
+            // _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, this.buffer);
+             
         }
 
         public putText(text): void {

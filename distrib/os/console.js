@@ -67,6 +67,12 @@ var TSOS;
         *  removeText will remove the last inputted char, like popping a stack
         */
         removeText() {
+            var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, "_");
+            // not working
+            //_DrawingContext.clearRect(0, this.currentYPosition, this.currentXPosition, this.currentYPosition);
+            this.currentXPosition = this.currentXPosition - offset;
+            // Draw the buffer at the current X and Y coordinates.
+            // _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, this.buffer);
         }
         putText(text) {
             /*  My first inclination here was to write two functions: putChar() and putString().
