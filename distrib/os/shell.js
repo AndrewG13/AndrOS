@@ -57,6 +57,9 @@ var TSOS;
             // status <string>
             sc = new TSOS.ShellCommand(this.shellStatus, "status", "<string> - Input a status to be displayed.");
             this.commandList[this.commandList.length] = sc;
+            // error
+            sc = new TSOS.ShellCommand(this.shellError, "error", "- Trigger the BSOD from Kernal error.");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
@@ -238,6 +241,9 @@ var TSOS;
                     case "status":
                         _StdOut.putText("Displays a user-inputted status.");
                         break;
+                    case "error":
+                        _StdOut.putText("Tests Kernal error.");
+                        break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
@@ -335,6 +341,17 @@ var TSOS;
                 document.getElementById("divConsole").removeAttribute("class");
             }, 2000);
             _StdOut.putText(" \"W H H A A A A AAAAAAAAAAA!!!\" ");
+        }
+        shellError(args) {
+            _StdOut.putText("Error has occured");
+            // Throw an error
+            let cli = document.getElementById('display');
+            let canv = cli.getContext('2d');
+            let bsodImage = new Image();
+            bsodImage.src = "../distrib/images/bsod.png";
+            canv.drawImage(bsodImage, 10, 10);
+            // Run a shutdown as normal
+            _Kernel.krnShutdown();
         }
     }
     TSOS.Shell = Shell;
