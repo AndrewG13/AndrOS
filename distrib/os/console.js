@@ -37,6 +37,10 @@ var TSOS;
                     // ... and reset our buffer.
                     this.buffer = "";
                 }
+                else if (chr === String.fromCharCode(8)) {
+                    console.log("backspace input");
+                    this.buffer = this.buffer.slice(0, this.buffer.length - 1);
+                }
                 else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
