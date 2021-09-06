@@ -416,10 +416,10 @@ module TSOS {
             // Throw an error
             let cli = <HTMLCanvasElement>document.getElementById('display');
             let canv = cli.getContext('2d');
-            let bsodImage = new Image();
-            bsodImage.src = "../distrib/images/bsod.png";
-
-            canv.drawImage(bsodImage, 10, 10);
+            let bsodImage = <CanvasImageSource>document.getElementById('bsod');
+ 
+            canv.clearRect(0,0,600,500);
+            canv.drawImage(bsodImage, 0, 0, 600, 500);
             
             // Run a shutdown as normal
             _Kernel.krnShutdown();
