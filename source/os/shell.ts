@@ -411,8 +411,9 @@ module TSOS {
         }
 
         public shellError(args: string[]) {
-            _StdOut.putText("Error has occured");
-           
+            let errorMsg: string[] = ["ERROR :", "0000x0H ", "0000xCR4P"];
+            _OsShell.shellStatus(errorMsg);
+
             // Throw an error
             let cli = <HTMLCanvasElement>document.getElementById('display');
             let canv = cli.getContext('2d');

@@ -343,7 +343,8 @@ var TSOS;
             _StdOut.putText(" \"W H H A A A A AAAAAAAAAAA!!!\" ");
         }
         shellError(args) {
-            _StdOut.putText("Error has occured");
+            let errorMsg = ["ERROR :", "0000x0H ", "0000xCR4P"];
+            _OsShell.shellStatus(errorMsg);
             // Throw an error
             let cli = document.getElementById('display');
             let canv = cli.getContext('2d');
