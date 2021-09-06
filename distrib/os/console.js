@@ -43,6 +43,15 @@ var TSOS;
                     this.buffer = this.buffer.slice(0, this.buffer.length - 1);
                     this.removeText();
                 }
+                else if (chr === String.fromCharCode(9)) { // the Tab key
+                    //console.log("tab input");
+                }
+                else if (chr === String.fromCharCode(38)) { // the Arrow Up key
+                    //console.log("up input");
+                }
+                else if (chr === String.fromCharCode(40)) { // the Arrow Down key
+                    //console.log("down input");
+                }
                 else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...

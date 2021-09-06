@@ -42,14 +42,24 @@ module TSOS {
                 }
                 // TODO: Check for caps-lock and handle as shifted if so.
                 _KernelInputQueue.enqueue(chr);
+
+                // * Special input keys * (Seperated purely for my sanity)
+
+                // Non canvas-specific edits
             } else if (((keyCode >= 48) && (keyCode <= 57)) ||   // digits
-                        (keyCode == 32)                     ||   // space
-                        (keyCode == 13)) {                       // enter
+                        (keyCode == 32)) {                       // space
+                        
                 chr = String.fromCharCode(keyCode);
                 _KernelInputQueue.enqueue(chr);
 
-            } else if (keyCode == 8) { // backspace
-                //_Console.putText("Backspace");
+                // Canvas-specific edits
+            } else if ((keyCode == 8)   ||  // backspace
+                       (keyCode == 9)   ||  // tab
+                       (keyCode == 13)  ||  // enter
+                       (keyCode == 38)  ||  // arrow up
+                       (keyCode == 40)) {   // arrow down            
+                                        
+                //_Console.putText("canvas edits");
                 //_KernelInputQueue.q.pop();
                 chr = String.fromCharCode(keyCode);
                 _KernelInputQueue.enqueue(chr);
