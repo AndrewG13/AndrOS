@@ -37,9 +37,11 @@ var TSOS;
                     // ... and reset our buffer.
                     this.buffer = "";
                 }
-                else if (chr === String.fromCharCode(8)) {
-                    console.log("backspace input");
+                else if (chr === String.fromCharCode(8)) { // the Backspace key
+                    //console.log("backspace input");
+                    // remove last key entered from buffer
                     this.buffer = this.buffer.slice(0, this.buffer.length - 1);
+                    this.removeText();
                 }
                 else {
                     // This is a "normal" character, so ...
@@ -50,6 +52,12 @@ var TSOS;
                 }
                 // TODO: Add a case for Ctrl-C that would allow the user to break the current program.
             }
+        }
+        /*
+        *  This is for the Backspace key
+        *  removeText will remove the last inputted char, like popping a stack
+        */
+        removeText() {
         }
         putText(text) {
             /*  My first inclination here was to write two functions: putChar() and putString().
