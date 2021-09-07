@@ -10,14 +10,14 @@
 
 module TSOS {
     export class commandHistory {
-        
+
         // points to the NEXT command to show (LIFO)
-        
+
         public pointer: number;  //   arrow up would increment the pointer
                                  // arrow down would decrement the pointer
-      
+
         constructor(public list = new Array()) {
-            pointer = 0;
+            this.pointer = 0;
         }
 
        /*
@@ -42,7 +42,7 @@ module TSOS {
        */
         public add(command) {
             // Touch this (FIFO Style)
-            
+
             //this.list.push(command);
         }
 
@@ -52,31 +52,31 @@ module TSOS {
        */
         public wipeList() {
             // Touch this
-          
+
             // Wipe all elements after pointer
 
         }
 
        /*
        *  upArrow Function
-       *    Displays current pointer command, then increments pointer
+       *    Displays current pointer command, THEN increment pointer
        */
         public upArrow() {
             // Touch this
-          
-          
+
+
         }
-        
+
        /*
        *  downArrow Function
-       *    Displays current pointer command, then decrements pointer
+       *    Displays current pointer command, THEN decrement pointer
        */
         public downArrow() {
             // Touch this
-          
-          
+
+
         }
-      
+
        /*
        *  toString Function
        *    Displays all commands in the list
@@ -94,24 +94,25 @@ module TSOS {
 
 /*
 *  Example Diagram:
-*  
-*                     First entered                           Last entered. Pointer here
-*                          V                                               V
-*  Commands Entered   ->  man , ver , help , whereami , date , prompt , dance, ______
-*      
-*  {At this point, if the user does an 'arrow up', "dance" will be displayed & the pointer moves to "prompt"}
-*  {Another 'arrow up' = "prompt" displayed & pointer at "date"}
+*
+*                     First entered                                  Last entered. Pointer here
+*                          V                                                      V
+*  Commands Entered   ->  man , ver , help , whereami , date , prompt , party , dance, ______
+*
+*  {At this point, if the user does an 'arrow up': "dance" will be displayed & the pointer moves to "party"}
+*  {Another 'arrow up': "party" displayed & pointer at "prompt"}
+*  {Another 'arrow up': "prompt" displayed & pointer at "date"}
 *  {Heres the resulting list:}
-* 
+*
 *                                                    Pointer here
 *                                                         V
-*  Commands Entered   ->  man , ver , help , whereami , date , prompt , dance, ______
+*  Commands Entered   ->  man , ver , help , whereami , date , prompt , party , dance, ______
 *
 *
 *
-*  {If the user hits 'enter', "date" executes & all commands after pointer are erased}
+*  {If user hits 'enter: "prompt" executes, pointer moves to "prompt", all commands proceeding are erased}
 *  {Observe the results}
-*                                                    Pointer here
-*                                                         V
-*  Commands Entered   ->  man , ver , help , whereami , date , ______
+*                                                           Pointer here
+*                                                                V
+*  Commands Entered   ->  man , ver , help , whereami , date , prompt , ______
 */
