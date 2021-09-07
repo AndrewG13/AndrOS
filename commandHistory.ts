@@ -10,26 +10,46 @@
 
 module TSOS {
     export class commandHistory {
-        public pointer: number;
+        
+        // points to the NEXT command to show (LIFO)
+        
+        public pointer: number;  //   arrow up would increment the pointer
+                                 // arrow down would decrement the pointer
       
         constructor(public list = new Array()) {
-          pointer = 0;
+            pointer = 0;
         }
 
+       /*
+       *  getSize Function
+       *    returns the list size
+       */
         public getSize() {
             return this.list.length;
         }
 
+       /*
+       *  isEmpty Function
+       *    returns true if list is empty
+       */
         public isEmpty() {
             return (this.list.length == 0);
         }
 
-         
-        public add(element) {
+       /*
+       *  add Function
+       *    Adds most recently entered command to top of list (FIFO)
+       */
+        public add(command) {
             // Touch this (FIFO Style)
-            //this.list.push(element);
+            
+            //this.list.push(command);
         }
 
+       /*
+       *  wipeList Function
+       *    Deletes all elements proceeding the pointer index
+       */
         public wipeList() {
             // Touch this
           
@@ -37,20 +57,32 @@ module TSOS {
 
         }
 
+       /*
+       *  upArrow Function
+       *    Displays current pointer command, then increments pointer
+       */
         public upArrow() {
             // Touch this
           
           
         }
         
+       /*
+       *  downArrow Function
+       *    Displays current pointer command, then decrements pointer
+       */
         public downArrow() {
             // Touch this
           
           
         }
       
-      
-      public toString() {
+       /*
+       *  toString Function
+       *    Displays all commands in the list
+       *    This would only be used for debugging purposes
+       */
+        public toString() {
             var retVal = "";
             for (var i in this.list) {
                 retVal += "[" + this.list[i] + "] ";
