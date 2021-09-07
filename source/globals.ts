@@ -41,11 +41,12 @@ var _FontHeightMargin: number = 4;       // Additional space added to font size 
 
 var _Trace: boolean = true;              // Default the OS trace to be on.
 
-// The OS Kernel and its queues.
+// The OS Kernel and its queues/data structures
 var _Kernel: TSOS.Kernel;
 var _KernelInterruptQueue: TSOS.Queue = null;
 var _KernelInputQueue: TSOS.Queue = null;
 var _KernelBuffers = null;
+var _KernelCommandHistory: TSOS.CommandHistory;
 
 // Standard input and output
 var _StdIn:  TSOS.Console = null;

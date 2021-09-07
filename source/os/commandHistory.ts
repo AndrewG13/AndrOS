@@ -3,20 +3,24 @@
 *  This is an Array that is more appealing & convenient to keep track of commands entered by the user.
 *  It contains a pointer that, initially untouched, points to the current command entered (LIFO).
 *  This allows for easy pivoting by the up/down keys.
-*  Additionally, unneeded commands
+*  Additionally, unneeded commands will be removed when necessary. (See diagram)
 */
 
 // Currently not done!
 
 module TSOS {
-    export class commandHistory {
+    export class CommandHistory {
+
 
         // points to the NEXT command to show (LIFO)
+        public pointer: number;  
+        //   arrow up would increment the pointer
+        // arrow down would decrement the pointer
+        private list;
 
-        public pointer: number;  //   arrow up would increment the pointer
-                                 // arrow down would decrement the pointer
 
-        constructor(public list = new Array()) {
+        constructor() {
+            this.list = new Array();
             this.pointer = 0;
         }
 
@@ -38,12 +42,12 @@ module TSOS {
 
        /*
        *  add Function
-       *    Adds most recently entered command to top of list (FIFO)
+       *    Adds most recently entered command to the 'back' of list (LIFO)
        */
         public add(command) {
-            // Touch this (FIFO Style)
-
-            //this.list.push(command);
+            // The greator the index = the more recent a command was executed
+            this.list[this.getSize()] = command;
+            this.pointer++;
         }
 
        /*
@@ -51,10 +55,12 @@ module TSOS {
        *    Deletes all elements proceeding the pointer index
        */
         public wipeList() {
-            // Touch this
-
-            // Wipe all elements after pointer
-
+            // Pointer moves up (most recent command executed)
+            this.pointer++;
+            // Create an index starting at commands that need to go
+            let toWipeIndex = this.pointer + 1;
+            // Wipe all elemnts after pointer
+            this.list.splice(toWipeIndex, (this.getSize() - (this.pointer + 1)));
         }
 
        /*
@@ -82,12 +88,12 @@ module TSOS {
        *    Displays all commands in the list
        *    This would only be used for debugging purposes
        */
-        public toString() {
-            var retVal = "";
+        public toString() : void {
+            var fullHistory = "";
             for (var i in this.list) {
-                retVal += "[" + this.list[i] + "] ";
+                fullHistory += "[" + this.list[i] + "] ";
             }
-            return retVal;
+            console.log(fullHistory);
         }
     }
 }
@@ -106,7 +112,7 @@ module TSOS {
 *
 *                                                    Pointer here
 *                                                         V
-*  Commands Entered   ->  man , ver , help , whereami , date , prompt , party , dance, ______
+*  Commands Entered   ->  man , ver , help , whereami , date , prompt , party , dance , ______
 *
 *
 *

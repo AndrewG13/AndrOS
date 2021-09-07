@@ -34,6 +34,9 @@ var TSOS;
                     // The enter key marks the end of a console command, so ...
                     // ... tell the shell ...
                     _OsShell.handleInput(this.buffer);
+                    // Add command to our Command History
+                    _KernelCommandHistory.add(this.buffer);
+                    _KernelCommandHistory.toString();
                     // ... and reset our buffer.
                     this.buffer = "";
                 }
