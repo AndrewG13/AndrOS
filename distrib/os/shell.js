@@ -97,6 +97,9 @@ var TSOS;
             }
             if (found) {
                 this.execute(fn, args); // Note that args is always supplied, though it might be empty.
+                // Add command to our Command History
+                _KernelCommandHistory.add(buffer);
+                _KernelCommandHistory.toString();
             }
             else {
                 // It's not found, so check for curses and apologies before declaring the command invalid.
