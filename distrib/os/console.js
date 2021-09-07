@@ -48,9 +48,15 @@ var TSOS;
                 }
                 else if (chr === String.fromCharCode(38)) { // the Arrow Up key
                     //console.log("up input");
+                    // if command log has commands to offer, get latest (LIFO)
+                    if (_KernelCommandHistory.getSize() > 0) {
+                        this.buffer = _KernelCommandHistory.upArrow();
+                        this.putText(this.buffer);
+                    }
                 }
                 else if (chr === String.fromCharCode(40)) { // the Arrow Down key
                     //console.log("down input");
+                    //this.buffer = _KernelCommandHistory.downArrow();
                 }
                 else {
                     // This is a "normal" character, so ...

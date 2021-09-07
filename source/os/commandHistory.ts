@@ -21,7 +21,7 @@ module TSOS {
 
         constructor() {
             this.list = new Array();
-            this.pointer = 0;
+            this.pointer = -1; // negative 1 because no commands
         }
 
        /*
@@ -65,21 +65,22 @@ module TSOS {
 
        /*
        *  upArrow Function
-       *    Displays current pointer command, THEN increment pointer
+       *    Displays & returns current pointer command, THEN decrement pointer
        */
         public upArrow() {
-            // Touch this
-
-
+            let command = this.list[this.pointer];
+            this.pointer--;
+            return command;
         }
 
        /*
        *  downArrow Function
-       *    Displays current pointer command, THEN decrement pointer
+       *    Displays & returns current pointer command, THEN increment pointer
        */
         public downArrow() {
             // Touch this
-
+            //let command = this.list[this.pointer];
+            //this.pointer--;
 
         }
 

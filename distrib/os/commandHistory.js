@@ -11,7 +11,7 @@ var TSOS;
     class CommandHistory {
         constructor() {
             this.list = new Array();
-            this.pointer = 0;
+            this.pointer = -1; // negative 1 because no commands
         }
         /*
         *  getSize Function
@@ -50,17 +50,21 @@ var TSOS;
         }
         /*
         *  upArrow Function
-        *    Displays current pointer command, THEN increment pointer
+        *    Displays & returns current pointer command, THEN decrement pointer
         */
         upArrow() {
-            // Touch this
+            let command = this.list[this.pointer];
+            this.pointer--;
+            return command;
         }
         /*
         *  downArrow Function
-        *    Displays current pointer command, THEN decrement pointer
+        *    Displays & returns current pointer command, THEN increment pointer
         */
         downArrow() {
             // Touch this
+            //let command = this.list[this.pointer];
+            //this.pointer--;
         }
         /*
         *  toString Function
