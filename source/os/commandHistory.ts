@@ -48,6 +48,7 @@ module TSOS {
             // The greator the index = the more recent a command was executed
             this.list[this.getSize()] = command;
             this.pointer++;
+            this.wipeList();
         }
 
        /*
@@ -55,11 +56,9 @@ module TSOS {
        *    Deletes all elements proceeding the pointer index
        */
         public wipeList() {
-            // Pointer moves up (most recent command executed)
-            this.pointer++;
             // Create an index starting at commands that need to go
             let toWipeIndex = this.pointer + 1;
-            // Wipe all elemnts after pointer
+            // Wipe all elements after pointer
             this.list.splice(toWipeIndex, (this.getSize() - (this.pointer + 1)));
         }
 
@@ -68,7 +67,7 @@ module TSOS {
        *    Displays & returns current pointer command, THEN decrement pointer
        */
         public upArrow() {
-            let command = this.list[this.pointer];
+            let command : string = this.list[this.pointer];
             this.pointer--;
             return command;
         }

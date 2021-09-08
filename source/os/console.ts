@@ -48,7 +48,7 @@ module TSOS {
                     // remove last key entered from buffer
                     let lastChar = this.buffer.charAt(this.buffer.length - 1);
                     this.buffer = this.buffer.slice(0,this.buffer.length - 1);
-                    this.removeText(lastChar);
+                    this.removeUserText();
                 } else if (chr === String.fromCharCode(9)) { // the Tab key
                     //console.log("tab input");
                     
@@ -57,10 +57,10 @@ module TSOS {
                     //console.log("up input");
                     
                     // if command log has commands to offer, get latest (LIFO)
-                    if (_KernelCommandHistory.getSize() > 0) {
+                    if (_KernelCommandHistory.pointer >= 0) {
                          this.buffer = _KernelCommandHistory.upArrow();
-                         this.putText(this.buffer);
-                    }
+                         this.removeUserText();
+                        }
                 } else if (chr === String.fromCharCode(40)) { // the Arrow Down key
                     //console.log("down input");
                     //this.buffer = _KernelCommandHistory.downArrow();
@@ -76,23 +76,17 @@ module TSOS {
             }
         }
 
-        /*
-        *  This is for the Backspace key
-        *  removeText will visually remove the last inputted char, like popping a stack
-        */
-        public removeText(lastChar): void {
-             
-            var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, lastChar);
 
-            // not working
-            _DrawingContext.fillRect(0, this.currentYPosition - 14, this.currentXPosition, this.currentYPosition);
+        /*
+        *  This is for the Backspace, Up, Down keys
+        */
+        public removeUserText(): void {
+            // Clear the entire line (including prompt)
+            _DrawingContext.fillRect(0, this.currentYPosition - 14, this.currentXPosition, this.currentYPosition + 4);
+            // Display new buffer
             this.currentXPosition = 0;
             _OsShell.putPrompt();
             this.putText(this.buffer);
-            //this.currentXPosition = this.currentXPosition + offset;
-
-
-             
         }
 
         public putText(text): void {

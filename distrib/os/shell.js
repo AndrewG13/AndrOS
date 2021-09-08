@@ -100,6 +100,7 @@ var TSOS;
                 // Add command to our Command History
                 _KernelCommandHistory.add(buffer);
                 _KernelCommandHistory.toString();
+                console.log(_KernelCommandHistory.pointer);
             }
             else {
                 // It's not found, so check for curses and apologies before declaring the command invalid.
@@ -110,6 +111,7 @@ var TSOS;
                     this.execute(this.shellApology);
                 }
                 else { // It's just a bad command. {
+                    //_StdOut.putText(buffer);
                     this.execute(this.shellInvalidCommand);
                 }
             }
