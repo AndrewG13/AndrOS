@@ -40,8 +40,9 @@ var TSOS;
                 else if (chr === String.fromCharCode(8)) { // the Backspace key
                     //console.log("backspace input");
                     // remove last key entered from buffer
+                    let lastChar = this.buffer.charAt(this.buffer.length - 1);
                     this.buffer = this.buffer.slice(0, this.buffer.length - 1);
-                    this.removeText();
+                    this.removeText(lastChar);
                 }
                 else if (chr === String.fromCharCode(9)) { // the Tab key
                     //console.log("tab input");
@@ -70,15 +71,16 @@ var TSOS;
         }
         /*
         *  This is for the Backspace key
-        *  removeText will remove the last inputted char, like popping a stack
+        *  removeText will visually remove the last inputted char, like popping a stack
         */
-        removeText() {
-            var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, "_");
+        removeText(lastChar) {
+            var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, lastChar);
             // not working
-            //_DrawingContext.clearRect(0, this.currentYPosition, this.currentXPosition, this.currentYPosition);
-            this.currentXPosition = this.currentXPosition - offset;
-            // Draw the buffer at the current X and Y coordinates.
-            // _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, this.buffer);
+            _DrawingContext.fillRect(0, this.currentYPosition - 14, this.currentXPosition, this.currentYPosition);
+            this.currentXPosition = 0;
+            _OsShell.putPrompt();
+            this.putText(this.buffer);
+            //this.currentXPosition = this.currentXPosition + offset;
         }
         putText(text) {
             /*  My first inclination here was to write two functions: putChar() and putString().
