@@ -1,0 +1,17 @@
+Code written while away from my laptop.  Scrap paper, if you will.
+
+    // Blinking cursor code, because I was bored
+        let colored = false;
+        
+        let cursorBlink = setInterval(blink, 700);
+        
+        function blink() {
+            if(colored) {
+                colored = false;
+                ctx.clearRect(250, 100, 50, 100);
+            } else {
+                colored = true;
+                ctx.fillRect(x, y, 50, 100); 
+            }
+        }
+        
