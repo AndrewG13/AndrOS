@@ -43,6 +43,11 @@ module TSOS {
                 // TODO: Check for caps-lock and handle as shifted if so.
                 _KernelInputQueue.enqueue(chr);
 
+            } else if ( (keyCode >= 186) && (keyCode <= 222) ) { // special symbols
+                chr = String.fromCharCode(keyCode - 96);
+                _KernelInputQueue.enqueue(chr);
+
+            
                 // * Special input keys * (Seperated purely for my sanity)
 
                 // Non canvas-specific edits

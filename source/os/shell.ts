@@ -438,7 +438,8 @@ module TSOS {
         }
 
         public shellLoad(args: string[]) {
-            
+            //let input = _UserInput.innerHTML
+            //_StdOut.putText("Valid Input: " + (Number(_UserInput.innerHTML)));
         }
 
         public shellError(args: string[]) {

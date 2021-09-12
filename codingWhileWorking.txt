@@ -16,8 +16,3 @@ Code written while away from my laptop.  Scrap paper, if you will.
         }
         
 /************************************************/
-
-    // Load Command "functionality" code
-    
-    let progInput document.getElementById.innerHTML("taProgramInput");
-

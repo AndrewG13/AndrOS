@@ -361,6 +361,8 @@ var TSOS;
             _StdOut.putText(" \"Good Luck\" ");
         }
         shellLoad(args) {
+            //let input = _UserInput.innerHTML
+            //_StdOut.putText("Valid Input: " + (Number(_UserInput.innerHTML)));
         }
         shellError(args) {
             let errorMsg = ["ERROR :", "0000x0H ", "0000xCR4P"];

@@ -56,7 +56,7 @@ var _StdOut: TSOS.Console = null;
 // UI
 var _Console: TSOS.Console;
 var _OsShell: TSOS.Shell;
-
+var _UserInput = document.getElementById("taProgramInput");
 // At least this OS is not trying to kill you. (Yet.)
 var _SarcasticMode: boolean = false;
 

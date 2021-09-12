@@ -37,25 +37,23 @@ var TSOS;
                     // ... and reset our buffer.
                     this.buffer = "";
                 }
-                else if (chr === String.fromCharCode(8)) { // the Backspace key
-                    //console.log("backspace input");
+                else if (chr === String.fromCharCode(8)) { // the Backspace key                    
                     // remove last key entered from buffer
                     let lastChar = this.buffer.charAt(this.buffer.length - 1);
                     this.buffer = this.buffer.slice(0, this.buffer.length - 1);
                     this.removeUserText();
                 }
                 else if (chr === String.fromCharCode(9)) { // the Tab key
-                    //console.log("tab input");
                 }
                 else if (chr === String.fromCharCode(38)) { // the Arrow Up key
-                    //console.log("up input");
-                    // if command log has commands to offer, get latest (LIFO)
+                    // if we aren't on the FIRST inputted command, get latest (LIFO)
                     if (_KernelCommandHistory.pointer >= 0) {
                         this.buffer = _KernelCommandHistory.upArrow();
                         this.removeUserText();
                     }
                 }
                 else if (chr === String.fromCharCode(40)) { // the Arrow Down key
+                    // if we aren't on the LAST inputted command, get latest (LIFO)
                     if (_KernelCommandHistory.pointer + 2 < _KernelCommandHistory.getSize()) {
                         this.buffer = _KernelCommandHistory.downArrow();
                         this.removeUserText();
@@ -73,7 +71,9 @@ var TSOS;
             }
         }
         /*
-        *  This is for the Backspace, Up, Down keys
+        *  removeUserText Function
+        *    Clears any typed out keys, and re-displays the buffer
+        *    This is for the Backspace, Up, Down keys
         */
         removeUserText() {
             // Clear the entire line (including prompt)
