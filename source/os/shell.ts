@@ -104,6 +104,11 @@ module TSOS {
                                   "- Trigger the BSOD from Kernal error.");
             this.commandList[this.commandList.length] = sc;
 
+            sc = new ShellCommand(this.shellBeginAssault,
+                                  "beginassault",
+                                  "- Begin attack on Star Wolf!");
+            this.commandList[this.commandList.length] = sc;
+
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -172,8 +177,10 @@ module TSOS {
             if (_StdOut.currentXPosition > 0) {
                 _StdOut.advanceLine();
             }
-            // ... and finally write the prompt again.
-            this.putPrompt();
+            // ... and finally write the prompt again (if its not shutdown / error).
+            if ((fn !== this.shellError) && (fn !== this.shellShutdown)) {
+                this.putPrompt();
+            }
         }
 
         public parseInput(buffer: string): UserCommand {
@@ -308,6 +315,9 @@ module TSOS {
                     case "error":
                         _StdOut.putText("Tests Kernal error.");
                         break;
+                    case "beginassault":
+                        _StdOut.putText("Take flight and defeat Star Wolf.")
+                        break;
 
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
@@ -415,6 +425,11 @@ module TSOS {
 
             _StdOut.putText(" \"W H H A A A A AAAAAAAAAAA!!!\" ");
 
+        }
+
+        public shellBeginAssault(args: string[]) {
+            goodluck.play();
+            _StdOut.putText(" \"Good Luck\" ");
         }
 
         public shellError(args: string[]) {

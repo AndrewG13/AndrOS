@@ -60,6 +60,8 @@ var TSOS;
             // error
             sc = new TSOS.ShellCommand(this.shellError, "error", "- Trigger the BSOD from Kernal error.");
             this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellBeginAssault, "beginassault", "- Begin attack on Star Wolf!");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
@@ -126,8 +128,10 @@ var TSOS;
             if (_StdOut.currentXPosition > 0) {
                 _StdOut.advanceLine();
             }
-            // ... and finally write the prompt again.
-            this.putPrompt();
+            // ... and finally write the prompt again (if its not shutdown / error).
+            if ((fn !== this.shellError) && (fn !== this.shellShutdown)) {
+                this.putPrompt();
+            }
         }
         parseInput(buffer) {
             var retVal = new TSOS.UserCommand();
@@ -249,6 +253,9 @@ var TSOS;
                     case "error":
                         _StdOut.putText("Tests Kernal error.");
                         break;
+                    case "beginassault":
+                        _StdOut.putText("Take flight and defeat Star Wolf.");
+                        break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
@@ -346,6 +353,10 @@ var TSOS;
                 document.getElementById("divConsole").removeAttribute("class");
             }, 2000);
             _StdOut.putText(" \"W H H A A A A AAAAAAAAAAA!!!\" ");
+        }
+        shellBeginAssault(args) {
+            goodluck.play();
+            _StdOut.putText(" \"Good Luck\" ");
         }
         shellError(args) {
             let errorMsg = ["ERROR :", "0000x0H ", "0000xCR4P"];
