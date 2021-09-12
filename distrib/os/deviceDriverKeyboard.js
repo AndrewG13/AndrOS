@@ -40,7 +40,7 @@ var TSOS;
                 _KernelInputQueue.enqueue(chr);
             }
             else if ((keyCode >= 186) && (keyCode <= 222)) { // special symbols
-                chr = String.fromCharCode(keyCode - 96);
+                chr = this.computeSymbols(keyCode, isShifted);
                 _KernelInputQueue.enqueue(chr);
                 // * Special input keys * (Seperated purely for my sanity)
                 // Non canvas-specific edits
@@ -61,6 +61,101 @@ var TSOS;
                 chr = String.fromCharCode(keyCode);
                 _KernelInputQueue.enqueue(chr);
             }
+        }
+        computeSymbols(keyCode, isShifted) {
+            let symChr;
+            switch (keyCode) {
+                case 192:
+                    if (isShifted) {
+                        keyCode = 126;
+                    }
+                    else {
+                        keyCode = 96;
+                    }
+                    break;
+                case 189:
+                    if (isShifted) {
+                        keyCode = 95;
+                    }
+                    else {
+                        keyCode = 45;
+                    }
+                    break;
+                case 187:
+                    if (isShifted) {
+                        keyCode = 43;
+                    }
+                    else {
+                        keyCode = 61;
+                    }
+                    break;
+                case 219:
+                    if (isShifted) {
+                        keyCode = 123;
+                    }
+                    else {
+                        keyCode = 91;
+                    }
+                    break;
+                case 221:
+                    if (isShifted) {
+                        keyCode = 125;
+                    }
+                    else {
+                        keyCode = 93;
+                    }
+                    break;
+                case 220:
+                    if (isShifted) {
+                        keyCode = 124;
+                    }
+                    else {
+                        keyCode = 92;
+                    }
+                    break;
+                case 186:
+                    if (isShifted) {
+                        keyCode = 58;
+                    }
+                    else {
+                        keyCode = 59;
+                    }
+                    break;
+                case 222:
+                    if (isShifted) {
+                        keyCode = 34;
+                    }
+                    else {
+                        keyCode = 39;
+                    }
+                    break;
+                case 188:
+                    if (isShifted) {
+                        keyCode = 60;
+                    }
+                    else {
+                        keyCode = 44;
+                    }
+                    break;
+                case 190:
+                    if (isShifted) {
+                        keyCode = 62;
+                    }
+                    else {
+                        keyCode = 46;
+                    }
+                    break;
+                case 191:
+                    if (isShifted) {
+                        keyCode = 63;
+                    }
+                    else {
+                        keyCode = 47;
+                    }
+                    break;
+            }
+            symChr = String.fromCharCode(keyCode);
+            return symChr;
         }
     }
     TSOS.DeviceDriverKeyboard = DeviceDriverKeyboard;

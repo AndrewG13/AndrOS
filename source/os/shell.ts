@@ -397,7 +397,7 @@ module TSOS {
 
         public shellWhereami(args: string[]) {
             // Displays user's location
-            _StdOut.putText("The Lylat System");
+            _StdOut.putText("The Lylat System: Corneria");
         }
 
         public shellStatus(args: string[]) {
@@ -432,9 +432,14 @@ module TSOS {
 
         }
 
+        // This will be a little game if I get the time to implement it
+        // Like the asteroids shooting game
         public shellBeginAssault(args: string[]) {
             goodluck.play();
             _StdOut.putText(" \"Good Luck\" ");
+            //setTimeout(_StdOut.init,2000);
+
+
         }
 
         public shellLoad(args: string[]) {

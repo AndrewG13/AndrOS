@@ -327,7 +327,7 @@ var TSOS;
         }
         shellWhereami(args) {
             // Displays user's location
-            _StdOut.putText("The Lylat System");
+            _StdOut.putText("The Lylat System: Corneria");
         }
         shellStatus(args) {
             // Check if strings were inputted
@@ -356,9 +356,12 @@ var TSOS;
             }, 2000);
             _StdOut.putText(" \"W H H A A A A AAAAAAAAAAA!!!\" ");
         }
+        // This will be a little game if I get the time to implement it
+        // Like the asteroids shooting game
         shellBeginAssault(args) {
             goodluck.play();
             _StdOut.putText(" \"Good Luck\" ");
+            //setTimeout(_StdOut.init,2000);
         }
         shellLoad(args) {
             //let input = _UserInput.innerHTML
