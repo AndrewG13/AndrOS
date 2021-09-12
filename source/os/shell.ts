@@ -104,6 +104,11 @@ module TSOS {
                                   "- Trigger the BSOD from Kernal error.");
             this.commandList[this.commandList.length] = sc;
 
+            sc = new ShellCommand(this.shellLoad,
+                                  "load",
+                                  "- Loads a program to memory.");
+            this.commandList[this.commandList.length] = sc;
+
             sc = new ShellCommand(this.shellBeginAssault,
                                   "beginassault",
                                   "- Begin attack on Star Wolf!");
@@ -430,6 +435,10 @@ module TSOS {
         public shellBeginAssault(args: string[]) {
             goodluck.play();
             _StdOut.putText(" \"Good Luck\" ");
+        }
+
+        public shellLoad(args: string[]) {
+            
         }
 
         public shellError(args: string[]) {

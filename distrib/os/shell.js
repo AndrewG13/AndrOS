@@ -60,6 +60,8 @@ var TSOS;
             // error
             sc = new TSOS.ShellCommand(this.shellError, "error", "- Trigger the BSOD from Kernal error.");
             this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellLoad, "load", "- Loads a program to memory.");
+            this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellBeginAssault, "beginassault", "- Begin attack on Star Wolf!");
             this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
@@ -357,6 +359,8 @@ var TSOS;
         shellBeginAssault(args) {
             goodluck.play();
             _StdOut.putText(" \"Good Luck\" ");
+        }
+        shellLoad(args) {
         }
         shellError(args) {
             let errorMsg = ["ERROR :", "0000x0H ", "0000xCR4P"];
