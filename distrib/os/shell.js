@@ -364,8 +364,9 @@ var TSOS;
             //setTimeout(_StdOut.init,2000);
         }
         shellLoad(args) {
-            //let input = _UserInput.innerHTML
-            //_StdOut.putText("Valid Input: " + (Number(_UserInput.innerHTML)));
+            // Works fine in JS, but shows an error in Typescript? 
+            let input = document.getElementById("taProgramInput").value;
+            _StdOut.putText("Valid Input: " + (Number(input.value)));
         }
         shellError(args) {
             let errorMsg = ["ERROR :", "0000x0H ", "0000xCR4P"];

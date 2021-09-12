@@ -443,8 +443,11 @@ module TSOS {
         }
 
         public shellLoad(args: string[]) {
-            //let input = _UserInput.innerHTML
-            //_StdOut.putText("Valid Input: " + (Number(_UserInput.innerHTML)));
+            // Works fine in JS, but shows an error in Typescript? 
+            let input = document.getElementById("taProgramInput").value;
+            
+            _StdOut.putText("Valid Input: " + (Number(input.value)));
+
         }
 
         public shellError(args: string[]) {
