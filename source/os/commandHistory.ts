@@ -3,7 +3,6 @@
 *  This is an Array that is more appealing & convenient to keep track of commands entered by the user.
 *  It contains a pointer that, initially untouched, points to the current command entered (LIFO).
 *  This allows for easy pivoting by the up/down keys.
-*  Additionally, unneeded commands will be removed when necessary. (See diagram)
 */
 
 // Currently not done!
@@ -47,12 +46,12 @@ module TSOS {
         public add(command) {
             // The greator the index = the more recent a command was executed
             this.list[this.getSize()] = command;
-            this.pointer++;
-            this.wipeList();
+            this.pointer = this.getSize() - 1;
         }
 
        /*
        *  wipeList Function
+       *    This function has determined to be unneeded, therefore goes unused
        *    Deletes all elements proceeding the pointer index
        */
         public wipeList() {
@@ -65,10 +64,12 @@ module TSOS {
        /*
        *  upArrow Function
        *    Displays & returns current pointer command, THEN decrement pointer
+       *    Console.ts handles validity (if user is on FIRST command, can't go further up)
        */
         public upArrow() {
             let command : string = this.list[this.pointer];
             this.pointer--;
+            console.log(this.pointer);
             return command;
         }
 
@@ -77,10 +78,11 @@ module TSOS {
        *    Displays & returns current pointer command, THEN increment pointer
        */
         public downArrow() {
-            // Touch this
-            //let command = this.list[this.pointer];
-            //this.pointer--;
-
+            this.pointer += 2;
+            let command : string = this.list[this.pointer];
+            this.pointer--;
+            console.log(this.pointer);
+            return command;
         }
 
        /*
@@ -114,11 +116,4 @@ module TSOS {
 *                                                         V
 *  Commands Entered   ->  man , ver , help , whereami , date , prompt , party , dance , ______
 *
-*
-*
-*  {If user hits 'enter: "prompt" executes, pointer moves to "prompt", all commands proceeding are erased}
-*  {Observe the results}
-*                                                           Pointer here
-*                                                                V
-*  Commands Entered   ->  man , ver , help , whereami , date , prompt , ______
 */

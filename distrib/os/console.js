@@ -56,7 +56,10 @@ var TSOS;
                     }
                 }
                 else if (chr === String.fromCharCode(40)) { // the Arrow Down key
-                    //console.log("down input");
+                    if (_KernelCommandHistory.pointer + 2 < _KernelCommandHistory.getSize()) {
+                        this.buffer = _KernelCommandHistory.downArrow();
+                        this.removeUserText();
+                    }
                     //this.buffer = _KernelCommandHistory.downArrow();
                 }
                 else {
