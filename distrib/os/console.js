@@ -67,7 +67,7 @@ var TSOS;
                     if (leftParen) {
                         this.putText('(');
                         this.buffer += '(';
-                        // Reset ampersand flag
+                        // Reset leftParen flag
                         leftParen = false;
                     }
                     else {

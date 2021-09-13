@@ -71,90 +71,90 @@ var TSOS;
             switch (keyCode) {
                 case 192:
                     if (isShifted) {
-                        keyCode = 126;
+                        keyCode = 126; // ~
                     }
                     else {
-                        keyCode = 96;
+                        keyCode = 96; // ` 
                     }
                     break;
                 case 189:
                     if (isShifted) {
-                        keyCode = 95;
+                        keyCode = 95; // _
                     }
                     else {
-                        keyCode = 45;
+                        keyCode = 45; // -
                     }
                     break;
                 case 187:
                     if (isShifted) {
-                        keyCode = 43;
+                        keyCode = 43; // +
                     }
                     else {
-                        keyCode = 61;
+                        keyCode = 61; // =
                     }
                     break;
                 case 219:
                     if (isShifted) {
-                        keyCode = 123;
+                        keyCode = 123; // {
                     }
                     else {
-                        keyCode = 91;
+                        keyCode = 91; // [                 
                     }
                     break;
                 case 221:
                     if (isShifted) {
-                        keyCode = 125;
+                        keyCode = 125; // }
                     }
                     else {
-                        keyCode = 93;
+                        keyCode = 93; // ]
                     }
                     break;
                 case 220:
                     if (isShifted) {
-                        keyCode = 124;
+                        keyCode = 124; // |
                     }
                     else {
-                        keyCode = 92;
+                        keyCode = 92; // \
                     }
                     break;
                 case 186:
                     if (isShifted) {
-                        keyCode = 58;
+                        keyCode = 58; // :
                     }
                     else {
-                        keyCode = 59;
+                        keyCode = 59; // ;
                     }
                     break;
                 case 222:
                     if (isShifted) {
-                        keyCode = 34;
+                        keyCode = 34; // "
                     }
                     else {
-                        keyCode = 39;
+                        keyCode = 39; // '
                     }
                     break;
                 case 188:
                     if (isShifted) {
-                        keyCode = 60;
+                        keyCode = 60; // <
                     }
                     else {
-                        keyCode = 44;
+                        keyCode = 44; // ,
                     }
                     break;
                 case 190:
                     if (isShifted) {
-                        keyCode = 62;
+                        keyCode = 62; // >
                     }
                     else {
-                        keyCode = 46;
+                        keyCode = 46; // .
                     }
                     break;
                 case 191:
                     if (isShifted) {
-                        keyCode = 63;
+                        keyCode = 63; // ?
                     }
                     else {
-                        keyCode = 47;
+                        keyCode = 47; // /
                     }
                     break;
             }
