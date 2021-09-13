@@ -45,18 +45,38 @@ var TSOS;
                 }
                 else if (chr === String.fromCharCode(9)) { // the Tab key
                 }
-                else if (chr === String.fromCharCode(38)) { // the Arrow Up key
-                    // if we aren't on the FIRST inputted command, get latest (LIFO)
-                    if (_KernelCommandHistory.pointer >= 0) {
-                        this.buffer = _KernelCommandHistory.upArrow();
-                        this.removeUserText();
+                else if (chr === String.fromCharCode(38)) { // the Arrow Up key OR Ampersand
+                    // Find out if this is an ampersand
+                    if (ampersand) {
+                        this.putText('&');
+                        this.buffer += '&';
+                        // Reset ampersand flag
+                        ampersand = false;
+                    }
+                    else {
+                        // Must be an up arrow.
+                        // if we aren't on the FIRST inputted command, get latest (LIFO)
+                        if (_KernelCommandHistory.pointer >= 0) {
+                            this.buffer = _KernelCommandHistory.upArrow();
+                            this.removeUserText();
+                        }
                     }
                 }
-                else if (chr === String.fromCharCode(40)) { // the Arrow Down key
-                    // if we aren't on the LAST inputted command, get latest (LIFO)
-                    if (_KernelCommandHistory.pointer + 2 < _KernelCommandHistory.getSize()) {
-                        this.buffer = _KernelCommandHistory.downArrow();
-                        this.removeUserText();
+                else if (chr === String.fromCharCode(40)) { // the Arrow Down key OR LeftParen
+                    // Find out if this is a left parenthesis
+                    if (leftParen) {
+                        this.putText('(');
+                        this.buffer += '(';
+                        // Reset ampersand flag
+                        leftParen = false;
+                    }
+                    else {
+                        // Must be a down arrow
+                        // if we aren't on the LAST inputted command, get latest (LIFO)
+                        if (_KernelCommandHistory.pointer + 2 < _KernelCommandHistory.getSize()) {
+                            this.buffer = _KernelCommandHistory.downArrow();
+                            this.removeUserText();
+                        }
                     }
                     //this.buffer = _KernelCommandHistory.downArrow();
                 }

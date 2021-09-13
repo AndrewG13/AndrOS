@@ -9,6 +9,11 @@ module TSOS {
     // Extends DeviceDriver
     export class DeviceDriverKeyboard extends DeviceDriver {
 
+        // Stores keycodes of digit-shifted symbols
+        // For example: Keyboard key 1 also has the symbol !.
+        //              The keycode for ! is 33, therefore put 33 in index 1.
+        private numSyms : number[] = [41,33,64,35,36,37,94,38,42,40];
+
         constructor() {
             // Override the base method pointers.
 
@@ -43,36 +48,35 @@ module TSOS {
                 // TODO: Check for caps-lock and handle as shifted if so.
                 _KernelInputQueue.enqueue(chr);
 
-            } else if ( (keyCode >= 186) && (keyCode <= 222) ) { // special symbols
-                chr = this.computeSymbols(keyCode, isShifted);
+            } else if ( (keyCode >= 186) && (keyCode <= 222) ) { // special symbols keys
+                chr = this.computeSpecSyms(keyCode, isShifted);
                 _KernelInputQueue.enqueue(chr);
 
-            
-                // * Special input keys * (Seperated purely for my sanity)
-
-                // Non canvas-specific edits
-            } else if (((keyCode >= 48) && (keyCode <= 57)) ||   // digits
-                        (keyCode == 32)) {                       // space
-                        
-                chr = String.fromCharCode(keyCode);
+            } else if ( (keyCode >= 48) && (keyCode <= 57) ) { // digits
+                // Need to be handled if shifted!
+                chr = this.computeNumSyms(keyCode, isShifted);
                 _KernelInputQueue.enqueue(chr);
+
 
                 // Canvas-specific edits
-            } else if ((keyCode == 8)   ||  // backspace
+            } else if ((keyCode == 32)  ||  // space
+                       (keyCode == 8)   ||  // backspace
                        (keyCode == 9)   ||  // tab
                        (keyCode == 13)  ||  // enter
                        (keyCode == 38)  ||  // arrow up
                        (keyCode == 40)) {   // arrow down            
                                         
-                //_Console.putText("canvas edits");
-                //_KernelInputQueue.q.pop();
+
                 chr = String.fromCharCode(keyCode);
                 _KernelInputQueue.enqueue(chr);
             }
         }
 
-        private computeSymbols(keyCode : number, isShifted) {
-            let symChr : string;
+        /*
+        *  computerSpecialSymbols Function
+        *     Utilizes a switch-case due to the randomness of keycodes
+        */
+        private computeSpecSyms(keyCode : number, isShifted) {
 
             switch (keyCode) {
                 case 192 :
@@ -164,8 +168,36 @@ module TSOS {
                     break;
                 }
 
+            let symChr : string;
             symChr = String.fromCharCode(keyCode);
             return symChr;
+        }
+
+        /*
+        *  computerNumberSymbols Function
+        *     Utilizes the numSyms Array due to the sequential nature of keycodes
+        */
+        private computeNumSyms(keyCode : number, isShifted) {
+            // If not shifted, no index lookup needed (digit keys & keyCodes properly align)
+            if (isShifted) {
+                // First, find out which digit was passed in
+                let digit : number = keyCode - 48;
+                // Then lookup & return the corresponding symbol keycode
+                keyCode = this.numSyms[digit];
+
+                // 7 & 9 have a special case. Handling it afterwards for simplicity
+                if ((digit == 7) && (isShifted)) {
+                    ampersand = true;
+                }
+
+                if ((digit == 9) && (isShifted)) {
+                    leftParen = true;
+                } 
+            }
+
+            let chr : string;
+            chr = String.fromCharCode(keyCode);
+            return chr;
         }
     }
 }

@@ -454,13 +454,11 @@ module TSOS {
             let errorMsg: string[] = ["ERROR :", "0000x0H ", "0000xCR4P"];
             _OsShell.shellStatus(errorMsg);
 
-            // Throw an error
-            let cli = <HTMLCanvasElement>document.getElementById('display');
-            let canv = cli.getContext('2d');
+            // Throw an error            
             let bsodImage = <CanvasImageSource>document.getElementById('bsod');
  
-            canv.clearRect(0,0,600,500);
-            canv.drawImage(bsodImage, 0, 0, 600, 500);
+            _DrawingContext.clearRect(0,0,600,500);
+            _DrawingContext.drawImage(bsodImage, 0, 0, 600, 500);
             
             // Run a shutdown as normal
             _Kernel.krnShutdown();

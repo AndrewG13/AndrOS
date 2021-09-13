@@ -73,7 +73,12 @@ var onDocumentLoad = function() {
 	TSOS.Control.hostInit();
 };
 
+// Extra goodies added by yours truly
 var timeDateDisplay = setInterval(timeDate, 1000);
+
+// Flags for conflicting keycodes
+var ampersand : boolean = false; // 38 ( & or ↑ )
+var leftParen : boolean = false; // 40 ( ( or ↓ )
 
 function timeDate() {
    let currentTime = new Date();
