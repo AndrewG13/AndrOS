@@ -444,9 +444,16 @@ module TSOS {
 
         public shellLoad(args: string[]) {
             // Works fine in JS, but shows an error in Typescript? 
-            let input = document.getElementById("taProgramInput").value;
+            let input : string = document.getElementById("taProgramInput").value;
+            // Remove all whitespace from input:
+            // Regex to search, .replace with "" to remove.
+            // \s+ = Any neighboring whitespace/tabs/new lines
+            // /g  = for the entire String
+            input = input.replace(/\s+/g,"");
             
-            _StdOut.putText("Valid Input: " + (Number(input.value)));
+            let num = parseInt(input, 16);
+            console.log(input + "\n" + (Number(num)).toString());
+            _StdOut.putText("Validity: " + (input === (Number(num)).toString()) );
 
         }
 
