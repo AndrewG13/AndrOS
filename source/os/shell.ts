@@ -443,17 +443,27 @@ module TSOS {
         }
 
         public shellLoad(args: string[]) {
-            // Works fine in JS, but shows an error in Typescript? 
+            // *My Typescript editor in VSCode shows .value not part of HTMLElement?* 
             let input : string = document.getElementById("taProgramInput").value;
-            // Remove all whitespace from input:
-            // Regex to search, .replace with "" to remove.
-            // \s+ = Any neighboring whitespace/tabs/new lines
-            // /g  = for the entire String
-            input = input.replace(/\s+/g,"");
             
-            let num = parseInt(input, 16);
-            console.log(input + "\n" + (Number(num)).toString());
-            _StdOut.putText("Validity: " + (input === (Number(num)).toString()) );
+            // Remove all whitespace from input:
+            //    \s+ = Any neighboring whitespace/tabs/new lines
+            //    /g  = for the entire String
+            input = input.replace(/\s+/g,"");
+
+            // Check if input is empty OR input contains non-hexadecimal characters
+            let validity = ( (input === "") || (input.search(/[^\dA-Fa-f]/)) );
+
+            // If none found, its valid
+            if (validity == -1) {
+                _StdOut.putText("Validity: Accepted");
+                // Project 2
+                //let num = parseInt(input, 16);
+                // ... 
+
+            } else {   
+                _StdOut.putText("Validity: Illegitimate");
+            }
 
         }
 
