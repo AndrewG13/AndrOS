@@ -93,6 +93,12 @@ var TSOS;
                 return CanvasTextFunctions.draw(ctx, font, size, x - w / 2, y, text);
             };
         }
+        static scrollCanvas(ctx) {
+            let display = ctx.getImageData(0, 0, 600, 500);
+            _StdOut.clearScreen();
+            ctx.putImageData(display, 0, -20.5);
+            _Console.currentYPosition -= 20.5;
+        }
     }
     CanvasTextFunctions.symbols = {
         ' ': { width: 16, points: [] },

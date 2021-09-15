@@ -443,7 +443,7 @@ module TSOS {
         }
 
         public shellLoad(args: string[]) {
-            // *My Typescript editor in VSCode shows .value not part of HTMLElement?* 
+            // *My Typescript editor in VSCode shows ".value" not part of HTMLElement?* 
             let input : string = document.getElementById("taProgramInput").value;
             
             // Remove all whitespace from input:

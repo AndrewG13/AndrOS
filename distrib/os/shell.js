@@ -364,7 +364,7 @@ var TSOS;
             //setTimeout(_StdOut.init,2000);
         }
         shellLoad(args) {
-            // *My Typescript editor in VSCode shows .value not part of HTMLElement?* 
+            // *My Typescript editor in VSCode shows ".value" not part of HTMLElement?* 
             let input = document.getElementById("taProgramInput").value;
             // Remove all whitespace from input:
             //    \s+ = Any neighboring whitespace/tabs/new lines
