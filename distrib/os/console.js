@@ -45,28 +45,27 @@ var TSOS;
                     this.removeUserText();
                 }
                 else if (chr === String.fromCharCode(9)) { // the Tab key
-                    // This currently cycles through all commands, which is inefficient
-                    // todo: make it check sequential chars, right now only checking first
                     // Check if anything was typed
                     if (this.buffer.length > 0) {
-                        // Check if buffer could be a recognized command
+                        // Begin checking if the buffer could be a recognizable command
+                        // Loop through all commands
                         for (let comIndex = 0; comIndex < _OsShell.commandList.length; comIndex++) {
                             let charIndex = 0; // Index of buffer char, starts at the front
-                            let isRelatable = true; // Flag for command being valid (containing buffer chars)
-                            while ((isRelatable) && charIndex < this.buffer.length) {
+                            let isRecognizable = true; // Flag for command being recognized
+                            // Loop through current command, checking if it contains buffer chars
+                            while ((isRecognizable) && charIndex < this.buffer.length) {
                                 if (this.buffer.charAt(charIndex) !== _OsShell.commandList[comIndex].command.charAt(charIndex)) {
-                                    isRelatable = false;
+                                    isRecognizable = false;
                                 }
                                 charIndex++;
                             }
-                            // If command is relatable, add to Tab List
-                            if (isRelatable) {
+                            // If command is recognized, add to Tab List
+                            if (isRecognizable) {
                                 this.tabList[this.tabList.length] = _OsShell.commandList[comIndex].command;
                             }
                         }
-                        // If there is ONLY ONE match to the buffer
+                        // If there is ONLY ONE match to the buffer, autofill it in
                         if (this.tabList.length == 1) {
-                            // Autofill the sole matching command
                             this.buffer = this.tabList.pop();
                             this.removeUserText();
                         }
@@ -77,9 +76,10 @@ var TSOS;
                             // Display and pop each command
                             while (0 < this.tabList.length) {
                                 this.putText(this.tabList.pop() + " ");
-                                // Index not necessary because of pop()
+                                // Note: pop() moves list size closer to 0
                             }
-                            // Move line down, re-display buffer
+                            // Displaying command done
+                            // Now move line down, re-display buffer
                             this.advanceLine();
                             _OsShell.putPrompt();
                             this.putText(this.buffer);
