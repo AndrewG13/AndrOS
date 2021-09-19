@@ -374,13 +374,13 @@ var TSOS;
             let validity = ((input === "") || (input.search(/[^\dA-Fa-f]/)));
             // If none found, its valid
             if (validity == -1) {
-                _StdOut.putText("Validity: Accepted");
+                _StdOut.putText("User Program: Valid");
                 // Project 2
                 //let num = parseInt(input, 16);
                 // ... 
             }
             else {
-                _StdOut.putText("Validity: Illegitimate");
+                _StdOut.putText("User Program: Invalid");
             }
         }
         shellError(args) {

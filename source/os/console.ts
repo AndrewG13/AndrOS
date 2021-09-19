@@ -50,7 +50,14 @@ module TSOS {
                     this.removeUserText();
                 } else if (chr === String.fromCharCode(9)) { // the Tab key
                     
- 
+                    if (this.buffer.length > 0) {
+                    // Check if buffer could be a recognized command
+                        for (let index = 0; index < _OsShell.commandList.length; index++) {
+                            if (this.buffer.charAt(0) === _OsShell.commandList[index].command.charAt(0)) {
+                                this.putText(_OsShell.commandList[index].command);
+                            }
+                        }
+                    }
                 } else if (chr === String.fromCharCode(38)) { // the Arrow Up key OR Ampersand
                     // Find out if this is an ampersand
                     if (ampersand) {
@@ -144,7 +151,7 @@ module TSOS {
                 this.currentYPosition += advanceYPosition + overflow;
             } else {
                 this.currentYPosition += advanceYPosition;
-                console.log ("Y Pos: " + this.currentYPosition);
+                //console.log ("Y Pos: " + this.currentYPosition);
             }
         }
     }

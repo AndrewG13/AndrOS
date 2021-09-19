@@ -445,7 +445,7 @@ module TSOS {
         public shellLoad(args: string[]) {
             // *My Typescript editor in VSCode shows ".value" not part of HTMLElement?* 
             let input : string = document.getElementById("taProgramInput").value;
-            
+
             // Remove all whitespace from input:
             //    \s+ = Any neighboring whitespace/tabs/new lines
             //    /g  = for the entire String
@@ -456,13 +456,13 @@ module TSOS {
 
             // If none found, its valid
             if (validity == -1) {
-                _StdOut.putText("Validity: Accepted");
+                _StdOut.putText("User Program: Valid");
                 // Project 2
                 //let num = parseInt(input, 16);
                 // ... 
 
             } else {   
-                _StdOut.putText("Validity: Illegitimate");
+                _StdOut.putText("User Program: Invalid");
             }
 
         }
