@@ -7,12 +7,13 @@
 var TSOS;
 (function (TSOS) {
     class Console {
-        constructor(currentFont = _DefaultFontFamily, currentFontSize = _DefaultFontSize, currentXPosition = 0, currentYPosition = _DefaultFontSize, buffer = "") {
+        constructor(currentFont = _DefaultFontFamily, currentFontSize = _DefaultFontSize, currentXPosition = 0, currentYPosition = _DefaultFontSize, buffer = "", tabList = []) {
             this.currentFont = currentFont;
             this.currentFontSize = currentFontSize;
             this.currentXPosition = currentXPosition;
             this.currentYPosition = currentYPosition;
             this.buffer = buffer;
+            this.tabList = tabList;
         }
         init() {
             this.clearScreen();
@@ -44,12 +45,29 @@ var TSOS;
                     this.removeUserText();
                 }
                 else if (chr === String.fromCharCode(9)) { // the Tab key
+                    // This currently cycles through all commands, which is inefficient
+                    // todo: make it check sequential chars, right now only checking first
+                    // Check if anything was typed
                     if (this.buffer.length > 0) {
                         // Check if buffer could be a recognized command
-                        for (let index = 0; index < _OsShell.commandList.length; index++) {
+                        for (var index = 0; index < _OsShell.commandList.length; index++) {
                             if (this.buffer.charAt(0) === _OsShell.commandList[index].command.charAt(0)) {
-                                this.putText(_OsShell.commandList[index].command);
+                                this.tabList[this.tabList.length] = _OsShell.commandList[index].command;
                             }
+                        }
+                        index = 0;
+                        // If there are commands that relate to the buffer
+                        if (this.tabList.length > 0) {
+                            this.advanceLine();
+                            while (index < this.tabList.length) {
+                                this.putText(this.tabList.pop() + " ");
+                                // Index increment not necessary because of pop()
+                                //index++;
+                            }
+                            // Move line down, redisplay buffer
+                            this.advanceLine();
+                            _OsShell.putPrompt();
+                            this.putText(this.buffer);
                         }
                     }
                 }

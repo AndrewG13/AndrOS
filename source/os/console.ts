@@ -13,7 +13,8 @@ module TSOS {
                     public currentFontSize = _DefaultFontSize,
                     public currentXPosition = 0,
                     public currentYPosition = _DefaultFontSize,
-                    public buffer = "") {
+                    public buffer = "",
+                    public tabList = []) {
         }
 
         public init(): void {
@@ -49,13 +50,32 @@ module TSOS {
                     this.buffer = this.buffer.slice(0,this.buffer.length - 1);
                     this.removeUserText();
                 } else if (chr === String.fromCharCode(9)) { // the Tab key
+                    // This currently cycles through all commands, which is inefficient
+
+                    // todo: make it check sequential chars, right now only checking first
                     
+                    // Check if anything was typed
                     if (this.buffer.length > 0) {
-                    // Check if buffer could be a recognized command
-                        for (let index = 0; index < _OsShell.commandList.length; index++) {
+
+                        // Check if buffer could be a recognized command
+                        for (var index = 0; index < _OsShell.commandList.length; index++) {
                             if (this.buffer.charAt(0) === _OsShell.commandList[index].command.charAt(0)) {
-                                this.putText(_OsShell.commandList[index].command);
+                                this.tabList[this.tabList.length] = _OsShell.commandList[index].command;
                             }
+                        }
+                        index = 0;
+                        // If there are commands that relate to the buffer
+                        if (this.tabList.length > 0) {
+                            this.advanceLine();
+                            while (index < this.tabList.length) {
+                                this.putText(this.tabList.pop() + " ");
+                                // Index increment not necessary because of pop()
+                                //index++;
+                            }
+                            // Move line down, redisplay buffer
+                            this.advanceLine();
+                            _OsShell.putPrompt();
+                            this.putText(this.buffer);
                         }
                     }
                 } else if (chr === String.fromCharCode(38)) { // the Arrow Up key OR Ampersand
