@@ -54,7 +54,7 @@ var TSOS;
         upArrow() {
             let command = this.list[this.pointer];
             this.pointer--;
-            console.log(this.pointer);
+            //console.log(this.pointer);
             return command;
         }
         /*
@@ -65,7 +65,7 @@ var TSOS;
             this.pointer += 2;
             let command = this.list[this.pointer];
             this.pointer--;
-            console.log(this.pointer);
+            //console.log(this.pointer);
             return command;
         }
         /*
@@ -78,7 +78,7 @@ var TSOS;
             for (var i in this.list) {
                 fullHistory += "[" + this.list[i] + "] ";
             }
-            console.log(fullHistory);
+            //console.log(fullHistory);
         }
     }
     TSOS.CommandHistory = CommandHistory;

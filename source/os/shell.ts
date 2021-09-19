@@ -157,7 +157,7 @@ module TSOS {
                 // Add command to our Command History
                 _KernelCommandHistory.add(buffer);
                 _KernelCommandHistory.toString();
-                console.log(_KernelCommandHistory.pointer);
+                //console.log(_KernelCommandHistory.pointer);
             } else {
                 // It's not found, so check for curses and apologies before declaring the command invalid.
                 if (this.curses.indexOf("[" + Utils.rot13(cmd) + "]") >= 0) {     // Check for curses.
@@ -269,7 +269,7 @@ module TSOS {
              _StdOut.putText("Shutting down...");
              // Call Kernel shutdown routine.
             _Kernel.krnShutdown();
-            // TODO: Stop the final prompt from being displayed. If possible. Not a high priority. (Damn OCD!)
+             // I got that final prompt to not happen!
         }
 
         public shellCls(args: string[]) {

@@ -69,7 +69,7 @@ module TSOS {
         public upArrow() {
             let command : string = this.list[this.pointer];
             this.pointer--;
-            console.log(this.pointer);
+            //console.log(this.pointer);
             return command;
         }
 
@@ -81,7 +81,7 @@ module TSOS {
             this.pointer += 2;
             let command : string = this.list[this.pointer];
             this.pointer--;
-            console.log(this.pointer);
+            //console.log(this.pointer);
             return command;
         }
 
@@ -95,7 +95,7 @@ module TSOS {
             for (var i in this.list) {
                 fullHistory += "[" + this.list[i] + "] ";
             }
-            console.log(fullHistory);
+            //console.log(fullHistory);
         }
     }
 }

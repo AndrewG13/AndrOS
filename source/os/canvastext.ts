@@ -202,13 +202,13 @@ module TSOS {
             };
         }
 
-        public static scrollCanvas(ctx) {
+        public static scrollCanvas(ctx, overflow : number) {
             let display = ctx.getImageData(0, 0, 600, 500);
             
             _StdOut.clearScreen();
             
-            ctx.putImageData(display, 0, -20.5);
-            _Console.currentYPosition -= 20.5;
+            ctx.putImageData(display, 0, overflow);
+            
         }
     }
 }

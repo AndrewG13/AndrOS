@@ -138,12 +138,14 @@ module TSOS {
                                 _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                                 _FontHeightMargin;
 
-            if (this.currentYPosition + advanceYPosition > 500) {
-                CanvasTextFunctions.scrollCanvas(_DrawingContext);
+            if ( (this.currentYPosition + advanceYPosition) > 480) {
+                let overflow = (this.currentYPosition + advanceYPosition - 480) * -1;
+                CanvasTextFunctions.scrollCanvas(_DrawingContext, overflow);
+                this.currentYPosition += advanceYPosition + overflow;
             } else {
                 this.currentYPosition += advanceYPosition;
+                console.log ("Y Pos: " + this.currentYPosition);
             }
-            
         }
     }
  }
