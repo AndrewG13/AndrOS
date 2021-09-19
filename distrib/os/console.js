@@ -50,21 +50,36 @@ var TSOS;
                     // Check if anything was typed
                     if (this.buffer.length > 0) {
                         // Check if buffer could be a recognized command
-                        for (var index = 0; index < _OsShell.commandList.length; index++) {
-                            if (this.buffer.charAt(0) === _OsShell.commandList[index].command.charAt(0)) {
-                                this.tabList[this.tabList.length] = _OsShell.commandList[index].command;
+                        for (let comIndex = 0; comIndex < _OsShell.commandList.length; comIndex++) {
+                            let charIndex = 0; // Index of buffer char, starts at the front
+                            let isRelatable = true; // Flag for command being valid (containing buffer chars)
+                            while ((isRelatable) && charIndex < this.buffer.length) {
+                                if (this.buffer.charAt(charIndex) !== _OsShell.commandList[comIndex].command.charAt(charIndex)) {
+                                    isRelatable = false;
+                                }
+                                charIndex++;
+                            }
+                            // If command is relatable, add to Tab List
+                            if (isRelatable) {
+                                this.tabList[this.tabList.length] = _OsShell.commandList[comIndex].command;
                             }
                         }
-                        index = 0;
+                        // If there is ONLY ONE match to the buffer
+                        if (this.tabList.length == 1) {
+                            // Autofill the sole matching command
+                            this.buffer = this.tabList.pop();
+                            this.removeUserText();
+                        }
+                        else 
                         // If there are commands that relate to the buffer
                         if (this.tabList.length > 0) {
                             this.advanceLine();
-                            while (index < this.tabList.length) {
+                            // Display and pop each command
+                            while (0 < this.tabList.length) {
                                 this.putText(this.tabList.pop() + " ");
-                                // Index increment not necessary because of pop()
-                                //index++;
+                                // Index not necessary because of pop()
                             }
-                            // Move line down, redisplay buffer
+                            // Move line down, re-display buffer
                             this.advanceLine();
                             _OsShell.putPrompt();
                             this.putText(this.buffer);
