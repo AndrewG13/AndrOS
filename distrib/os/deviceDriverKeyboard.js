@@ -163,7 +163,8 @@ var TSOS;
             return symChr;
         }
         /*
-        *  computerNumberSymbols Function
+        *  computeNumberSymbols Function
+        *
         *     Utilizes the numSyms Array due to the sequential nature of keycodes
         */
         computeNumSyms(keyCode, isShifted) {

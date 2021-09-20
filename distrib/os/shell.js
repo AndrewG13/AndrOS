@@ -104,7 +104,6 @@ var TSOS;
                 // Add command to our Command History
                 _KernelCommandHistory.add(buffer);
                 _KernelCommandHistory.toString();
-                //console.log(_KernelCommandHistory.pointer);
             }
             else {
                 // It's not found, so check for curses and apologies before declaring the command invalid.
@@ -258,6 +257,9 @@ var TSOS;
                     case "beginassault":
                         _StdOut.putText("Take flight and defeat Star Wolf.");
                         break;
+                    case "load":
+                        _StdOut.putText("Load a program into the system.");
+                        break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
@@ -364,7 +366,7 @@ var TSOS;
             //setTimeout(_StdOut.init,2000);
         }
         shellLoad(args) {
-            // *My Typescript editor in VSCode shows ".value" not part of HTMLElement?* 
+            // *CMD shows error: ".value" not part of HTMLElement?* 
             let input = document.getElementById("taProgramInput").value;
             // Remove all whitespace from input:
             //    \s+ = Any neighboring whitespace/tabs/new lines

@@ -93,9 +93,17 @@ var TSOS;
                 return CanvasTextFunctions.draw(ctx, font, size, x - w / 2, y, text);
             };
         }
+        /*
+        * scrollCanvas Function
+        *
+        * Scrolls the canvas based on the y-overflow
+        */
         static scrollCanvas(ctx, overflow) {
+            // Copy the canvas data
             let display = ctx.getImageData(0, 0, 600, 500);
+            // Clear the canvas
             _StdOut.clearScreen();
+            // Paste the canvas upwards (based on overflow)
             ctx.putImageData(display, 0, overflow);
         }
     }

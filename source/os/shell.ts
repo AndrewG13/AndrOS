@@ -157,7 +157,6 @@ module TSOS {
                 // Add command to our Command History
                 _KernelCommandHistory.add(buffer);
                 _KernelCommandHistory.toString();
-                //console.log(_KernelCommandHistory.pointer);
             } else {
                 // It's not found, so check for curses and apologies before declaring the command invalid.
                 if (this.curses.indexOf("[" + Utils.rot13(cmd) + "]") >= 0) {     // Check for curses.
@@ -323,6 +322,9 @@ module TSOS {
                     case "beginassault":
                         _StdOut.putText("Take flight and defeat Star Wolf.")
                         break;
+                    case "load":
+                        _StdOut.putText("Load a program into the system.");
+                        break;
 
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
@@ -443,7 +445,7 @@ module TSOS {
         }
 
         public shellLoad(args: string[]) {
-            // *My Typescript editor in VSCode shows ".value" not part of HTMLElement?* 
+            // *CMD shows error: ".value" not part of HTMLElement?* 
             let input : string = document.getElementById("taProgramInput").value;
 
             // Remove all whitespace from input:

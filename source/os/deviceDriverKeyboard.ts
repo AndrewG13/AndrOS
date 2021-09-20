@@ -174,7 +174,8 @@ module TSOS {
         }
 
         /*
-        *  computerNumberSymbols Function
+        *  computeNumberSymbols Function
+        *
         *     Utilizes the numSyms Array due to the sequential nature of keycodes
         */
         private computeNumSyms(keyCode : number, isShifted) {
