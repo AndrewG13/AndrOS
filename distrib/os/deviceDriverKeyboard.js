@@ -165,7 +165,7 @@ var TSOS;
         /*
         *  computeNumberSymbols Function
         *
-        *     Utilizes the numSyms Array due to the sequential nature of keycodes
+        *  Utilizes the numSyms Array due to the sequential nature of keycodes
         */
         computeNumSyms(keyCode, isShifted) {
             // If not shifted, no index lookup needed (digit keys & keyCodes properly align)

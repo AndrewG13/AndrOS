@@ -176,7 +176,7 @@ module TSOS {
         /*
         *  computeNumberSymbols Function
         *
-        *     Utilizes the numSyms Array due to the sequential nature of keycodes
+        *  Utilizes the numSyms Array due to the sequential nature of keycodes
         */
         private computeNumSyms(keyCode : number, isShifted) {
             // If not shifted, no index lookup needed (digit keys & keyCodes properly align)

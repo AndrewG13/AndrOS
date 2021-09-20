@@ -378,8 +378,9 @@ var TSOS;
             // If none found, its valid
             if (validity == -1) {
                 _StdOut.putText("User Program: Valid");
-                // Project 2
-                //let num = parseInt(input, 16);
+                // Project 2:
+                //   parse input into Hexadecimal
+                //   seperate bytes (2 hex digits each)
                 // ... 
             }
             else {

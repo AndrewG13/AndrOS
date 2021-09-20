@@ -158,7 +158,15 @@ var TSOS;
                 _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
                 // Move the current X position.
                 var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
-                this.currentXPosition = this.currentXPosition + offset;
+                // Calculating if linewrap is necessary
+                if (this.currentXPosition + offset > 590) {
+                    // Yes it is
+                    this.advanceLine();
+                }
+                else {
+                    // No it isn't
+                    this.currentXPosition = this.currentXPosition + offset;
+                }
             }
         }
         advanceLine() {
