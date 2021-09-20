@@ -62,13 +62,14 @@ module TSOS {
                             let isRecognizable = true; // Flag for command being recognized
                             
                             // Loop through current command, checking if it contains buffer chars
+                            // toLowerCase() will ensure its case insensitive
                             while ( (isRecognizable) && charIndex < this.buffer.length) {
-                                if (this.buffer.charAt(charIndex) !== _OsShell.commandList[comIndex].command.charAt(charIndex)) {
+                                if (this.buffer.charAt(charIndex).toLowerCase() !== _OsShell.commandList[comIndex].command.charAt(charIndex).toLowerCase() ) {
                                     isRecognizable = false;
                                 }
                                 charIndex++;
                             }
-
+                            
                             // If command is recognized, add to Tab List
                             if (isRecognizable) {
                                 this.tabList[this.tabList.length] = _OsShell.commandList[comIndex].command;
