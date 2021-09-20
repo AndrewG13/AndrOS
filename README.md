@@ -3,6 +3,8 @@
 > #  **AndrOS**
 *Not to be confused with the Starfox 64 villain*
 
+Refer to project1 branch for grading.
+My special command is: doabarrelroll
 
 
 2019 - 2021 Browser-based Operating System in TypeScript
