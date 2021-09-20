@@ -193,20 +193,19 @@ module TSOS {
             // 1. Remove leading and trailing spaces.
             buffer = Utils.trim(buffer);
 
-            // 2. Lower-case it.
-            buffer = buffer.toLowerCase();
-
-            // 3. Separate on spaces so we can determine the command and command-line args, if any.
+            // 2. Separate on spaces so we can determine the command and command-line args, if any.
             var tempList = buffer.split(" ");
 
-            // 4. Take the first (zeroth) element and use that as the command.
+            // 3. Take the first (zeroth) element and use that as the command.
             var cmd = tempList.shift();  // Yes, you can do that to an array in JavaScript. See the Queue class.
-            // 4.1 Remove any left-over spaces.
+            // 3.1 Remove any left-over spaces & lower-case it
             cmd = Utils.trim(cmd);
-            // 4.2 Record it in the return value.
+            cmd = cmd.toLowerCase();
+            
+            // 3.2 Record it in the return value.
             retVal.command = cmd;
 
-            // 5. Now create the args array from what's left.
+            // 4. Now create the args array from what's left.
             for (var i in tempList) {
                 var arg = Utils.trim(tempList[i]);
                 if (arg != "") {
@@ -381,14 +380,16 @@ module TSOS {
             // Fetch current hours (for Military Time handling)
             let hours: number = dateTime.getHours();
             let minutes : string = (dateTime.getMinutes()).toString();
+            let meridiem : string = " AM";
 
             // If past afternoon, format like Standard Time
             if (hours > 12) {
               hours -= 12;
+              meridiem = " PM";
             }
 
             _StdOut.putText("Time: " + hours + ":"
-                            + minutes.padStart(2, '0'));
+                            + minutes.padStart(2, '0') + meridiem);
 
             _StdOut.advanceLine();
             _StdOut.putText("Date: " + (dateTime.getMonth() + 1) + "/"
