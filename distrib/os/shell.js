@@ -193,6 +193,11 @@ var TSOS;
         shellVer(args) {
             _StdOut.putText(APP_NAME + " version: " + APP_VERSION);
         }
+        /*
+        *  Help function
+        *
+        *      Displays helpful command info
+        */
         shellHelp(args) {
             _StdOut.putText("Commands:");
             for (var i in _OsShell.commandList) {
@@ -200,16 +205,31 @@ var TSOS;
                 _StdOut.putText("  " + _OsShell.commandList[i].command + " " + _OsShell.commandList[i].description);
             }
         }
+        /*
+        *  Shutdown function
+        *
+        *      Terminates the OS
+        */
         shellShutdown(args) {
             _StdOut.putText("Shutting down...");
             // Call Kernel shutdown routine.
             _Kernel.krnShutdown();
             // I got that final prompt to not happen!
         }
+        /*
+        *  Cls function
+        *
+        *      Clears CLI
+        */
         shellCls(args) {
             _StdOut.clearScreen();
             _StdOut.resetXY();
         }
+        /*
+        *  Man function
+        *
+        *      Displays manual for specified command
+        */
         shellMan(args) {
             if (args.length > 0) {
                 var topic = args[0];
@@ -267,6 +287,11 @@ var TSOS;
                 _StdOut.putText("Usage: man <topic>  Please supply a topic.");
             }
         }
+        /*
+        *  Trace function
+        *
+        *      Shows a trace of the OS command flow
+        */
         shellTrace(args) {
             if (args.length > 0) {
                 var setting = args[0];
@@ -292,6 +317,11 @@ var TSOS;
                 _StdOut.putText("Usage: trace <on | off>");
             }
         }
+        /*
+        *  Rot13 function
+        *
+        *      Ask Alan
+        */
         shellRot13(args) {
             if (args.length > 0) {
                 // Requires Utils.ts for rot13() function.
@@ -301,6 +331,11 @@ var TSOS;
                 _StdOut.putText("Usage: rot13 <string>  Please supply a string.");
             }
         }
+        /*
+        *  Prompt function
+        *
+        *      Changes prompt to passed in text
+        */
         shellPrompt(args) {
             if (args.length > 0) {
                 _OsShell.promptStr = args[0];
@@ -309,6 +344,11 @@ var TSOS;
                 _StdOut.putText("Usage: prompt <string>  Please supply a string.");
             }
         }
+        /*
+        *  Date function
+        *
+        *      Displays current time & date
+        */
         shellDate(args) {
             // Fetch current time
             let dateTime = new Date();
@@ -328,10 +368,19 @@ var TSOS;
                 + dateTime.getDate() + "/"
                 + dateTime.getFullYear());
         }
+        /*
+        *  WhereAmI function
+        *
+        *      Displays user location
+        */
         shellWhereami(args) {
-            // Displays user's location
             _StdOut.putText("The Lylat System: Corneria");
         }
+        /*
+        *  Status function
+        *
+        *      Displays user specified status
+        */
         shellStatus(args) {
             // Check if strings were inputted
             if (args.length > 0) {
@@ -350,8 +399,13 @@ var TSOS;
                 _StdOut.putText("Usage: status <string>  Please supply a string.");
             }
         }
+        /*
+        *  DoABarrelRoll function
+        *
+        *      Rotates the canvas
+        */
         shellDoabarrelroll(args) {
-            // Rotates the screen
+            // Initiate roll
             document.getElementById("divConsole").setAttribute("class", "barrelroll");
             // After two seconds, remove the rolling effect
             setTimeout(function () {
@@ -366,8 +420,14 @@ var TSOS;
             _StdOut.putText(" \"Good Luck\" ");
             //setTimeout(_StdOut.init,2000);
         }
+        /*
+        *  Load function
+        *
+        *      Load user program into memory if valid
+        */
         shellLoad(args) {
-            // *CMD shows error: ".value" not part of HTMLElement?* 
+            // * CMD shows error: ".value" not part of HTMLElement? 
+            //   but this is valid JavaScript and works fine.
             let input = document.getElementById("taProgramInput").value;
             // Remove all whitespace from input:
             //    \s+ = Any neighboring whitespace/tabs/new lines
@@ -381,12 +441,17 @@ var TSOS;
                 // Project 2:
                 //   parse input into Hexadecimal
                 //   seperate bytes (2 hex digits each)
-                // ... 
+                //   ... 
             }
             else {
                 _StdOut.putText("User Program: Invalid");
             }
         }
+        /*
+        *  Error function
+        *
+        *      Initiates an error & BSOD
+        */
         shellError(args) {
             let errorMsg = ["ERROR :", "0000x0H ", "0000xCR4P"];
             _OsShell.shellStatus(errorMsg);

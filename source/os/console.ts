@@ -167,7 +167,7 @@ module TSOS {
             */
             if (text !== "") {
 
-                // Measure
+                // Implement linewrap in the future, didn't get to it :/
 
                 // Draw the text at the current X and Y coordinates.
                 _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
@@ -191,13 +191,18 @@ module TSOS {
                                 _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                                 _FontHeightMargin;
 
+            // Canvas scrolling functionality
+
+            // Check if there will be overflow in the y direction
             if ( (this.currentYPosition + advanceYPosition) > 480) {
+                // Overflow occurred, so calculate exact height of overflow
                 let overflow = (this.currentYPosition + advanceYPosition - 480) * -1;
+                // Push the canvas up that much
                 CanvasTextFunctions.scrollCanvas(_DrawingContext, overflow);
+                // And put the y position in the proper place
                 this.currentYPosition += advanceYPosition + overflow;
             } else {
                 this.currentYPosition += advanceYPosition;
-                //console.log ("Y Pos: " + this.currentYPosition);
             }
         }
     }

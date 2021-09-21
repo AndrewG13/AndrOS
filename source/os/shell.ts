@@ -255,6 +255,11 @@ module TSOS {
             _StdOut.putText(APP_NAME + " version: " + APP_VERSION);
         }
 
+        /*
+        *  Help function
+        *      
+        *      Displays helpful command info
+        */
         public shellHelp(args: string[]) {
             _StdOut.putText("Commands:");
             for (var i in _OsShell.commandList) {
@@ -263,6 +268,11 @@ module TSOS {
             }
         }
 
+        /*
+        *  Shutdown function
+        *      
+        *      Terminates the OS
+        */
         public shellShutdown(args: string[]) {
              _StdOut.putText("Shutting down...");
              // Call Kernel shutdown routine.
@@ -270,11 +280,21 @@ module TSOS {
              // I got that final prompt to not happen!
         }
 
+        /*
+        *  Cls function
+        *      
+        *      Clears CLI
+        */
         public shellCls(args: string[]) {
             _StdOut.clearScreen();
             _StdOut.resetXY();
         }
 
+        /*
+        *  Man function
+        *      
+        *      Displays manual for specified command
+        */
         public shellMan(args: string[]) {
             if (args.length > 0) {
                 var topic = args[0];
@@ -333,6 +353,11 @@ module TSOS {
             }
         }
 
+        /*
+        *  Trace function
+        *      
+        *      Shows a trace of the OS command flow
+        */
         public shellTrace(args: string[]) {
             if (args.length > 0) {
                 var setting = args[0];
@@ -357,6 +382,11 @@ module TSOS {
             }
         }
 
+        /*
+        *  Rot13 function
+        *      
+        *      Ask Alan
+        */
         public shellRot13(args: string[]) {
             if (args.length > 0) {
                 // Requires Utils.ts for rot13() function.
@@ -366,6 +396,11 @@ module TSOS {
             }
         }
 
+        /*
+        *  Prompt function
+        *      
+        *      Changes prompt to passed in text
+        */
         public shellPrompt(args: string[]) {
             if (args.length > 0) {
                 _OsShell.promptStr = args[0];
@@ -374,6 +409,11 @@ module TSOS {
             }
         }
 
+        /*
+        *  Date function
+        *      
+        *      Displays current time & date
+        */
         public shellDate(args: string[]) {
             // Fetch current time
             let dateTime: Date = new Date();
@@ -398,11 +438,20 @@ module TSOS {
 
         }
 
+        /*
+        *  WhereAmI function
+        *      
+        *      Displays user location
+        */
         public shellWhereami(args: string[]) {
-            // Displays user's location
             _StdOut.putText("The Lylat System: Corneria");
         }
 
+        /*
+        *  Status function
+        *      
+        *      Displays user specified status
+        */
         public shellStatus(args: string[]) {
             // Check if strings were inputted
             if (args.length > 0) {
@@ -423,8 +472,13 @@ module TSOS {
             }
         }
 
+        /*
+        *  DoABarrelRoll function
+        *      
+        *      Rotates the canvas
+        */
         public shellDoabarrelroll(args: string[]) {
-            // Rotates the screen
+            // Initiate roll
             document.getElementById("divConsole").setAttribute("class", "barrelroll");
             // After two seconds, remove the rolling effect
             setTimeout(function () {
@@ -445,8 +499,14 @@ module TSOS {
 
         }
 
+        /*
+        *  Load function
+        *      
+        *      Load user program into memory if valid
+        */
         public shellLoad(args: string[]) {
-            // *CMD shows error: ".value" not part of HTMLElement?* 
+            // * CMD shows error: ".value" not part of HTMLElement? 
+            //   but this is valid JavaScript and works fine.
             let input : string = document.getElementById("taProgramInput").value;
 
             // Remove all whitespace from input:
@@ -464,7 +524,7 @@ module TSOS {
                 // Project 2:
                 //   parse input into Hexadecimal
                 //   seperate bytes (2 hex digits each)
-                // ... 
+                //   ... 
 
             } else {   
                 _StdOut.putText("User Program: Invalid");
@@ -472,6 +532,11 @@ module TSOS {
 
         }
 
+        /*
+        *  Error function
+        *      
+        *      Initiates an error & BSOD
+        */
         public shellError(args: string[]) {
             let errorMsg: string[] = ["ERROR :", "0000x0H ", "0000xCR4P"];
             _OsShell.shellStatus(errorMsg);

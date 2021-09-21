@@ -73,7 +73,9 @@ module TSOS {
         }
 
         /*
-        *  computerSpecialSymbols Function
+        *  computeSpecialSymbols Function
+        *
+        *     Computes keycodes for symbols
         *     Utilizes a switch-case due to the randomness of keycodes
         */
         private computeSpecSyms(keyCode : number, isShifted) {
@@ -176,7 +178,9 @@ module TSOS {
         /*
         *  computeNumberSymbols Function
         *
-        *  Utilizes the numSyms Array due to the sequential nature of keycodes
+        *     Compute number symbols keycodes (Checking if shifted)
+        *     If not shifted, just computes number chr as normal 
+        *     Utilizes the numSyms Array due to the sequential nature of keycodes
         */
         private computeNumSyms(keyCode : number, isShifted) {
             // If not shifted, no index lookup needed (digit keys & keyCodes properly align)
