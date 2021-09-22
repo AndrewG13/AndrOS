@@ -426,8 +426,7 @@ var TSOS;
         *      Load user program into memory if valid
         */
         shellLoad(args) {
-            // * CMD shows error: ".value" not part of HTMLElement? 
-            //   but this is valid JavaScript and works fine.
+            // Must cast into HTMLInputElement, since regular HTMLElements don't have .value (a textfield)
             let input = document.getElementById("taProgramInput").value;
             // Remove all whitespace from input:
             //    \s+ = Any neighboring whitespace/tabs/new lines
