@@ -13,7 +13,7 @@ module TSOS {
         //
         // OS Startup and Shutdown Routines
         //
-        public krnBootstrap() {      // Page 8. {
+        public krnBootstrap() {      // Page 8. 
             Control.hostLog("bootstrap", "host");  // Use hostLog because we ALWAYS want this, even if _Trace is off.
 
             // Initialize our global queues/data structures.
@@ -21,6 +21,9 @@ module TSOS {
             _KernelBuffers = new Array();         // Buffers... for the kernel.
             _KernelInputQueue = new Queue();      // Where device input lands before being processed out somewhere.
             _KernelCommandHistory = new CommandHistory();
+
+            // Launch the Memory Manager software
+            _MemoryManager = new MemoryManager();
 
             // Initialize the console.
             _Console = new Console();             // The command line interface / console I/O device.
