@@ -13,6 +13,9 @@
 
 module TSOS {
 
+    // is Command 'InterruptCheck' needed?
+    enum Commands { FETCH, DECODE, EXECUTE, WRITEBACK }
+
     export class Cpu {
 
         constructor(public PC: number = 0,
@@ -37,6 +40,31 @@ module TSOS {
             _Kernel.krnTrace('CPU cycle');
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecuting appropriately.
+        }
+
+        // simply grabs byte (instruction) from memory
+        public fetch() {
+
+        }
+
+        // Retrieve data based on instruction (0, 1, or 2 bytes?)
+        // Can have 1 phase  (if an instruction with no bytes of data -> burn a cycle)
+        //                   (if an instruction with 1 byte of data)
+        //       or 2 phases (if an instruction with 2 bytes of data, remember little endian)
+        public decode() {
+
+        }
+
+        // Executes the instruction (functionality goes here)
+        // Can have 2 phases (only for EE)
+        public execute() {
+
+        }
+
+        // To keep it in sync with Gormanly's project, writeback is an extra cycle
+        // Write back whats in MDR to the memory location in MAR
+        public writeBack() {
+
         }
     }
 }
