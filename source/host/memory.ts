@@ -1,6 +1,8 @@
 /* ------------
      Memory.ts
 
+     This implementation of main memory comes directly from my VM project 
+     in Organization and Architecture class with Gormanly 
 
      ------------ */
 
@@ -8,35 +10,38 @@
 
         export class Memory {
 
-            // Main Memory, 256 addresses, with 1 byte each
-            // These represent the addresses found in a computer
-            // Each address is s
+            // Main Memory, 256 addresses, 1 byte stored at each address
             memorySize : number = 0x100;
             private memoryAddr : number[];
-            private mar : number;
-            private mdr : number;
+            // The MAR & MDR, they handle address retrieval & manipulation
+            private mar : number; // stores an address index (location in memory)
+            private mdr : number; // stores a value (one byte of data)
             
             constructor() {
                 this.memoryAddr = new Array(this.memorySize);
-                
-                // The MAR and MDR, they handle address manipulation
-                this.mar = 0x00; // stores an address number (location in memory)
-                this.mdr = 0x00; // stores a value (that one byte data)
-
+                this.mar = 0x00; 
+                this.mdr = 0x00; 
             }
 
             /*
             / Init Function
-            /   Initializes memory registers and the mar & mdr
+            /   Initializes memory registers
             */
-            public init() {
-                // Initialize all bytes in memory to 0
+            public init() : void {
+                // Change all bytes in memory = 0
                 for (let addr = 0; addr < this.memorySize; addr++) {
                     this.memoryAddr[addr] = 0x00;
                 }
-                this.mar = 0x00;
-                this.mdr = 0x00;
+            }
 
+            /*
+            / Reset Function
+            /   Formats memory to initial values
+            */
+            public reset() : void {
+                this.init();
+                this.mdr = 0x00;
+                this.mar = 0x00;
             }
     
             /*
@@ -59,7 +64,7 @@
             / SetMar Function
             /   Sets the MAR based on parameter
             */
-            public setMar(newMar : number) {
+            public setMar(newMar : number) : void {
                 this.mar = newMar;
             }
 
@@ -67,23 +72,25 @@
             / SetMdr Function
             /   Sets the MDR based on parameter
             */
-            public setMdr(newMdr : number) {
+            public setMdr(newMdr : number) : void {
                 this.mdr = newMdr;
             }
 
             /*
             / Read function
-            / Take the value in the register specified by the MAR, and store it in the MDR
+            /   Take the value in the register specified by the MAR, and store it in the MDR
+            /   "Take a byte from memory"
             */
-            read(): void {
+            public read(): void {
                 this.mdr = this.memoryAddr[this.mar];
             }
   
             /*
             / Write function
-            / Take the value in the MDR, and store it in the register specified by the MAR
+            /   Take the value in the MDR, and store it in the register specified by the MAR
+            /   "Putting a byte into memory"
             */
-            write(): void {
+            public write(): void {
                 this.memoryAddr[this.mar] = this.mdr;
             }
 
