@@ -22,21 +22,58 @@
                 // The MAR and MDR, they handle address manipulation
                 this.mar = 0x00; // stores an address number (location in memory)
                 this.mdr = 0x00; // stores a value (that one byte data)
-                
+
             }
 
+            /*
+            / Init Function
+            /   Initializes memory registers and the mar & mdr
+            */
             public init() {
                 // Initialize all bytes in memory to 0
                 for (let addr = 0; addr < this.memorySize; addr++) {
                     this.memoryAddr[addr] = 0x00;
                 }
+                this.mar = 0x00;
+                this.mdr = 0x00;
 
             }
     
+            /*
+            / GetMar Function
+            /   Returns the MAR
+            */
+            public getMar() : number {
+                return this.mar;
+            }
+
+            /*
+            / GetMdr Function
+            /   Returns the MDR
+            */
+            public getMdr() : number {
+                return this.mdr;
+            }
+
+            /*
+            / SetMar Function
+            /   Sets the MAR based on parameter
+            */
+            public setMar(newMar : number) {
+                this.mar = newMar;
+            }
+
+            /*
+            / SetMdr Function
+            /   Sets the MDR based on parameter
+            */
+            public setMdr(newMdr : number) {
+                this.mdr = newMdr;
+            }
+
             public cycle(): void {
-                _Kernel.krnTrace('CPU cycle');
-                // TODO: Accumulate CPU usage and profiling statistics here.
-                // Do the real work here. Be sure to set this.isExecuting appropriately.
+                //_Kernel.krnTrace('CPU cycle');
+                // Display memory code here
             }
         }
     }
