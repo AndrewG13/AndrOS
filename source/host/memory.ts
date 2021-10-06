@@ -71,9 +71,25 @@
                 this.mdr = newMdr;
             }
 
+            /*
+            / Read function
+            / Take the value in the register specified by the MAR, and store it in the MDR
+            */
+            read(): void {
+                this.mdr = this.memoryAddr[this.mar];
+            }
+  
+            /*
+            / Write function
+            / Take the value in the MDR, and store it in the register specified by the MAR
+            */
+            write(): void {
+                this.memoryAddr[this.mar] = this.mdr;
+            }
+
             public cycle(): void {
-                //_Kernel.krnTrace('CPU cycle');
-                // Display memory code here
+                _Kernel.krnTrace('MEM cycle');
+                // MyTODO: Display memory code here?
             }
         }
     }
