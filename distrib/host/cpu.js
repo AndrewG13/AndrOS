@@ -12,6 +12,14 @@
      ------------ */
 var TSOS;
 (function (TSOS) {
+    // is Command 'InterruptCheck' needed?
+    let Commands;
+    (function (Commands) {
+        Commands[Commands["FETCH"] = 0] = "FETCH";
+        Commands[Commands["DECODE"] = 1] = "DECODE";
+        Commands[Commands["EXECUTE"] = 2] = "EXECUTE";
+        Commands[Commands["WRITEBACK"] = 3] = "WRITEBACK";
+    })(Commands || (Commands = {}));
     class Cpu {
         constructor(PC = 0, Acc = 0, Xreg = 0, Yreg = 0, Zflag = 0, isExecuting = false) {
             this.PC = PC;
@@ -33,6 +41,23 @@ var TSOS;
             _Kernel.krnTrace('CPU cycle');
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecuting appropriately.
+        }
+        // simply grabs byte (instruction) from memory
+        fetch() {
+        }
+        // Retrieve data based on instruction (0, 1, or 2 bytes?)
+        // Can have 1 phase  (if an instruction with no bytes of data -> burn a cycle)
+        //                   (if an instruction with 1 byte of data)
+        //       or 2 phases (if an instruction with 2 bytes of data, remember little endian)
+        decode() {
+        }
+        // Executes the instruction (functionality goes here)
+        // Can have 2 phases (only for EE)
+        execute() {
+        }
+        // To keep it in sync with Gormanly's project, writeback is an extra cycle
+        // Write back whats in MDR to the memory location in MAR
+        writeBack() {
         }
     }
     TSOS.Cpu = Cpu;
