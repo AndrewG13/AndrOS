@@ -48,7 +48,7 @@
             / GetMar Function
             /   Returns the MAR
             */
-            public getMar() : number {
+            public getMAR() : number {
                 return this.mar;
             }
 
@@ -56,7 +56,7 @@
             / GetMdr Function
             /   Returns the MDR
             */
-            public getMdr() : number {
+            public getMDR() : number {
                 return this.mdr;
             }
 
@@ -64,7 +64,7 @@
             / SetMar Function
             /   Sets the MAR based on parameter
             */
-            public setMar(newMar : number) : void {
+            public setMAR(newMar : number) : void {
                 this.mar = newMar;
             }
 
@@ -72,7 +72,7 @@
             / SetMdr Function
             /   Sets the MDR based on parameter
             */
-            public setMdr(newMdr : number) : void {
+            public setMDR(newMdr : number) : void {
                 this.mdr = newMdr;
             }
 
