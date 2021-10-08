@@ -11,8 +11,9 @@
         export class Memory {
 
             // Main Memory, 256 addresses, 1 byte stored at each address
-            memorySize : number = 0x100;
+            private memorySize : number = 0x100;
             private memoryAddr : number[];
+
             // The MAR & MDR, they handle address retrieval & manipulation
             private mar : number; // stores an address index (location in memory)
             private mdr : number; // stores a value (one byte of data)
@@ -92,6 +93,27 @@
             */
             public write(): void {
                 this.memoryAddr[this.mar] = this.mdr;
+            }
+
+            /*
+            / DisplayMemory function
+            / Param: starting address, ending address
+            / Displays memory addresses from specified limit, Hex formatted
+            / If either parameters are invalid, an error log will print
+            */
+            public displayMemory(start : number, end : number) {
+
+                // Check if invalid portion of memory
+                if (start >= this.memoryAddr.length || start < 0 || end >= this.memoryAddr.length || end < start) {
+                    console.log(" - Address Range [" + (hexLog(start, 4)) + " → " + (hexLog(end, 4)) + "] Invalid")
+                } else {
+                // Must be valid
+                    while(start < this.memoryAddr.length && start <= end) {
+                        // this will become a frontend thing to display on
+                        //console.log(" - Address[" + (hexLog(start, 4)) + "]  Value " + (hexLog(this.memoryAddr[start], 2)));
+                        start = start + 0x01;
+                    }
+                }
             }
 
             public cycle(): void {

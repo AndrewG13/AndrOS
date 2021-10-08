@@ -95,3 +95,18 @@ function timeDate() {
                                                     +  currentTime.toLocaleTimeString();
 
 }
+
+/*
+/ HexLog function
+/ Param: number (input), length (for padding)
+/ Return: string
+/ Takes in a number, and returns it in Hexadecimal format
+*/
+function hexLog(value : number, length : number) : string {
+   // Formats value into Base16
+   let output : string = value.toString(16);
+   // Formats value padding 0s
+   output = output.padStart(length, '0');
+   // Console desired output
+   return output.toUpperCase();
+}
