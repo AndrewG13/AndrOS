@@ -18,10 +18,8 @@
 
         export class MemoryManager {
             // Current available memory block / range
-            // Index 0 = starting address
-            // Index 1 =   ending address
-            private availStart : number;
-            private availEnd : number;
+            private availStart : number; // starting address available
+            private availEnd : number;   // ending address available
 
             constructor() {
                 // Initial available range 0x00 -> 0xFF (256 bytes)
