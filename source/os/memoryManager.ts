@@ -10,10 +10,38 @@
      module TSOS {
 
         export class MemoryManager {
-            public variable : number;
-            
+            // Current available memory block / range
+            // Index 0 = starting address
+            // Index 1 = 
+            private availStart : number;
+            private availEnd : number;
+
             constructor() {
-                this.variable = 0;
+                // Initial available range 0x00 -> 0xFF (256 bytes)
+                this.availStart = 0x00;
+                this.availEnd = 0xFF; 
+            }
+
+            public availRange() {
+                return this.availStart;
+            }
+
+            public nextAvailRange() {
+                return this.availStart + 0x100;
+            }
+
+            public assignRange() : number {
+                // First check if no more memory available
+                if (this.availStart >= MEMORY_SIZE) {
+                    return -1;
+                } else {
+                    // retain available starting address to allot
+                    let returnStart = this.availStart;
+                    // increment the available starting address (next block)
+                    this.availStart += 0x100;
+                    
+                    return returnStart;
+                }
             }
     
             public cycle(): void {

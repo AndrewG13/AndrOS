@@ -10,8 +10,7 @@
 
         export class Memory {
 
-            // Main Memory, 256 addresses, 1 byte stored at each address
-            private memorySize : number = 0x100;
+            // Main Memory, 256 addresses, 1 byte stored at each address, will be x 3 Proj 3
             private memoryAddr : number[];
 
             // The MAR & MDR, they handle address retrieval & manipulation
@@ -19,7 +18,7 @@
             private mdr : number; // stores a value (one byte of data)
             
             constructor() {
-                this.memoryAddr = new Array(this.memorySize);
+                this.memoryAddr = new Array(MEMORY_SIZE);
                 this.mar = 0x00; 
                 this.mdr = 0x00; 
             }
@@ -30,7 +29,7 @@
             */
             public init() : void {
                 // Change all bytes in memory = 0
-                for (let addr = 0; addr < this.memorySize; addr++) {
+                for (let addr = 0; addr < MEMORY_SIZE; addr++) {
                     this.memoryAddr[addr] = 0x00;
                 }
             }

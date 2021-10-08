@@ -9,9 +9,7 @@ var TSOS;
 (function (TSOS) {
     class Memory {
         constructor() {
-            // Main Memory, 256 addresses, 1 byte stored at each address
-            this.memorySize = 0x100;
-            this.memoryAddr = new Array(this.memorySize);
+            this.memoryAddr = new Array(MEMORY_SIZE);
             this.mar = 0x00;
             this.mdr = 0x00;
         }
@@ -21,7 +19,7 @@ var TSOS;
         */
         init() {
             // Change all bytes in memory = 0
-            for (let addr = 0; addr < this.memorySize; addr++) {
+            for (let addr = 0; addr < MEMORY_SIZE; addr++) {
                 this.memoryAddr[addr] = 0x00;
             }
         }

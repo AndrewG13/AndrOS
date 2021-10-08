@@ -11,16 +11,20 @@
 //
 // Global CONSTANTS (TypeScript 1.5 introduced const. Very cool.)
 //
-const APP_NAME: string    = "AndrOS";   // The name just came to me, ya know?
+const APP_NAME: string    = "AndrOS"; // The name just came to me, ya know?
 const APP_VERSION: string = "64";     // I'm trying to make you laugh like as if all thousands
- 																				// of students you've taught haven't done the same.
-																				// ... tough competition ...
+ 												  // of students you've taught haven't done the same.
+												  // ... tough competition ...
 
 const CPU_CLOCK_INTERVAL: number = 100;   // This is in ms (milliseconds) so 1000 = 1 second.
 
 const TIMER_IRQ: number = 0;  // Pages 23 (timer), 9 (interrupts), and 561 (interrupt priority).
                               // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
 const KEYBOARD_IRQ: number = 1;
+
+const MEMORY_SIZE: number = 0x100; // Main Memory size, 256 addresses, 1 byte stored at each address
+                                   // will be x 3 Proj 3
+
 
 var goodluck = new Audio("distrib/images/Good_Luck_Starfo_ 64.mp3");
 

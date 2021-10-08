@@ -441,6 +441,12 @@ var TSOS;
                 //   parse input into Hexadecimal
                 //   seperate bytes (2 hex digits each)
                 //   ... 
+                if (_MemoryManager.assignRange() == -1) {
+                    _StdOut.putText("Load Failed: Insufficient Memory");
+                }
+                else {
+                    _StdOut.putText("Load Successful");
+                }
             }
             else {
                 _StdOut.putText("User Program: Invalid");
