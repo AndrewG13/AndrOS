@@ -8,6 +8,11 @@
      ------------ */
 var TSOS;
 (function (TSOS) {
+    // MyTODO: Implement CPU Commands, PCB (assigning here? once prog done make space available)
+    // modify "load", add "run", 
+    // add html displays
+    // ready queue (in here?)
+    // linewrap
     class MemoryManager {
         constructor() {
             // Initial available range 0x00 -> 0xFF (256 bytes)
