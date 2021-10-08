@@ -80,6 +80,8 @@ var TSOS;
             _Kernel.krnBootstrap(); // _GLaDOS.afterStartup() will get called in there, if configured.
         }
         static hostBtnHaltOS_click(btn) {
+            // Disable the (passed-in) halt button...
+            btn.disabled = true;
             Control.hostLog("Emergency halt", "host");
             Control.hostLog("Attempting Kernel shutdown.", "host");
             // Call the OS shutdown routine.

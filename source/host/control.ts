@@ -101,6 +101,9 @@ module TSOS {
         }
 
         public static hostBtnHaltOS_click(btn): void {
+            // Disable the (passed-in) halt button...
+            btn.disabled = true;
+
             Control.hostLog("Emergency halt", "host");
             Control.hostLog("Attempting Kernel shutdown.", "host");
             // Call the OS shutdown routine.
