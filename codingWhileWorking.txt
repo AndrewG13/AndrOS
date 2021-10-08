@@ -1,5 +1,24 @@
 Code written while away from my laptop.  Scrap paper, if you will.
 
+
+// Creating the Memory display table
+
+let _MemoryTable = document.getElementById("divMemoryTable"); // Put in globals.ts
+
+// put in control.ts
+let memoryRows = MEMORY_SIZE / 0x20; // number of rows
+let memoryColumns = 0x08;            // number of columns (8 bytes)
+
+for (let addr = 0; addr < MEMORY_SIZE; addr++) {
+    // Check if new row needs to be made
+    if (addr % memoryColumn == 0) {
+        _MemoryTable.insertRow()
+    }
+}
+
+
+
+/*************************************************/
     // Blinking cursor code, because I was bored
         let colored = false;
         
