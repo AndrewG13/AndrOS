@@ -1,6 +1,9 @@
 /* ------------
      MemoryManager.ts
 
+     Manages Memory allocation
+     Meaning, doing something like "Load" , "Load" should fail for Proj2
+     So essentially monitoring & deciding what blocks of memory are free / should be used
 
      ------------ */
 var TSOS;
@@ -10,9 +13,7 @@ var TSOS;
             this.variable = 0;
         }
         cycle() {
-            _Kernel.krnTrace('CPU cycle');
-            // TODO: Accumulate CPU usage and profiling statistics here.
-            // Do the real work here. Be sure to set this.isExecuting appropriately.
+            _Kernel.krnTrace('MMU cycle');
         }
     }
     TSOS.MemoryManager = MemoryManager;

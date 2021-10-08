@@ -88,7 +88,7 @@ module TSOS {
             _CPU = new Cpu();  // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
             _CPU.init();       //       There's more to do, like dealing with scheduling and such, but this would be a start. Pretty cool.
 
-            // ... Create and initialize Main Memory
+            // ... Create and initialize Main Memory & Accessor
             _Memory = new Memory();
             _Memory.init();
             _MemoryAccessor = new MemoryAccessor();
@@ -113,9 +113,6 @@ module TSOS {
         public static hostBtnReset_click(btn): void {
             // The easiest and most thorough way to do this is to reload (not refresh) the document.
             location.reload();
-            // That boolean parameter is the 'forceget' flag. When it is true it causes the page to always
-            // be reloaded from the server. If it is false or not specified the browser may reload the
-            // page from its cache, which is not what we want.
         }
     }
 }

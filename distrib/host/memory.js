@@ -38,28 +38,28 @@ var TSOS;
         / GetMar Function
         /   Returns the MAR
         */
-        getMar() {
+        getMAR() {
             return this.mar;
         }
         /*
         / GetMdr Function
         /   Returns the MDR
         */
-        getMdr() {
+        getMDR() {
             return this.mdr;
         }
         /*
         / SetMar Function
         /   Sets the MAR based on parameter
         */
-        setMar(newMar) {
+        setMAR(newMar) {
             this.mar = newMar;
         }
         /*
         / SetMdr Function
         /   Sets the MDR based on parameter
         */
-        setMdr(newMdr) {
+        setMDR(newMdr) {
             this.mdr = newMdr;
         }
         /*
@@ -77,6 +77,26 @@ var TSOS;
         */
         write() {
             this.memoryAddr[this.mar] = this.mdr;
+        }
+        /*
+        / DisplayMemory function
+        / Param: starting address, ending address
+        / Displays memory addresses from specified limit, Hex formatted
+        / If either parameters are invalid, an error log will print
+        */
+        displayMemory(start, end) {
+            // Check if invalid portion of memory
+            if (start >= this.memoryAddr.length || start < 0 || end >= this.memoryAddr.length || end < start) {
+                console.log(" - Address Range [" + (hexLog(start, 4)) + " → " + (hexLog(end, 4)) + "] Invalid");
+            }
+            else {
+                // Must be valid
+                while (start < this.memoryAddr.length && start <= end) {
+                    // this will become a frontend thing to display on
+                    //console.log(" - Address[" + (hexLog(start, 4)) + "]  Value " + (hexLog(this.memoryAddr[start], 2)));
+                    start = start + 0x01;
+                }
+            }
         }
         cycle() {
             _Kernel.krnTrace('MEM cycle');

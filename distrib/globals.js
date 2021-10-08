@@ -73,4 +73,18 @@ function timeDate() {
         + currentTime.getFullYear() + ", "
         + currentTime.toLocaleTimeString();
 }
+/*
+/ HexLog function
+/ Param: number (input), length (for padding)
+/ Return: string
+/ Takes in a number, and returns it in Hexadecimal format
+*/
+function hexLog(value, length) {
+    // Formats value into Base16
+    let output = value.toString(16);
+    // Formats value padding 0s
+    output = output.padStart(length, '0');
+    // Console desired output
+    return output.toUpperCase();
+}
 //# sourceMappingURL=globals.js.map
