@@ -530,8 +530,10 @@ module TSOS {
                     // assign a block by Manager...
                     // put in memory by Accessor...
                     // display registers by Memory...
-                    
-                    _StdOut.putText("Load Successful");
+
+                    let newPID = _MemoryManager.assignRange();
+
+                    _StdOut.putText("Load Successful: PID=" + newPID);
                 } else {
                     _StdOut.putText("Load Failed: Insufficient Memory");
                 }
