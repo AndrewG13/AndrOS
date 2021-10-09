@@ -41,20 +41,14 @@
             }
 
             public assignRange() : number {
-                // First verify that memory is available
-                if (this.verifyMemory()) {
+                // Since "load" verifies Memory, we know thers available space
 
-                    // Next, retain available starting address to allot
-                    let addr = this.availStart;
-                    // Finally, increment the available starting address (next block)
-                    this.availStart += 0x100;
+                // Next, retain available starting address to allot
+                let addr = this.availStart;
+                // Finally, increment the available starting address (next block)
+                this.availStart += 0x100;
 
-                    return addr;
-                } else {
-                    // Memory unavailable
-                    return -1;
-                }
-                
+                return addr;
             }
     
         }

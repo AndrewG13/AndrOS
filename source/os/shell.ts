@@ -527,9 +527,11 @@ module TSOS {
 
                 // Contact the Memory Manager if memory is available
                 if (_MemoryManager.verifyMemory()) {
-                    _StdOut.putText("Load Successful");
+                    // assign a block by Manager...
                     // put in memory by Accessor...
+                    // display registers by Memory...
                     
+                    _StdOut.putText("Load Successful");
                 } else {
                     _StdOut.putText("Load Failed: Insufficient Memory");
                 }

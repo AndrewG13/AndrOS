@@ -1,6 +1,7 @@
 /* ------------
      ProcessControlBlock.ts
 
+     PCBs are stored & managed in the Memory Manager
 
      ------------ */
 
@@ -13,8 +14,9 @@
             // For assigning PIDs
             static PID : number = 0;
 
-            // According to notes, should have:
+            // According to notes, PCBs should have:
             //  State, PID, PC, X Y regs, Z flag, knowledge of memory "block" / range 
+            //
             //  States: New        - Typed in User Textarea (So unused...)
             //          Resident   - After "load" done, will receive PCB, PID, etc
             //          Ready      - On the Ready Queue, will start executing momentarily (instantly)
@@ -28,9 +30,10 @@
             public Xreg : number;
             public Yreg : number;
             public Zflag : number;
-            // public priority : number; 
+            // public priority : number; // Project 3
             public startAddr : number;
             public endAddr : number; // just start + 0xFF (programs are 256 bytes)
+            
             constructor(savedPC : number, savedAcc : number, savedXreg : number, savedYreg : number, savedZflag : number) {
                 this.state = PCB.STATES[0];
                 this.PID = PCB.PID++;
@@ -39,8 +42,10 @@
                 this.Xreg = savedXreg;
                 this.Yreg = savedYreg;
                 this.Zflag = savedZflag;
+                // this.priority = ?
 
-                // Contact the Memory Manager if memory is available
+                // Since "load" contacted the Memory Manager, we know memory is available.
+                // Now assign an address range / block
                 this.startAddr = _MemoryManager.assignRange();
                 this.endAddr = this.startAddr + 0xFF;
             }
