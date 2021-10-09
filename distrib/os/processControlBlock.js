@@ -1,23 +1,31 @@
 /* ------------
      ProcessControlBlock.ts
 
+     PCBs are stored & managed in the Memory Manager
 
      ------------ */
 var TSOS;
 (function (TSOS) {
     class PCB {
-        //public variable : number;
-        // According to notes, should have:
-        //  State, PID, PC, X Y regs, Z flag, knowledge of memory "block" / range 
-        //  States: New        - Typed in User Textarea (So unused...)
-        //          Resident   - After "load" done, will receive PCB, PID, etc
-        //          Ready      - On the Ready Queue, will start executing momentarily (instantly)
-        //          Running    - In execution
-        //          Terminated - If killed or completed
-        constructor() {
-            //this.variable = 0;
+        constructor(savedPC, savedAcc, savedXreg, savedYreg, savedZflag) {
+            this.state = PCB.STATES[0];
+            this.PID = PCB.PID++;
+            this.PC = savedPC;
+            this.Acc = savedAcc;
+            this.Xreg = savedXreg;
+            this.Yreg = savedYreg;
+            this.Zflag = savedZflag;
+            // this.priority = ?
+            // Since "load" contacted the Memory Manager, we know memory is available.
+            // Now assign an address range / block
+            this.startAddr = _MemoryManager.assignRange();
+            this.endAddr = this.startAddr + 0xFF;
         }
     }
+    // For assigning states of PCBs
+    PCB.STATES = ["New", "Resident", "Ready", "Running", "Terminated"];
+    // For assigning PIDs
+    PCB.PID = 0;
     TSOS.PCB = PCB;
 })(TSOS || (TSOS = {}));
 //# sourceMappingURL=processControlBlock.js.map

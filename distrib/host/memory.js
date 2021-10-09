@@ -3,7 +3,8 @@
 
      This implementation of main memory comes directly from my VM project
      in Organization and Architecture class with Gormanly
-
+     Things have been reworked for this project, and if you see any redundancy (here and Accessor),
+     I did so with the intention of simulating how things really work.  Hopefully I was accurate.
      ------------ */
 var TSOS;
 (function (TSOS) {
@@ -86,6 +87,7 @@ var TSOS;
             // Check if invalid portion of memory
             if (start >= this.memoryAddr.length || start < 0 || end >= this.memoryAddr.length || end < start) {
                 console.log(" - Address Range [" + (hexLog(start, 4)) + " → " + (hexLog(end, 4)) + "] Invalid");
+                _StdOut.putText("Illegal memory parameters");
             }
             else {
                 // Must be valid

@@ -8,9 +8,12 @@
      ------------ */
 var TSOS;
 (function (TSOS) {
-    // MyTODO: Implement CPU Commands, PCB (assigning here? once prog done make space available)
+    // MyTODO: 
+    // Implement CPU Commands, PCB (assigning here? once prog done make space available)
+    // fix up displayRegisters function in Memory
+    // assignRange should initiate creating a PCB, but CPU should be doing that task specifically
     // modify "load", add "run", 
-    // add html displays
+    // add html displays (checking text file for code)
     // ready queue (in here?)
     // linewrap
     class MemoryManager {
@@ -19,27 +22,36 @@ var TSOS;
             this.availStart = 0x00;
             this.availEnd = 0xFF;
         }
+        // May not use
         availRange() {
             return this.availStart;
         }
-        nextAvailRange() {
+        // May not use
+        /*
+        public nextAvailRange() {
             return this.availStart + 0x100;
         }
-        assignRange() {
-            // First check if no more memory available
-            if (this.availStart >= MEMORY_SIZE) {
-                return -1;
-            }
-            else {
-                // retain available starting address to allot
-                let returnStart = this.availStart;
-                // increment the available starting address (next block)
-                this.availStart += 0x100;
-                return returnStart;
-            }
+        */
+        /*
+        / Verify Memory Function
+        /   * Used when creating a PCB *
+        /   Checks if memory is available to allocate
+        */
+        verifyMemory() {
+            // Check if adequate memory is available
+            return (this.availStart < MEMORY_SIZE);
         }
-        cycle() {
-            _Kernel.krnTrace('MMU cycle');
+        /*
+        / Assign Range Function
+        /   Allocates a [256 byte sized] block of memory for a PCB
+        */
+        assignRange() {
+            // Since "load" verifies Memory, we know theres available space
+            // Next, retain available starting address to allot
+            let addr = this.availStart;
+            // Finally, increment the available starting address (next block)
+            this.availStart += 0x100;
+            return addr;
         }
     }
     TSOS.MemoryManager = MemoryManager;

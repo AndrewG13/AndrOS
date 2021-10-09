@@ -442,11 +442,15 @@ var TSOS;
                 //   parse input into Hexadecimal
                 //   seperate bytes (2 hex digits each)
                 //   ... 
-                if (_MemoryManager.assignRange() == -1) {
-                    _StdOut.putText("Load Failed: Insufficient Memory");
+                // Contact the Memory Manager if memory is available
+                if (_MemoryManager.verifyMemory()) {
+                    // assign a block by Manager...
+                    // put in memory by Accessor...
+                    // display registers by Memory...
+                    _StdOut.putText("Load Successful");
                 }
                 else {
-                    _StdOut.putText("Load Successful");
+                    _StdOut.putText("Load Failed: Insufficient Memory");
                 }
             }
             else {
