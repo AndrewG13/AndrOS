@@ -35,23 +35,28 @@
                 return this.availStart + 0x100;
             }
 
+            public verifyMemory() : boolean {
+                // Check if adequate memory is available
+                return (this.availStart < MEMORY_SIZE);
+            }
+
             public assignRange() : number {
-                // First check if no more memory available
-                if (this.availStart >= MEMORY_SIZE) {
-                    return -1;
-                } else {
-                    // retain available starting address to allot
-                    let returnStart = this.availStart;
-                    // increment the available starting address (next block)
+                // First verify that memory is available
+                if (this.verifyMemory()) {
+
+                    // Next, retain available starting address to allot
+                    let addr = this.availStart;
+                    // Finally, increment the available starting address (next block)
                     this.availStart += 0x100;
 
-                    return returnStart;
+                    return addr;
+                } else {
+                    // Memory unavailable
+                    return -1;
                 }
+                
             }
     
-            public cycle(): void {
-                _Kernel.krnTrace('MMU cycle');
-            }
         }
     }
     

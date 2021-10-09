@@ -147,7 +147,6 @@
             }
 
 
-            // Shouldn't need a cycle function
         }
     }
     

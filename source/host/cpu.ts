@@ -63,6 +63,7 @@ module TSOS {
 
         // To keep it in sync with Gormanly's project, writeback is an extra cycle
         // Write back whats in MDR to the memory location in MAR
+        // Pretty sure just for EE
         public writeBack() {
 
         }

@@ -525,10 +525,13 @@ module TSOS {
                 //   seperate bytes (2 hex digits each)
                 //   ... 
 
-                if (_MemoryManager.assignRange() == -1) {
-                    _StdOut.putText("Load Failed: Insufficient Memory");
-                } else {
+                // Contact the Memory Manager if memory is available
+                if (_MemoryManager.verifyMemory()) {
                     _StdOut.putText("Load Successful");
+                    // put in memory by Accessor...
+                    
+                } else {
+                    _StdOut.putText("Load Failed: Insufficient Memory");
                 }
 
             } else {   
