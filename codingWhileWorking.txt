@@ -3,15 +3,20 @@ Code written while away from my laptop.  Scrap paper, if you will.
 
 // Creating the Memory display table
 
-let _MemoryTable = document.getElementById("divMemoryTable"); // Put in globals.ts
+https://stackoverflow.com/questions/24307292/how-can-i-get-the-value-of-an-input-in-a-specific-table-cell-using-javascript
 
+let _MemoryTable = document.getElementById("divMemoryTable"); // Put in globals.ts
+let _MTCells = new Array();
 // put in control.ts
 let memoryRows = MEMORY_SIZE / 0x08; // number of rows
 let memoryColumns = 0x08;            // number of columns (8 bytes)
-
-for (let cols = 0; cols < memoryColumns; cols++) {
-        _MemoryTable.insertRow(cols);
-        for (let rows = 0; rows...) finish up creation .insertCell(rows)
+let memoryCells = 0x00;              // each individual cell
+for (let rows = 0; rows < memoryRows; rows++) {
+        _MemoryTable.insertRow(rows);
+        for (let cols = 0; cols < memoryColumns; cols++) {
+        let newCell = _MemoryTable.rows().cells()
+        _MemoryTable.insertCell(cols);
+        } 
     }
 
 
