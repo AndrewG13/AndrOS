@@ -598,7 +598,17 @@ module TSOS {
         */
         public shellRun(args: string[]) {
             if (args.length > 0) {
+
+                let validity = (args[0].search(/[^\d]/));
                 
+                if (validity !== 0) {
+                    let PID = parseInt(args[0]);
+
+                    _Kernel.krnInitProg();
+                } else {
+                    _StdOut.putText("PID must be numeric.");
+                }
+
             } else {
                 _StdOut.putText("Usage: run <PID>  Please supply a PID.");
             }

@@ -77,7 +77,7 @@ module TSOS {
         /
         /       Fires up the CPU to run the program in Memory
         */
-        public krnInitiateProg() {
+        public krnInitProg() {
             _CPU.run();
         }
 

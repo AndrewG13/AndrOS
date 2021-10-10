@@ -60,6 +60,14 @@ var TSOS;
             //
             this.krnTrace("end shutdown OS");
         }
+        /*
+        /   Kernel Initiate Program function
+        /
+        /       Fires up the CPU to run the program in Memory
+        */
+        krnInitProg() {
+            _CPU.run();
+        }
         krnOnCPUClockPulse() {
             /* This gets called from the host hardware simulation every time there is a hardware clock pulse.
                This is NOT the same as a TIMER, which causes an interrupt and is handled like other interrupts.

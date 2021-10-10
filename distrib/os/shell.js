@@ -64,6 +64,8 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellBeginAssault, "beginassault", "- Begin attack on Star Wolf!");
             this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellRun, "run", "<PID> - Run the program with the specified PID");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
@@ -279,6 +281,9 @@ var TSOS;
                     case "load":
                         _StdOut.putText("Load a program into the system.");
                         break;
+                    case "run":
+                        _StdOut.putText("Runs the program in memory with PID given");
+                        break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
@@ -475,7 +480,7 @@ var TSOS;
                     // Create a PCB & enqueue on Ready Queue (these maybe need to go to a different queue?)
                     let newPCB = new TSOS.PCB(_CPU.PC, _CPU.Acc, _CPU.Xreg, _CPU.Yreg, _CPU.Zflag);
                     _KernelReadyQueue.enqueue(newPCB);
-                    // display registers on-screen
+                    // display registers on-screen (from start -> end) 
                     _MemoryAccessor.displayRegisters(startAddr, startAddr + 0xFF);
                     _StdOut.putText("Load Successful: PID=" + newPID);
                 }
@@ -487,6 +492,27 @@ var TSOS;
                 else {
                     _StdOut.putText("Numeric Input? False");
                 }
+            }
+        }
+        /*
+        /  Run function
+        /
+        /     Runs the program in memory
+        /     If no program or PID passed, display error
+        */
+        shellRun(args) {
+            if (args.length > 0) {
+                let validity = (args[0].search(/[^\d]/));
+                if (validity !== 0) {
+                    let PID = parseInt(args[0]);
+                    _Kernel.krnInitProg();
+                }
+                else {
+                    _StdOut.putText("PID must be numeric.");
+                }
+            }
+            else {
+                _StdOut.putText("Usage: run <PID>  Please supply a PID.");
             }
         }
         /*
