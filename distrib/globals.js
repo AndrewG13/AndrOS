@@ -53,7 +53,8 @@ var _StdOut = null;
 var _Console;
 var _OsShell;
 var _UserInput = document.getElementById("taProgramInput");
-let _MemoryTable = document.getElementById("tableMemory");
+//var _MemoryTable = (<HTMLTableElement>document.getElementById("tableMemory"));
+var _MemoryTableCells = new Array();
 // At least this OS is not trying to kill you. (Yet.)
 var _SarcasticMode = false;
 // Global Device Driver Objects - page 12

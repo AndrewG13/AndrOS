@@ -55,11 +55,23 @@ h3 {
 }
 
 #tableMemory {
+  background-color: darkslategrey;
   border: 1.5px solid orangered;
   overflow-y: scroll;
-  width: 50%;
-  height: 200px;
+  width: 330px;
+  height: 250px;
   display: block;
+}
+
+td.addresses {
+  text-align: center;
+  background-color: darkred;
+}
+
+td.registers {
+  text-align: center;
+  width: 30px;
+  background-color: lightsalmon;
 }
 
 th, td {

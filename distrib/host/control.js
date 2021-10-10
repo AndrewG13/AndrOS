@@ -42,19 +42,6 @@ var TSOS;
                 _GLaDOS = new Glados();
                 _GLaDOS.init();
             }
-            // Create the memory table display
-            /*
-            let memoryRows = MEMORY_SIZE / 0x08; // number of rows
-            let memoryColumns = 0x08;            // number of columns (8 bytes)
-            let memoryCells = 0x00;              // each individual cell
-            for (let rows = 0; rows < memoryRows; rows++) {
-                let row = _MemoryTable.insertRow();
-               for (let cols = 0; cols < memoryColumns; cols++) {
-                    //let newCell = _MemoryTable.rows[rows].cells[cols];
-                    row.insertCell(cols);
-                }
-            }
-            */
         }
         static hostLog(msg, source = "?") {
             // Note the OS CLOCK.
@@ -86,6 +73,25 @@ var TSOS;
             _Memory = new TSOS.Memory();
             _Memory.init();
             _MemoryAccessor = new TSOS.MemoryAccessor();
+            // Create the memory table display
+            let memRows = MEMORY_SIZE / 0x08; // number of rows
+            let memCols = 0x08; // number of columns (8 bytes)
+            let htmlMemory = document.getElementById("tableMemory");
+            for (let i = 0; i < memRows; i++) {
+                let row = htmlMemory.insertRow();
+                let label = row.insertCell();
+                label.classList.add("addresses");
+                label.innerHTML = "0x" + hexLog((i * memCols), 2);
+                label.style["color"] = "red";
+                for (let reg = 0; reg < memCols; reg++) {
+                    let newCell = row.insertCell();
+                    newCell.classList.add("registers");
+                    newCell.innerHTML = hexLog(0x00, 2); // initial value of regs, no need to check
+                    _MemoryTableCells[(i * memCols) + reg] = newCell;
+                }
+            }
+            // Load to Memory display 
+            _MemoryAccessor.displayRegisters(0x00, 0xFF);
             // ... then set the host clock pulse ...
             _hardwareClockID = setInterval(TSOS.Devices.hostClockPulse, CPU_CLOCK_INTERVAL);
             // .. and call the OS Kernel Bootstrap routine.
