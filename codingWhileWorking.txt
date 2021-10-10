@@ -11,17 +11,18 @@ let _MemoryTable = document.getElementById("divMemoryTable"); // Put in globals.
 let _MemoryDisplayCells = new Array();
 
 // put in control.ts
-let memoryRows = MEMORY_SIZE / 0x08; // number of rows
-let memoryColumns = 0x08;            // number of columns (8 bytes)
-let memoryCells = 0x00;              // each individual cell
-for (let i = 0; i < memoryRows; i++) {
+let memRows = MEMORY_SIZE / 0x08; // number of rows
+let memCols = 0x08;               // number of columns (8 bytes)
+
+for (let i = 0; i < memRows; i++) {
         let row = _MemoryTable.insertRow();
         let label = row.insertCell();
         label.innerHTML = i * 8;
-        for (let reg = 0; reg < memoryColumns; reg++) {
+        label.style["color"] = "red";
+        for (let reg = 0; reg < memCols; reg++) {
                 let newCell = row.insertCell()
                 newCell.innerHTML = //_Memory[];
-                _MemoryDisplayCells[row * memoryColumns] = newCell;
+                _MemoryDisplayCells[row * memCols] = newCell;
                 
         } 
     }
