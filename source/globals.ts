@@ -69,6 +69,7 @@ var _StdOut: TSOS.Console = null;
 var _Console: TSOS.Console;
 var _OsShell: TSOS.Shell;
 var _UserInput = document.getElementById("taProgramInput");
+let _MemoryTable = (<HTMLTableElement>document.getElementById("tableMemory"));
 // At least this OS is not trying to kill you. (Yet.)
 var _SarcasticMode: boolean = false;
 

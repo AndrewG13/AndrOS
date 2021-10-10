@@ -472,11 +472,11 @@ var TSOS;
                         _MemoryAccessor.writeImmediate(reg, data);
                         console.log(reg + " " + data);
                     }
-                    // Create a PCB & enqueue on Ready Queue
+                    // Create a PCB & enqueue on Ready Queue (these maybe need to go to a different queue?)
                     let newPCB = new TSOS.PCB(_CPU.PC, _CPU.Acc, _CPU.Xreg, _CPU.Yreg, _CPU.Zflag);
                     _KernelReadyQueue.enqueue(newPCB);
                     // display registers on-screen
-                    //_MemoryAccessor.displayRegisters(startAddr, startAddr + 0xFF);
+                    _MemoryAccessor.displayRegisters(startAddr, startAddr + 0xFF);
                     _StdOut.putText("Load Successful: PID=" + newPID);
                 }
             }

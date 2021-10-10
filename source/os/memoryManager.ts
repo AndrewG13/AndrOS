@@ -12,10 +12,8 @@
         // MyTODO: 
         // Implement CPU Commands, PCB (assigning here? once prog done make space available)
         // fix up displayRegisters function in Memory
-        // assignRange should initiate creating a PCB, but CPU should be doing that task specifically
         // modify "load", add "run", 
         // add html displays (checking text file for code)
-        // ready queue (in here?)
         // linewrap
 
 

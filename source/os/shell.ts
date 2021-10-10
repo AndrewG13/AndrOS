@@ -555,15 +555,15 @@ module TSOS {
                     for (let reg = 0x00; reg < numOfBytes; reg += 0x01) {
                         let data = parseInt(input.substring(reg*2, (reg*2)+2), 16);
                         _MemoryAccessor.writeImmediate(reg, data);
-                        console.log(reg + " " + data);
+                        //console.log(reg + " " + data);
                     }
 
-                    // Create a PCB & enqueue on Ready Queue
+                    // Create a PCB & enqueue on Ready Queue (these maybe need to go to a different queue?)
                     let newPCB = new PCB(_CPU.PC, _CPU.Acc, _CPU.Xreg, _CPU.Yreg, _CPU.Zflag);
                     _KernelReadyQueue.enqueue(newPCB);
 
                     // display registers on-screen
-                    //_MemoryAccessor.displayRegisters(startAddr, startAddr + 0xFF);
+                    _MemoryAccessor.displayRegisters(startAddr, startAddr + 0xFF);
 
                         _StdOut.putText("Load Successful: PID=" + newPID);
                     

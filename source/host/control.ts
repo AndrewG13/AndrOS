@@ -50,6 +50,19 @@ module TSOS {
                 _GLaDOS = new Glados();
                 _GLaDOS.init();
             }
+            // Create the memory table display
+            /*
+            let memoryRows = MEMORY_SIZE / 0x08; // number of rows
+            let memoryColumns = 0x08;            // number of columns (8 bytes)
+            let memoryCells = 0x00;              // each individual cell
+            for (let rows = 0; rows < memoryRows; rows++) {
+                let row = _MemoryTable.insertRow();
+               for (let cols = 0; cols < memoryColumns; cols++) {
+                    //let newCell = _MemoryTable.rows[rows].cells[cols];
+                    row.insertCell(cols);
+                } 
+            }
+            */
         }
 
         public static hostLog(msg: string, source: string = "?"): void {
