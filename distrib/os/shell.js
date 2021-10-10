@@ -436,34 +436,44 @@ var TSOS;
             let validity = ((input === "") || (input.search(/[^\dA-Fa-f]/)));
             // If none found, its valid
             if (validity == -1) {
-                _StdOut.putText("User Program: Valid");
+                _StdOut.putText("Numeric Input? True");
                 _StdOut.advanceLine();
-                // Project 2:
-                //   parse input into Hexadecimal
-                //   seperate bytes (2 hex digits each)
-                //   ... 
+                let failLog = ""; // Logs info IF user program failed
+                let numOfBytes = input.length / 2;
                 // check if input contains more than 256 bytes
-                if (input.length / 2 > 0x100) {
-                    _StdOut.putText("Load Failed: Exceeds 256 bytes");
+                if (input.length % 2 == 1) {
+                    failLog += "*1 uneven byte ";
+                }
+                // Check if input is too large
+                if (numOfBytes > 0x100) {
+                    failLog += "*Exceeds 256 bytes ";
+                }
+                // Contact the Memory Manager if memory is available
+                if ((_MemoryManager.verifyMemory()) === false) {
+                    failLog += "*Insufficient Memory ";
+                }
+                // If user code failed, display why and cease 'load'
+                if (failLog !== "") {
+                    _StdOut.putText("Load Failed: " + failLog);
                 }
                 else {
+                    // Code successful!
                     let userCode = parseInt(input, 16);
                     console.log(userCode);
-                    // Contact the Memory Manager if memory is available
-                    if (_MemoryManager.verifyMemory()) {
-                        // assign a block by Manager...
-                        // put in memory by Accessor...
-                        // display registers by Memory...
-                        let newPID = _MemoryManager.assignRange();
-                        _StdOut.putText("Load Successful: PID=" + newPID);
-                    }
-                    else {
-                        _StdOut.putText("Load Failed: Insufficient Memory");
-                    }
+                    // assign a block by Manager...
+                    // put in memory by Accessor...
+                    // display registers by Memory...
+                    let newPID = _MemoryManager.assignRange();
+                    _StdOut.putText("Load Successful: PID=" + newPID);
                 }
             }
             else {
-                _StdOut.putText("User Program: Invalid");
+                if (_SarcasticMode) {
+                    _StdOut.putText("Not a number doofus. Try looking while typing.");
+                }
+                else {
+                    _StdOut.putText("Numeric Input? False");
+                }
             }
         }
         /*

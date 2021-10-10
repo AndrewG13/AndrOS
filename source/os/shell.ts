@@ -518,36 +518,54 @@ module TSOS {
 
             // If none found, its valid
             if (validity == -1) {
-                _StdOut.putText("User Program: Valid");
+                _StdOut.putText("Numeric Input? True");
                 _StdOut.advanceLine();
-                // Project 2:
-                //   parse input into Hexadecimal
-                //   seperate bytes (2 hex digits each)
-                //   ... 
+
+                let failLog : string = ""; // Logs info IF user program failed
+                let numOfBytes = input.length / 2;
+
                 // check if input contains more than 256 bytes
-                if (input.length / 2 > 0x100) {
-                    _StdOut.putText("Load Failed: Exceeds 256 bytes");
-                } else {
-                    
-                let userCode : number = parseInt(input, 16);
-                console.log(userCode);
-
+                if (input.length % 2 == 1) {
+                    failLog += "*1 uneven byte ";
+                } 
+                // Check if input is too large
+                if (numOfBytes > 0x100) {
+                    failLog += "*Exceeds 256 bytes ";
+                } 
                 // Contact the Memory Manager if memory is available
-                if (_MemoryManager.verifyMemory()) {
-                    // assign a block by Manager...
-                    // put in memory by Accessor...
-                    // display registers by Memory...
+                if ((_MemoryManager.verifyMemory()) === false) {
+                    failLog += "*Insufficient Memory "
+                }
 
-                    let newPID = _MemoryManager.assignRange();
-
-                    _StdOut.putText("Load Successful: PID=" + newPID);
+                // If user code failed, display why and cease 'load'
+                if (failLog !== "") {
+                    _StdOut.putText("Load Failed: " + failLog);
                 } else {
-                    _StdOut.putText("Load Failed: Insufficient Memory");
+                // Code successful!
+                    let userCode : number = parseInt(input, 16);
+                    console.log(userCode);
+    
+                    
+                        // assign a block by Manager...
+                        // put in memory by Accessor...
+                        // display registers by Memory...
+    
+                        let newPID = _MemoryManager.assignRange();
+    
+                        _StdOut.putText("Load Successful: PID=" + newPID);
+                    
+                }
+                
+                
+            
+            } else {   
+                if (_SarcasticMode) {
+                _StdOut.putText("Not a number doofus. Try looking while typing.");
+                } else {
+                _StdOut.putText("Numeric Input? False");
                 }
             }
-            } else {   
-                _StdOut.putText("User Program: Invalid");
-            }
+
 
         }
 
