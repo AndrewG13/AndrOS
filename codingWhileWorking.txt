@@ -8,7 +8,7 @@ https://stackoverflow.com/questions/27859976/how-to-dynamically-change-html-tabl
 https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_tr_insertcell
 
 let _MemoryTable = document.getElementById("divMemoryTable"); // Put in globals.ts
-let _MemoryDisplayCells = new Array();
+let _MemoryTableCells = new Array();
 
 // put in control.ts
 let memRows = MEMORY_SIZE / 0x08; // number of rows
@@ -21,12 +21,13 @@ for (let i = 0; i < memRows; i++) {
         label.style["color"] = "red";
         for (let reg = 0; reg < memCols; reg++) {
                 let newCell = row.insertCell()
-                newCell.innerHTML = //_Memory[];
-                _MemoryDisplayCells[row * memCols] = newCell;
+                newCell.innerHTML = 0x00; // initial value of regs, no need to check
+                _MemoryTableCells[row * memCols] = newCell;
                 
         } 
     }
-
+// Load to Memory display 
+_MemoryAccessor.displayRegisters(0x00, 0xFF);
 
 
 
