@@ -72,6 +72,15 @@ module TSOS {
             this.krnTrace("end shutdown OS");
         }
 
+        /*
+        /   Kernel Initiate Program function
+        /
+        /       Fires up the CPU to run the program in Memory
+        */
+        public krnInitiateProg() {
+            _CPU.run();
+        }
+
 
         public krnOnCPUClockPulse() {
             /* This gets called from the host hardware simulation every time there is a hardware clock pulse.

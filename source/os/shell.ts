@@ -114,6 +114,11 @@ module TSOS {
                                   "- Begin attack on Star Wolf!");
             this.commandList[this.commandList.length] = sc;
 
+            sc = new ShellCommand(this.shellRun,
+                                  "run",
+                                  "<PID> - Run the program with the specified PID");
+            this.commandList[this.commandList.length] = sc;
+
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -344,6 +349,9 @@ module TSOS {
                     case "load":
                         _StdOut.putText("Load a program into the system.");
                         break;
+                    case "run":
+                        _StdOut.putText("Runs the program in memory with PID given")
+                        break;
 
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
@@ -562,7 +570,7 @@ module TSOS {
                     let newPCB = new PCB(_CPU.PC, _CPU.Acc, _CPU.Xreg, _CPU.Yreg, _CPU.Zflag);
                     _KernelReadyQueue.enqueue(newPCB);
 
-                    // display registers on-screen
+                    // display registers on-screen (from start -> end) 
                     _MemoryAccessor.displayRegisters(startAddr, startAddr + 0xFF);
 
                         _StdOut.putText("Load Successful: PID=" + newPID);
@@ -581,6 +589,21 @@ module TSOS {
 
 
         }
+
+        /*
+        /  Run function
+        /    
+        /     Runs the program in memory
+        /     If no program or PID passed, display error
+        */
+        public shellRun(args: string[]) {
+            if (args.length > 0) {
+                
+            } else {
+                _StdOut.putText("Usage: run <PID>  Please supply a PID.");
+            }
+        }
+
 
         /*
         *  Error function
