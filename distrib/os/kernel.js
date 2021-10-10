@@ -18,6 +18,7 @@ var TSOS;
             _KernelInterruptQueue = new TSOS.Queue(); // A (currently) non-priority queue for interrupt requests (IRQs).
             _KernelBuffers = new Array(); // Buffers... for the kernel.
             _KernelInputQueue = new TSOS.Queue(); // Where device input lands before being processed out somewhere.
+            _KernelReadyQueue = new TSOS.Queue(); // The Ready Queue which hosts PCBs
             _KernelCommandHistory = new TSOS.CommandHistory();
             // Launch the Memory Manager software
             _MemoryManager = new TSOS.MemoryManager();

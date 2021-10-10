@@ -101,7 +101,7 @@
             / Displays memory addresses from specified limit, Hex formatted
             / If either parameters are invalid, an error log will print
             */
-            public displayMemory(start : number, end : number) {
+            public display(start : number, end : number) {
 
                 // Check if invalid portion of memory
                 if (start >= this.memoryAddr.length || start < 0 || end >= this.memoryAddr.length || end < start) {

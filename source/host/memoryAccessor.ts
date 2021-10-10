@@ -58,7 +58,7 @@
             / Synonymous to Memory's displayMemory()
             */
             public displayRegisters(start : number, end : number) {
-                _Memory.displayMemory(start, end);
+                _Memory.display(start, end);
             }
 
             /*

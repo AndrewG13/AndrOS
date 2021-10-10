@@ -83,7 +83,7 @@ var TSOS;
         / Displays memory addresses from specified limit, Hex formatted
         / If either parameters are invalid, an error log will print
         */
-        displayMemory(start, end) {
+        display(start, end) {
             // Check if invalid portion of memory
             if (start >= this.memoryAddr.length || start < 0 || end >= this.memoryAddr.length || end < start) {
                 console.log(" - Address Range [" + (hexLog(start, 4)) + " → " + (hexLog(end, 4)) + "] Invalid");

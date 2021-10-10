@@ -20,6 +20,7 @@ module TSOS {
             _KernelInterruptQueue = new Queue();  // A (currently) non-priority queue for interrupt requests (IRQs).
             _KernelBuffers = new Array();         // Buffers... for the kernel.
             _KernelInputQueue = new Queue();      // Where device input lands before being processed out somewhere.
+            _KernelReadyQueue = new Queue();      // The Ready Queue which hosts PCBs
             _KernelCommandHistory = new CommandHistory();
 
             // Launch the Memory Manager software

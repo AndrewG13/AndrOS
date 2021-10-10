@@ -546,21 +546,25 @@ module TSOS {
                     _StdOut.putText("Load Failed: " + failLog);
                 } else {
                 // Code successful!
-                    let userCode : number = parseInt(input, 16);
                     
+                    // Assign a block by Manager
+                    let startAddr  : number = _MemoryManager.availRange();
+                    let newPID : number = _MemoryManager.assignRange();
+                    
+                    // Put into memory by Accessor
                     for (let reg = 0x00; reg < numOfBytes; reg += 0x01) {
                         let data = parseInt(input.substring(reg*2, (reg*2)+2), 16);
                         _MemoryAccessor.writeImmediate(reg, data);
                         console.log(reg + " " + data);
                     }
-    
-                    
-                        // assign a block by Manager...
-                        // put in memory by Accessor...
-                        // display registers by Memory...
-    
-                        let newPID = _MemoryManager.assignRange();
-    
+
+                    // Create a PCB & enqueue on Ready Queue
+                    let newPCB = new PCB(_CPU.PC, _CPU.Acc, _CPU.Xreg, _CPU.Yreg, _CPU.Zflag);
+                    _KernelReadyQueue.enqueue(newPCB);
+
+                    // display registers on-screen
+                    //_MemoryAccessor.displayRegisters(startAddr, startAddr + 0xFF);
+
                         _StdOut.putText("Load Successful: PID=" + newPID);
                     
                 }

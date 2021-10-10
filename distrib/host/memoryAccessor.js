@@ -51,7 +51,7 @@ var TSOS;
         / Synonymous to Memory's displayMemory()
         */
         displayRegisters(start, end) {
-            _Memory.displayMemory(start, end);
+            _Memory.display(start, end);
         }
         /*
         / reset function
