@@ -49,10 +49,19 @@ h3 {
   cursor: default;
 }
 
-#tablePCB, #tableMemory {
+#tablePCB {
   border: 1.5px solid orangered;
   width: 50%;
 }
+
+#tableMemory {
+  border: 1.5px solid orangered;
+  overflow-y: scroll;
+  width: 50%;
+  height: 200px;
+  display: block;
+}
+
 th, td {
   border: 2px solid #00000A;
   border-collapse: collapse;
