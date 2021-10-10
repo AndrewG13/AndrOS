@@ -5,6 +5,7 @@ Code written while away from my laptop.  Scrap paper, if you will.
 
 https://stackoverflow.com/questions/24307292/how-can-i-get-the-value-of-an-input-in-a-specific-table-cell-using-javascript
 https://stackoverflow.com/questions/27859976/how-to-dynamically-change-html-table-content-using-javascript
+https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_tr_insertcell
 
 let _MemoryTable = document.getElementById("divMemoryTable"); // Put in globals.ts
 let _MemoryDisplayCells = new Array();
