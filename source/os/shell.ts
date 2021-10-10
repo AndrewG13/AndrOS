@@ -524,6 +524,13 @@ module TSOS {
                 //   parse input into Hexadecimal
                 //   seperate bytes (2 hex digits each)
                 //   ... 
+                // check if input contains more than 256 bytes
+                if (input.length / 2 > 0x100) {
+                    _StdOut.putText("Load Failed: Exceeds 256 bytes");
+                } else {
+                    
+                let userCode : number = parseInt(input, 16);
+                console.log(userCode);
 
                 // Contact the Memory Manager if memory is available
                 if (_MemoryManager.verifyMemory()) {
@@ -537,7 +544,7 @@ module TSOS {
                 } else {
                     _StdOut.putText("Load Failed: Insufficient Memory");
                 }
-
+            }
             } else {   
                 _StdOut.putText("User Program: Invalid");
             }

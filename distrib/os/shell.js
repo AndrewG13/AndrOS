@@ -442,16 +442,24 @@ var TSOS;
                 //   parse input into Hexadecimal
                 //   seperate bytes (2 hex digits each)
                 //   ... 
-                // Contact the Memory Manager if memory is available
-                if (_MemoryManager.verifyMemory()) {
-                    // assign a block by Manager...
-                    // put in memory by Accessor...
-                    // display registers by Memory...
-                    let newPID = _MemoryManager.assignRange();
-                    _StdOut.putText("Load Successful: PID=" + newPID);
+                // check if input contains more than 256 bytes
+                if (input.length / 2 > 0x100) {
+                    _StdOut.putText("Load Failed: Exceeds 256 bytes");
                 }
                 else {
-                    _StdOut.putText("Load Failed: Insufficient Memory");
+                    let userCode = parseInt(input, 16);
+                    console.log(userCode);
+                    // Contact the Memory Manager if memory is available
+                    if (_MemoryManager.verifyMemory()) {
+                        // assign a block by Manager...
+                        // put in memory by Accessor...
+                        // display registers by Memory...
+                        let newPID = _MemoryManager.assignRange();
+                        _StdOut.putText("Load Successful: PID=" + newPID);
+                    }
+                    else {
+                        _StdOut.putText("Load Failed: Insufficient Memory");
+                    }
                 }
             }
             else {

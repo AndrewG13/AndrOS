@@ -58,7 +58,7 @@ module TSOS {
         // Executes the instruction (functionality goes here)
         // Can have 2 phases (only for EE)
         public execute() {
-
+            
         }
 
         // To keep it in sync with Gormanly's project, writeback is an extra cycle
