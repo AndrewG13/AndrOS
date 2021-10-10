@@ -530,7 +530,11 @@ module TSOS {
                 } 
                 // Check if input is too large
                 if (numOfBytes > 0x100) {
+                    if (_SarcasticMode) {
+                    failLog += "*Size matters ;) ";
+                    } else {
                     failLog += "*Exceeds 256 bytes ";
+                    }
                 } 
                 // Contact the Memory Manager if memory is available
                 if ((_MemoryManager.verifyMemory()) === false) {
@@ -543,7 +547,12 @@ module TSOS {
                 } else {
                 // Code successful!
                     let userCode : number = parseInt(input, 16);
-                    console.log(userCode);
+                    
+                    for (let reg = 0x00; reg < numOfBytes; reg += 0x01) {
+                        let data = parseInt(input.substring(reg*2, (reg*2)+2), 16);
+                        _MemoryAccessor.writeImmediate(reg, data);
+                        console.log(reg + " " + data);
+                    }
     
                     
                         // assign a block by Manager...
