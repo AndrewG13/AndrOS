@@ -97,31 +97,24 @@
 
             /*
             / DisplayMemory function
-            / Param: starting address, ending address
-            / Displays memory addresses from specified limit, Hex formatted
-            / If either parameters are invalid, an error log will print
+            /   Param: starting address, ending address
+            /   Displays memory addresses from specified limit, Hex formatted
+            /   If either parameters are invalid, an error log will print
             */
             public display(start : number, end : number) {
 
                 // Check if invalid portion of memory
                 if (start >= this.memoryAddr.length || start < 0 || end >= this.memoryAddr.length || end < start) {
-                    //console.log("Address Range [" + (hexLog(start, 4)) + " → " + (hexLog(end, 4)) + "] Invalid")
                     _StdOut.putText("Illegal memory parameters");
                 } else {
-                // Must be valid
+                // Must be valid range, display on FE accordingly
                     while(start < this.memoryAddr.length && start <= end) {
-                        // this will become a frontend thing to display on
-                        //console.log("Addr[" + (hexLog(start, 4)) + "]  Value " + (hexLog(this.memoryAddr[start], 2)));
                         _MemoryTableCells[start].innerHTML = hexLog(this.memoryAddr[start], 2);
                         start = start + 0x01;
                     }
                 }
             }
 
-            public cycle(): void {
-                _Kernel.krnTrace('MEM cycle');
-                // MyTODO: Display memory code here?
-            }
         }
     }
     
