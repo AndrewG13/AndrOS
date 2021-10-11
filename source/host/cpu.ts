@@ -168,12 +168,15 @@ module TSOS {
                   _MemoryAccessor.changeMDR(this.accumulator);
                   this.currentCommand = Commands.WRITEBACK;
                   break;
-                case 0x8A: // Load Accu with X Register Value
+                /*
+                  case 0x8A: // Load Accu with X Register Value
                   this.accumulator = this.xReg;
                   break;
-                case 0x98: // Load Accu with Y Register value
+                
+                  case 0x98: // Load Accu with Y Register value
                   this.accumulator = this.yReg;
                   break;
+                */
                 case 0x6D: // Add with Carry (Accu += value from Memory Register)
                   let acc : number = this.accumulator;
                   let mdr : number = _MemoryAccessor.checkMDR();
@@ -209,18 +212,22 @@ module TSOS {
                 case 0xAE: // Load X Register with value from Memory
                   this.xReg = _MemoryAccessor.checkMDR();
                   break;
-                case 0xAA: // Load X Register with Accu value
+                /*
+                  case 0xAA: // Load X Register with Accu value
                   this.xReg = this.accumulator;
                   break;
+                */
                 case 0xA0: // Load Y Register with Constant
                   this.yReg = _MemoryAccessor.checkMDR();
                   break;
                 case 0xAC: // Load Y Register with value from Memory
                   this.yReg = _MemoryAccessor.checkMDR();
                   break;
+                /*
                 case 0xA8: // Load Y Register with Accu value
                   this.yReg = this.accumulator;
                   break;
+                */
                 case 0xEA: // No Operation
                   // Did you know that Ducks actually have little teeth?
                   // Look it up, I'm serious
@@ -263,6 +270,7 @@ module TSOS {
                   if (this.xReg == 0x01) {
                     _StdOut.putText(hexLog(this.yReg, 2));
                   } else { // must be xReg == 0x02
+                    
                     // where in memory = front part of PC & yReg
                     // example: PC=1234 yReg=AA, place in memory = 12AA
                     let inMemory;
