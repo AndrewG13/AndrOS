@@ -73,10 +73,13 @@ var TSOS;
             // Proj 3 will actually check which PCB in Res. Queue to run.
             let runThisPCB = _KernelResidentQueue.dequeue();
             _CPU.run(runThisPCB);
+        }
+        krnEndProg() {
             // Once the process terminates, clear memory for that specific block.
             // For now, the whole memory is cleared.
             // Proj 3 will clear the CORRECT portion of memory, not the whole thing
-            _MemoryAccessor.resetMem();
+            //  _MemoryAccessor.resetMem();
+            //  _MemoryManager.deallocateRange();
         }
         krnOnCPUClockPulse() {
             /* This gets called from the host hardware simulation every time there is a hardware clock pulse.

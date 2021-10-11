@@ -27,7 +27,7 @@ module TSOS {
         twoByteOpcode : number[] = [0xAD, 0x8D, 0x6D, 0xAE, 0xAC, 0xEC, 0xEE]; // FF was here
 
         // CPU-specific members
-        currentCommand: Commands;
+        //currentCommand: Commands;
         firstDPhase: boolean = true;
         firstEPhase: boolean = true;
 
@@ -39,6 +39,7 @@ module TSOS {
                     public zFlag: boolean = false,
                     public instrReg: number = 0,
                     public overFlow: boolean = false,
+                    public currentCommand: Commands = Commands.FETCH,
                     public isExecuting: boolean = false) {
 
         }
@@ -87,11 +88,15 @@ module TSOS {
                 this.currentCommand = Commands.FETCH;
             } 
 
+            // Display registers each cycle.  
+            // * Proj 3, this will be using PCB to determine registers to display
+            //_MemoryAccessor.displayRegisters(0x00, 0xFF);
             }
         }
 
         public run(pcb : PCB) {
-
+            // * Proj 3, will decide which of 3 memory blocks to run based on passed in PCB
+            this.isExecuting = true;
 
         }
 
@@ -235,8 +240,12 @@ module TSOS {
                 case 0x00: // Break
                     
                   //System.stopSystem();
-                  // Stop the CPU commands
+                  // Stop the CPU commands, may need to change this
                   this.isExecuting = false;
+
+                  // Ask Kernel to conclude program
+                  _Kernel.krnEndProg();
+
                   break;
                 case 0xEC: // Compare value from Memory Register to X Register, zFlag = true if equal
                   this.zFlag = (this.xReg == _MemoryAccessor.checkMDR());
@@ -270,7 +279,7 @@ module TSOS {
                   if (this.xReg == 0x01) {
                     _StdOut.putText(hexLog(this.yReg, 2));
                   } else { // must be xReg == 0x02
-                    
+
                     // where in memory = front part of PC & yReg
                     // example: PC=1234 yReg=AA, place in memory = 12AA
                     let inMemory;
@@ -285,7 +294,7 @@ module TSOS {
                     _MemoryAccessor.readFrom();
         
                     while (_MemoryAccessor.checkMDR() != 0x00) {
-                      _StdOut.putText(AsciiLib.encode(_MemoryAccessor.checkMDR()));
+                      _StdOut.putText( AsciiLib.encode(_MemoryAccessor.checkMDR()) );
                       _MemoryAccessor.changeMAR((_MemoryAccessor.checkMAR()) + 1);
                       _MemoryAccessor.readFrom();
                     }

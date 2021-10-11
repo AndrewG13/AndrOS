@@ -556,8 +556,7 @@ module TSOS {
                 // Code successful!
                     
                     // Assign a block by Manager
-                    let startAddr  : number = _MemoryManager.availRange();
-                    let newPID : number = _MemoryManager.assignRange();
+                    let startAddr  : number = _MemoryManager.assignRange();
                     
                     // Put into memory by Accessor
                     for (let reg = 0x00; reg < numOfBytes; reg += 0x01) {
@@ -573,7 +572,7 @@ module TSOS {
                     // display registers on-screen (from start -> end) 
                     _MemoryAccessor.displayRegisters(startAddr, startAddr + 0xFF);
 
-                        _StdOut.putText("Load Successful: PID=" + newPID);
+                    _StdOut.putText("Load Successful: PID=" + newPCB.PID);
                     
                 }
                 
@@ -597,6 +596,8 @@ module TSOS {
         /     If no program or PID passed, display error.
         */
         public shellRun(args: string[]) {
+            console.log(_KernelResidentQueue.toString());
+
             if (args.length > 0) {
 
                 let PID = parseInt(args[0]);
@@ -604,7 +605,7 @@ module TSOS {
                 let failLog : string = "";
                 
                 // Check if any programs are Resident
-                if (_KernelResidentQueue.isEmpty) {
+                if (_KernelResidentQueue.isEmpty()) {
                     failLog += "*Res. Queue Empty ";
                 } 
                 // Check if PID is numeric
@@ -613,11 +614,11 @@ module TSOS {
                     failLog += "*PID NaN ";
                 }
                 // Check if PID doesn't exist
-                if (PCBList.length > PID) {
+                if (PCBList.length <= PID) {
                     failLog += "*PID Nonexistant ";
                 }
                 // Check if PCB was terminated
-                if (PCBList[PID].state === "Terminated") {
+                if (PCBList.length > PID && PCBList[PID].state === "Terminated") {
                     failLog += "*PID Terminated "
                 }
 

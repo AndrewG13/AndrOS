@@ -26,7 +26,7 @@ var TSOS;
     })(Commands || (Commands = {}));
     class Cpu {
         // Registers & Flags
-        constructor(progCounter = 0, accumulator = 0, xReg = 0, yReg = 0, zFlag = false, instrReg = 0, overFlow = false, isExecuting = false) {
+        constructor(progCounter = 0, accumulator = 0, xReg = 0, yReg = 0, zFlag = false, instrReg = 0, overFlow = false, currentCommand = Commands.FETCH, isExecuting = false) {
             this.progCounter = progCounter;
             this.accumulator = accumulator;
             this.xReg = xReg;
@@ -34,10 +34,13 @@ var TSOS;
             this.zFlag = zFlag;
             this.instrReg = instrReg;
             this.overFlow = overFlow;
+            this.currentCommand = currentCommand;
             this.isExecuting = isExecuting;
             // Array of Opcodes (denoting operand quantity)
             this.oneByteOpcode = [0xA9, 0xA2, 0xA0, 0xD0];
             this.twoByteOpcode = [0xAD, 0x8D, 0x6D, 0xAE, 0xAC, 0xEC, 0xEE]; // FF was here
+            // CPU-specific members
+            //currentCommand: Commands;
             this.firstDPhase = true;
             this.firstEPhase = true;
         }
@@ -78,9 +81,14 @@ var TSOS;
                     this.writeBack();
                     this.currentCommand = Commands.FETCH;
                 }
+                // Display registers each cycle.  
+                // * Proj 3, this will be using PCB to determine registers to display
+                //_MemoryAccessor.displayRegisters(0x00, 0xFF);
             }
         }
         run(pcb) {
+            // * Proj 3, will decide which of 3 memory blocks to run based on passed in PCB
+            this.isExecuting = true;
         }
         // simply grabs byte (instruction) from memory
         fetch() {
@@ -152,12 +160,15 @@ var TSOS;
                     _MemoryAccessor.changeMDR(this.accumulator);
                     this.currentCommand = Commands.WRITEBACK;
                     break;
-                case 0x8A: // Load Accu with X Register Value
-                    this.accumulator = this.xReg;
-                    break;
-                case 0x98: // Load Accu with Y Register value
-                    this.accumulator = this.yReg;
-                    break;
+                /*
+                  case 0x8A: // Load Accu with X Register Value
+                  this.accumulator = this.xReg;
+                  break;
+                
+                  case 0x98: // Load Accu with Y Register value
+                  this.accumulator = this.yReg;
+                  break;
+                */
                 case 0x6D: // Add with Carry (Accu += value from Memory Register)
                     let acc = this.accumulator;
                     let mdr = _MemoryAccessor.checkMDR();
@@ -192,26 +203,32 @@ var TSOS;
                 case 0xAE: // Load X Register with value from Memory
                     this.xReg = _MemoryAccessor.checkMDR();
                     break;
-                case 0xAA: // Load X Register with Accu value
-                    this.xReg = this.accumulator;
-                    break;
+                /*
+                  case 0xAA: // Load X Register with Accu value
+                  this.xReg = this.accumulator;
+                  break;
+                */
                 case 0xA0: // Load Y Register with Constant
                     this.yReg = _MemoryAccessor.checkMDR();
                     break;
                 case 0xAC: // Load Y Register with value from Memory
                     this.yReg = _MemoryAccessor.checkMDR();
                     break;
+                /*
                 case 0xA8: // Load Y Register with Accu value
-                    this.yReg = this.accumulator;
-                    break;
+                  this.yReg = this.accumulator;
+                  break;
+                */
                 case 0xEA: // No Operation
                     // Did you know that Ducks actually have little teeth?
                     // Look it up, I'm serious
                     break;
                 case 0x00: // Break
                     //System.stopSystem();
-                    // Stop the CPU commands
+                    // Stop the CPU commands, may need to change this
                     this.isExecuting = false;
+                    // Ask Kernel to conclude program
+                    _Kernel.krnEndProg();
                     break;
                 case 0xEC: // Compare value from Memory Register to X Register, zFlag = true if equal
                     this.zFlag = (this.xReg == _MemoryAccessor.checkMDR());

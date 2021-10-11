@@ -10,8 +10,8 @@
      module TSOS {
 
         // MyTODO: 
+        // Check on Run command seeing Res Queue as empty
         // Making the CPU pause for interrupts possible fix: Add some CPU attribute to the kernel interrupt queue
-        // Implement CPU Commands, PCB (assigning here? once prog done make space available)
         // add html displays (checking text file for code)
         // linewrap
 
@@ -51,8 +51,8 @@
 
             /*
             /  Deallocate Range Function
-            /    * Proj 3, this will be reworked
             /    Frees up range availability
+            /    * Proj 3, this will be reworked to deallocate a specific range
             */
             public deallocateRange() : void {
                 this.availStart -= 0x100;
