@@ -477,7 +477,7 @@ var TSOS;
                         _MemoryAccessor.writeImmediate(reg, data);
                     }
                     // Create a PCB & enqueue on Resident Queue (and PCB list)
-                    let newPCB = new TSOS.PCB(_CPU.PC, _CPU.Acc, _CPU.Xreg, _CPU.Yreg, _CPU.Zflag);
+                    let newPCB = new TSOS.PCB(_CPU.progCounter, _CPU.accumulator, _CPU.xReg, _CPU.yReg, _CPU.zFlag);
                     _KernelResidentQueue.enqueue(newPCB);
                     PCBList[newPCB.PID] = newPCB;
                     // display registers on-screen (from start -> end) 

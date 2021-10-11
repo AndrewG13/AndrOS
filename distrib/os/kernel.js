@@ -64,15 +64,17 @@ var TSOS;
         /*
         /   Kernel Initiate Program function
         /
-        /       Fires up the CPU to run the program in Memory
+        /       Fires up the CPU to run the program in Memory.
+        /       Upon termination, memory section in use is wiped.
         */
         krnInitProg(PID) {
             // Resident Queue already checked by Run.
             // Right now this just dequeues Res. Queue, 
-            // Proj 3 will actually check which PCB in Res. Queue to run
+            // Proj 3 will actually check which PCB in Res. Queue to run.
             let runThisPCB = _KernelResidentQueue.dequeue();
             _CPU.run(runThisPCB);
-            // at the end of run, clear memory for that specific block
+            // Once the process terminates, clear memory for that specific block.
+            // For now, the whole memory is cleared.
             // Proj 3 will clear the CORRECT portion of memory, not the whole thing
             _MemoryAccessor.resetMem();
         }

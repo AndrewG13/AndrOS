@@ -44,6 +44,7 @@ var TSOS;
         ///////////////////////////////////////////////////////////////////////////////////
         // The following functions are major actions the Accessor does                   //
         // Redundant, but simulates how the Accessor is the one doing the Memory touches //
+        // Not using inheritance because that conceptually doesn't make sense            //
         ///////////////////////////////////////////////////////////////////////////////////
         /*
         / displayRegisters function
