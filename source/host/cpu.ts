@@ -258,10 +258,15 @@ module TSOS {
                      if (!this.zFlag) {
                        // Calculate how far back the Program Counter needs to go
                        let backtrackDifference = 0x100 - (_MemoryAccessor.checkMDR());
+                       console.log("Backtrack diff "+ backtrackDifference);
                        // Backtrack the Program Counter based on result (Loop back to desired register)
                        this.progCounter -= backtrackDifference;
-                       //this.zFlag = true;
-                     }
+                       if (this.progCounter < 0x00) {
+                           this.progCounter += 0x100;
+                       }
+                     } //else {
+                       //  this.zFlag = true;
+                     //}
                   break;
                 case 0xEE: // Increment value in Memory Register
                   if (this.firstEPhase) {

@@ -80,9 +80,9 @@ var TSOS;
             // Once the process terminates, clear memory for that specific block.
             // For now, the whole memory is cleared.
             // Proj 3 will clear the CORRECT portion of memory, not the whole thing
-            _MemoryAccessor.resetMem();
+            //_MemoryAccessor.resetMem();
             _MemoryManager.deallocateRange();
-            _CPU.init();
+            //_CPU.init();
             _StdOut.advanceLine();
             _StdOut.putText("Program Terminated");
             _StdOut.advanceLine();
