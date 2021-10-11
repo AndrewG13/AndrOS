@@ -84,6 +84,8 @@ var TSOS;
                 // Display registers each cycle.  
                 // * Proj 3, this will be using PCB to determine registers to display
                 _MemoryAccessor.displayRegisters(0x00, 0xFF);
+                // Display CPU
+                TSOS.Control.displayCPU();
             }
         }
         run(pcb) {

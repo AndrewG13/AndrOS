@@ -92,6 +92,8 @@ var TSOS;
             }
             // Load to Memory display 
             _MemoryAccessor.displayRegisters(0x00, 0xFF);
+            // Display CPU
+            Control.displayCPU();
             // ... then set the host clock pulse ...
             _hardwareClockID = setInterval(TSOS.Devices.hostClockPulse, CPU_CLOCK_INTERVAL);
             // .. and call the OS Kernel Bootstrap routine.
@@ -112,6 +114,20 @@ var TSOS;
         static hostBtnReset_click(btn) {
             // The easiest and most thorough way to do this is to reload (not refresh) the document.
             location.reload();
+        }
+        static displayCPU() {
+            document.getElementById("CPU_PC").innerHTML = hexLog(_CPU.progCounter, 2);
+            document.getElementById("CPU_IR").innerHTML = hexLog(_CPU.instrReg, 2);
+            document.getElementById("CPU_ACC").innerHTML = hexLog(_CPU.accumulator, 2);
+            document.getElementById("CPU_X").innerHTML = hexLog(_CPU.xReg, 2);
+            document.getElementById("CPU_Y").innerHTML = hexLog(_CPU.yReg, 2);
+            // Format boolean ZFlag as a numeric bit
+            if (_CPU.zFlag) {
+                document.getElementById("CPU_Z").innerHTML = hexLog(1, 2);
+            }
+            else {
+                document.getElementById("CPU_Z").innerHTML = hexLog(0, 2);
+            }
         }
     }
     TSOS.Control = Control;
