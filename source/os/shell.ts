@@ -558,6 +558,9 @@ module TSOS {
                     // Assign a block by Manager
                     let startAddr  : number = _MemoryManager.assignRange();
                     
+                    // Wipe leftover memory (may remove this?)
+                    _MemoryAccessor.resetMem();
+
                     // Put into memory by Accessor
                     for (let reg = 0x00; reg < numOfBytes; reg += 0x01) {
                         let data = parseInt(input.substring(reg*2, (reg*2)+2), 16);

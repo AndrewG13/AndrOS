@@ -95,8 +95,8 @@ module TSOS {
             // For now, the whole memory is cleared.
             // Proj 3 will clear the CORRECT portion of memory, not the whole thing
             
-            // Comment line below to retain Memory display
-            _MemoryAccessor.resetMem();
+            // Uncomment to have memory wiped after running
+            //_MemoryAccessor.resetMem();
             _MemoryManager.deallocateRange();
             
             // CPU will be reset upon running next program
