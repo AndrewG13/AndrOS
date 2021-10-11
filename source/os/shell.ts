@@ -563,12 +563,12 @@ module TSOS {
                     for (let reg = 0x00; reg < numOfBytes; reg += 0x01) {
                         let data = parseInt(input.substring(reg*2, (reg*2)+2), 16);
                         _MemoryAccessor.writeImmediate(reg, data);
-                        //console.log(reg + " " + data);
                     }
 
-                    // Create a PCB & enqueue on Ready Queue (these maybe need to go to a different queue?)
+                    // Create a PCB & enqueue on Resident Queue (and PCB list)
                     let newPCB = new PCB(_CPU.PC, _CPU.Acc, _CPU.Xreg, _CPU.Yreg, _CPU.Zflag);
                     _KernelResidentQueue.enqueue(newPCB);
+                    PCBList[newPCB.PID] = newPCB;
 
                     // display registers on-screen (from start -> end) 
                     _MemoryAccessor.displayRegisters(startAddr, startAddr + 0xFF);
@@ -599,16 +599,34 @@ module TSOS {
         public shellRun(args: string[]) {
             if (args.length > 0) {
 
-                let validity = (args[0].search(/[^\d]/));
+                let PID = parseInt(args[0]);
+                // FailLog to verify PCB validity
+                let failLog : string = "";
                 
-                if (validity !== 0) {
-                    let PID = parseInt(args[0]);
-
-                    _Kernel.krnInitProg();
-                } else {
-                    _StdOut.putText("PID must be numeric.");
+                // Check if any programs are Resident
+                if (_KernelResidentQueue.isEmpty) {
+                    failLog += "*Res. Queue Empty ";
+                } 
+                // Check if PID is numeric
+                let validity = (args[0].search(/[^\d]/));
+                if (validity === 0) {
+                    failLog += "*PID NaN ";
+                }
+                // Check if PID doesn't exist
+                if (PCBList.length > PID) {
+                    failLog += "*PID Nonexistant ";
+                }
+                // Check if PCB was terminated
+                if (PCBList[PID].state === "Terminated") {
+                    failLog += "*PID Terminated "
                 }
 
+                if (failLog !== "") {
+                    _StdOut.putText("Run Failed: " + failLog);
+                } else {
+                    // PCB valid and resident!
+                    _Kernel.krnInitProg(PID);
+                }
             } else {
                 _StdOut.putText("Usage: run <PID>  Please supply a PID.");
             }

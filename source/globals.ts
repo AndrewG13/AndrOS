@@ -61,7 +61,7 @@ var _KernelReadyQueue: TSOS.Queue = null;
 var _KernelResidentQueue: TSOS.Queue = null;
 var _KernelBuffers = null;
 var _KernelCommandHistory: TSOS.CommandHistory;
-var _KernelPCBList;
+var PCBList = new Array();
 
 // Standard input and output
 var _StdIn:  TSOS.Console = null;

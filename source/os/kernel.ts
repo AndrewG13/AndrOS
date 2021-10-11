@@ -78,17 +78,12 @@ module TSOS {
         /
         /       Fires up the CPU to run the program in Memory
         */
-        public krnInitProg() {
-            if (_KernelResidentQueue.isEmpty) {
-                // nothing to run
-            } else {
+        public krnInitProg(PID : number) {
+                // Resident Queue already checked by Run
+                // Right now this just Dequeues, Proj 3 will actually check PID
                 let runThisPCB = _KernelResidentQueue.dequeue();
                 _CPU.run(runThisPCB);
-            }
-        }
-
-        private checkResQueue() {
-
+            
         }
 
 
