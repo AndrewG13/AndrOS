@@ -157,7 +157,6 @@ module TSOS {
                 document.getElementById("CPU_Z").innerHTML = hexLog(1, 2);
             } else {
                 document.getElementById("CPU_Z").innerHTML = hexLog(0, 2);
-
             }
         }
     }

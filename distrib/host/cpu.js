@@ -89,8 +89,10 @@ var TSOS;
             }
         }
         run(pcb) {
-            // * Proj 3, will decide which of 3 memory blocks to run based on passed in PCB
+            // Reset CPU registers
+            _CPU.init();
             this.isExecuting = true;
+            // * Proj 3, will decide which of 3 memory blocks to run based on passed in PCB
             pcb.state = TSOS.PCB.STATES[2];
         }
         // simply grabs byte (instruction) from memory

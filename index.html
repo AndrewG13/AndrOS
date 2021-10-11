@@ -37,7 +37,7 @@
    <!-- Other Routines -->
    <script type="text/javascript" src="distrib/utils.js"></script>
    <!-- Uncomment the line below to enable GLaDOS testing. -->
-   <!--script type="text/javascript" src="http://alanclasses.github.io/TSOS/test/glados-ip2.js"></script -->
+   <script type="text/javascript" src="http://alanclasses.github.io/TSOS/test/glados-ip2.js"></script>
 
 </head>
 
@@ -101,6 +101,7 @@
                    id  ="taHostLog"
                    rows="26"
                    cols="48"
+                   style="color: orangered; background-color: darkslategray; padding: 6px;"
          ></textarea>
       </label>
    </div>
@@ -113,6 +114,7 @@
                    id  ="taProgramInput"
                    rows="8"
                    cols="48"
+                   style="color: peachpuff; background-color: darkslategray; padding: 6px;"
          ></textarea>
       </label>
    </div>
@@ -123,7 +125,7 @@
 <div id="divCPU">
    <label>CPU Display</label>
    <table id="tableCPU">
-      <tr>
+      <tr class="CPU_Members">
          <th>PC</th>
          <th>IR</th>
          <th>ACC</th>
@@ -132,24 +134,25 @@
          <th>ZFlag</th>
       </tr>
       <tr>
-         <td id="CPU_PC"></td>
-         <td id="CPU_IR"></td>
-         <td id="CPU_ACC"></td>
-         <td id="CPU_X"></td>
-         <td id="CPU_Y"></td>
-         <td id="CPU_Z"></td>
+         <td class="CPU_registers" id="CPU_PC"></td>
+         <td class="CPU_registers" id="CPU_IR"></td>
+         <td class="CPU_registers" id="CPU_ACC"></td>
+         <td class="CPU_registers" id="CPU_X"></td>
+         <td class="CPU_registers" id="CPU_Y"></td>
+         <td class="CPU_registers" id="CPU_Z"></td>
       </tr>
    </table>
 </div>
 
+<br>
+
 <div id="divPCB">
    <label>PCB Display</label>
    <table id="tablePCB">
-      <tr>
+      <tr class="PCB_Members">
          <th>State</th>
          <th>PID</th>
          <th>PC</th>
-         <th>IR</th>
          <th>XReg</th>
          <th>YReg</th>
          <th>ZFlag</th>
@@ -159,7 +162,7 @@
    </table>
 </div>
 
-<br><br>
+<br>
 
 <div id="divMemory" class="classMemory">
    <label>Memory Display</label>

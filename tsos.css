@@ -49,9 +49,12 @@ h3 {
   cursor: default;
 }
 
-#tablePCB {
+
+#tablePCB, #tableCPU {
   border: 1.5px solid orangered;
-  width: 50%;
+  width: 40%;
+  background-color: darkslategrey;
+
 }
 
 #tableMemory {
@@ -61,6 +64,24 @@ h3 {
   width: 330px;
   height: 250px;
   display: block;
+}
+
+.PCB_Members, .CPU_Members {
+  color: orangered;
+  text-align: center;
+  background-color: darkred;
+}
+
+label {
+  color: darkslategrey;
+  font-size: 20px;
+  font-family: monospace;
+  font-weight: bold;
+}
+
+td.CPU_registers {
+  text-align: center;
+  background-color: lightsalmon;
 }
 
 td.addresses {
