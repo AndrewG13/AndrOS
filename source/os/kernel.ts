@@ -76,14 +76,20 @@ module TSOS {
         /*
         /   Kernel Initiate Program function
         /
-        /       Fires up the CPU to run the program in Memory
+        /       Fires up the CPU to run the program in Memory.
+        /       Upon termination, memory section in use is wiped.
         */
         public krnInitProg(PID : number) {
-                // Resident Queue already checked by Run
-                // Right now this just Dequeues, Proj 3 will actually check PID
-                let runThisPCB = _KernelResidentQueue.dequeue();
-                _CPU.run(runThisPCB);
+            // Resident Queue already checked by Run.
+            // Right now this just dequeues Res. Queue, 
+            // Proj 3 will actually check which PCB in Res. Queue to run.
+            let runThisPCB = _KernelResidentQueue.dequeue();
+            _CPU.run(runThisPCB);
             
+            // Once the process terminates, clear memory for that specific block.
+            // For now, the whole memory is cleared.
+            // Proj 3 will clear the CORRECT portion of memory, not the whole thing
+            _MemoryAccessor.resetMem();
         }
 
 

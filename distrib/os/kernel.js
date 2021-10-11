@@ -66,16 +66,15 @@ var TSOS;
         /
         /       Fires up the CPU to run the program in Memory
         */
-        krnInitProg() {
-            if (_KernelResidentQueue.isEmpty) {
-                // nothing to run
-            }
-            else {
-                let runThisPCB = _KernelResidentQueue.dequeue();
-                _CPU.run(runThisPCB);
-            }
-        }
-        checkResQueue() {
+        krnInitProg(PID) {
+            // Resident Queue already checked by Run.
+            // Right now this just dequeues Res. Queue, 
+            // Proj 3 will actually check which PCB in Res. Queue to run
+            let runThisPCB = _KernelResidentQueue.dequeue();
+            _CPU.run(runThisPCB);
+            // at the end of run, clear memory for that specific block
+            // Proj 3 will clear the CORRECT portion of memory, not the whole thing
+            _MemoryAccessor.resetMem();
         }
         krnOnCPUClockPulse() {
             /* This gets called from the host hardware simulation every time there is a hardware clock pulse.

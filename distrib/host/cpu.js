@@ -41,10 +41,10 @@ var TSOS;
             _Kernel.krnTrace('CPU cycle');
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecuting appropriately.
+            if (this.isExecuting) {
+            }
         }
         run(pcb) {
-            // at the end of run, clear memory for that specific block
-            _MemoryAccessor.resetMem();
         }
         // simply grabs byte (instruction) from memory
         fetch() {

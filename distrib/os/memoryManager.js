@@ -9,16 +9,15 @@
 var TSOS;
 (function (TSOS) {
     // MyTODO: 
+    // Making the CPU pause for interrupts possible fix: Add some CPU attribute to the kernel interrupt queue
     // Implement CPU Commands, PCB (assigning here? once prog done make space available)
-    // fix up displayRegisters function in Memory
-    // modify "load", add "run", 
     // add html displays (checking text file for code)
     // linewrap
     class MemoryManager {
         constructor() {
-            // Initial available range 0x00 -> 0xFF (256 bytes)
+            // Initial available range 0x00 -> 0xFF (Proj 3 range will increase)
             this.availStart = 0x00;
-            this.availEnd = 0xFF;
+            this.availEnd = MEMORY_SIZE - 0x01;
         }
         // May not use
         availRange() {
@@ -38,6 +37,14 @@ var TSOS;
         verifyMemory() {
             // Check if adequate memory is available
             return (this.availStart < MEMORY_SIZE);
+        }
+        /*
+        /  Deallocate Range Function
+        /    * Proj 3, this will be reworked
+        /    Frees up range availability
+        */
+        deallocateRange() {
+            this.availStart -= 0x100;
         }
         /*
         / Assign Range Function

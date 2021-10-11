@@ -47,7 +47,7 @@ var _KernelReadyQueue = null;
 var _KernelResidentQueue = null;
 var _KernelBuffers = null;
 var _KernelCommandHistory;
-var _KernelPCBList;
+var PCBList = new Array();
 // Standard input and output
 var _StdIn = null;
 var _StdOut = null;

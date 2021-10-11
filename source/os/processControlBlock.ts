@@ -29,12 +29,12 @@
             public Acc : number; // may remove
             public Xreg : number;
             public Yreg : number;
-            public Zflag : number;
+            public Zflag : boolean;
             // public priority : number; // Project 3
             public startAddr : number;
             public endAddr : number; // just start + 0xFF (programs are 256 bytes)
 
-            constructor(savedPC : number, savedAcc : number, savedXreg : number, savedYreg : number, savedZflag : number) {
+            constructor(savedPC : number, savedAcc : number, savedXreg : number, savedYreg : number, savedZflag : boolean) {
                 this.state = PCB.STATES[0];
                 this.PID = PCB.PID++;
                 this.PC = savedPC;

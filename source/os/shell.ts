@@ -526,7 +526,7 @@ module TSOS {
 
             // If none found, its valid
             if (validity == -1) {
-                _StdOut.putText("Numeric Input? True");
+                _StdOut.putText("Numeric Input: True");
                 _StdOut.advanceLine();
 
                 let failLog : string = ""; // Logs info IF user program failed
@@ -566,7 +566,7 @@ module TSOS {
                     }
 
                     // Create a PCB & enqueue on Resident Queue (and PCB list)
-                    let newPCB = new PCB(_CPU.PC, _CPU.Acc, _CPU.Xreg, _CPU.Yreg, _CPU.Zflag);
+                    let newPCB = new PCB(_CPU.progCounter, _CPU.accumulator, _CPU.xReg, _CPU.yReg, _CPU.zFlag);
                     _KernelResidentQueue.enqueue(newPCB);
                     PCBList[newPCB.PID] = newPCB;
 
@@ -583,7 +583,7 @@ module TSOS {
                 if (_SarcasticMode) {
                 _StdOut.putText("Not a number doofus. Try looking while typing.");
                 } else {
-                _StdOut.putText("Numeric Input? False");
+                _StdOut.putText("Numeric Input: False");
                 }
             }
 

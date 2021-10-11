@@ -9,6 +9,10 @@
 
      This code references page numbers in the text book:
      Operating System Concepts 8th edition by Silberschatz, Galvin, and Gagne.  ISBN 978-0-470-12872-5
+
+     My CPU is derived from Gormanly's Org & Arch class.  Therefore, my CPU is quite extensive.
+     The intracies are present to really simulate how the CPU should be functioning.
+     I hope it does not make YOUR brain melt like that student you showed us.
      ------------ */
 
 module TSOS {
@@ -18,21 +22,39 @@ module TSOS {
 
     export class Cpu {
 
-        constructor(public PC: number = 0,
-                    public Acc: number = 0,
-                    public Xreg: number = 0,
-                    public Yreg: number = 0,
-                    public Zflag: number = 0,
+      // Array of Opcodes (denoting operand quantity)
+      oneByteOpcode : number[] = [0xA9, 0xA2, 0xA0, 0xD0];
+      twoByteOpcode : number[] = [0xAD, 0x8D, 0x6D, 0xAE, 0xAC, 0xEC, 0xEE, 0xFF];
+      
+      // CPU-specific members
+      currentCommand: Commands;
+      firstDPhase: boolean = true;
+      firstEPhase: boolean = true;
+
+      // Registers & Flags
+ 
+
+
+        constructor(public progCounter: number = 0,
+                    public accumulator: number = 0,
+                    public xReg: number = 0,
+                    public yReg: number = 0,
+                    public zFlag: boolean = false,
+                    public instrReg: number = 0,
+                    public overFlow: boolean = false,
                     public isExecuting: boolean = false) {
 
         }
 
         public init(): void {
-            this.PC = 0;
-            this.Acc = 0;
-            this.Xreg = 0;
-            this.Yreg = 0;
-            this.Zflag = 0;
+            this.progCounter = 0;
+            this.accumulator = 0;
+            this.xReg = 0;
+            this.yReg = 0;
+            this.zFlag = false;
+            this.instrReg = 0;
+            this.overFlow = false;
+            this.currentCommand = Commands.FETCH;
             this.isExecuting = false;
         }
 
@@ -41,16 +63,13 @@ module TSOS {
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecuting appropriately.
             if (this.isExecuting) {
-                
+
             }
         }
 
         public run(pcb : PCB) {
 
 
-
-            // at the end of run, clear memory for that specific block
-            _MemoryAccessor.resetMem();
         }
 
         // simply grabs byte (instruction) from memory
@@ -69,6 +88,8 @@ module TSOS {
         // Executes the instruction (functionality goes here)
         // Can have 2 phases (only for EE)
         public execute() {
+
+            // OP Codes to use: 
 
         }
 

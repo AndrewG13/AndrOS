@@ -10,9 +10,8 @@
      module TSOS {
 
         // MyTODO: 
+        // Making the CPU pause for interrupts possible fix: Add some CPU attribute to the kernel interrupt queue
         // Implement CPU Commands, PCB (assigning here? once prog done make space available)
-        // fix up displayRegisters function in Memory
-        // modify "load", add "run", 
         // add html displays (checking text file for code)
         // linewrap
 
