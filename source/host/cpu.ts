@@ -90,13 +90,14 @@ module TSOS {
 
             // Display registers each cycle.  
             // * Proj 3, this will be using PCB to determine registers to display
-            //_MemoryAccessor.displayRegisters(0x00, 0xFF);
+            _MemoryAccessor.displayRegisters(0x00, 0xFF);
             }
         }
 
         public run(pcb : PCB) {
             // * Proj 3, will decide which of 3 memory blocks to run based on passed in PCB
             this.isExecuting = true;
+            pcb.state = PCB.STATES[2];
 
         }
 
@@ -239,7 +240,6 @@ module TSOS {
                   break;
                 case 0x00: // Break
                     
-                  //System.stopSystem();
                   // Stop the CPU commands, may need to change this
                   this.isExecuting = false;
 
@@ -277,7 +277,7 @@ module TSOS {
                   break;
                 case 0xFF: // Multiple Cases
                   if (this.xReg == 0x01) {
-                    _StdOut.putText(hexLog(this.yReg, 2));
+                    _StdOut.putText("" + this.yReg);
                   } else { // must be xReg == 0x02
 
                     // where in memory = front part of PC & yReg

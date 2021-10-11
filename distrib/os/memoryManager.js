@@ -44,7 +44,7 @@ var TSOS;
         /    * Proj 3, this will be reworked to deallocate a specific range
         */
         deallocateRange() {
-            this.availStart -= 0x100;
+            this.availStart = 0x00;
         }
         /*
         / Assign Range Function

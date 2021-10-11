@@ -55,6 +55,8 @@ var TSOS;
             // ... Disable the Interrupts.
             this.krnTrace("Disabling the interrupts.");
             this.krnDisableInterrupts();
+            this.krnTrace("Stoping CPU");
+            _CPU.isExecuting = false;
             //
             // Unload the Device Drivers?
             // More?
@@ -78,8 +80,15 @@ var TSOS;
             // Once the process terminates, clear memory for that specific block.
             // For now, the whole memory is cleared.
             // Proj 3 will clear the CORRECT portion of memory, not the whole thing
-            //  _MemoryAccessor.resetMem();
-            //  _MemoryManager.deallocateRange();
+            _MemoryAccessor.resetMem();
+            _MemoryManager.deallocateRange();
+            _CPU.init();
+            _StdOut.advanceLine();
+            _StdOut.putText("Program Terminated");
+            _StdOut.advanceLine();
+            _OsShell.putPrompt();
+            PCBList[0].state = TSOS.PCB.STATES[3];
+            PCBList.shift;
         }
         krnOnCPUClockPulse() {
             /* This gets called from the host hardware simulation every time there is a hardware clock pulse.

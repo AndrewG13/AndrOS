@@ -83,12 +83,13 @@ var TSOS;
                 }
                 // Display registers each cycle.  
                 // * Proj 3, this will be using PCB to determine registers to display
-                //_MemoryAccessor.displayRegisters(0x00, 0xFF);
+                _MemoryAccessor.displayRegisters(0x00, 0xFF);
             }
         }
         run(pcb) {
             // * Proj 3, will decide which of 3 memory blocks to run based on passed in PCB
             this.isExecuting = true;
+            pcb.state = TSOS.PCB.STATES[2];
         }
         // simply grabs byte (instruction) from memory
         fetch() {
@@ -224,7 +225,6 @@ var TSOS;
                     // Look it up, I'm serious
                     break;
                 case 0x00: // Break
-                    //System.stopSystem();
                     // Stop the CPU commands, may need to change this
                     this.isExecuting = false;
                     // Ask Kernel to conclude program
@@ -261,7 +261,7 @@ var TSOS;
                     break;
                 case 0xFF: // Multiple Cases
                     if (this.xReg == 0x01) {
-                        _StdOut.putText(hexLog(this.yReg, 2));
+                        _StdOut.putText("" + this.yReg);
                     }
                     else { // must be xReg == 0x02
                         // where in memory = front part of PC & yReg
