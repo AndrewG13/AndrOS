@@ -18,7 +18,8 @@ var TSOS;
             _KernelInterruptQueue = new TSOS.Queue(); // A (currently) non-priority queue for interrupt requests (IRQs).
             _KernelBuffers = new Array(); // Buffers... for the kernel.
             _KernelInputQueue = new TSOS.Queue(); // Where device input lands before being processed out somewhere.
-            _KernelReadyQueue = new TSOS.Queue(); // The Ready Queue which hosts PCBs
+            _KernelReadyQueue = new TSOS.Queue(); // Processes that will be executed
+            _KernelResidentQueue = new TSOS.Queue(); // Processes waiting to be run
             _KernelCommandHistory = new TSOS.CommandHistory();
             // Launch the Memory Manager software
             _MemoryManager = new TSOS.MemoryManager();
@@ -66,7 +67,15 @@ var TSOS;
         /       Fires up the CPU to run the program in Memory
         */
         krnInitProg() {
-            _CPU.run();
+            if (_KernelResidentQueue.isEmpty) {
+                // nothing to run
+            }
+            else {
+                let runThisPCB = _KernelResidentQueue.dequeue();
+                _CPU.run(runThisPCB);
+            }
+        }
+        checkResQueue() {
         }
         krnOnCPUClockPulse() {
             /* This gets called from the host hardware simulation every time there is a hardware clock pulse.

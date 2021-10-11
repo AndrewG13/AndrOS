@@ -10,7 +10,7 @@
         export class PCB {
             
             // For assigning states of PCBs
-            static STATES : string[] = ["New", "Resident", "Ready", "Running", "Terminated"];
+            static STATES : string[] = ["Resident", "Ready", "Running", "Terminated"];
             // For assigning PIDs
             static PID : number = 0;
 
@@ -33,7 +33,7 @@
             // public priority : number; // Project 3
             public startAddr : number;
             public endAddr : number; // just start + 0xFF (programs are 256 bytes)
-            
+
             constructor(savedPC : number, savedAcc : number, savedXreg : number, savedYreg : number, savedZflag : number) {
                 this.state = PCB.STATES[0];
                 this.PID = PCB.PID++;

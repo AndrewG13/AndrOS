@@ -44,8 +44,10 @@ var _Kernel;
 var _KernelInterruptQueue = null;
 var _KernelInputQueue = null;
 var _KernelReadyQueue = null;
+var _KernelResidentQueue = null;
 var _KernelBuffers = null;
 var _KernelCommandHistory;
+var _KernelPCBList;
 // Standard input and output
 var _StdIn = null;
 var _StdOut = null;
@@ -53,7 +55,6 @@ var _StdOut = null;
 var _Console;
 var _OsShell;
 var _UserInput = document.getElementById("taProgramInput");
-//var _MemoryTable = (<HTMLTableElement>document.getElementById("tableMemory"));
 var _MemoryTableCells = new Array();
 // At least this OS is not trying to kill you. (Yet.)
 var _SarcasticMode = false;

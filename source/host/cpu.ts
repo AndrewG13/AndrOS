@@ -42,8 +42,12 @@ module TSOS {
             // Do the real work here. Be sure to set this.isExecuting appropriately.
         }
 
-        public run() {
+        public run(pcb : PCB) {
+
             
+
+            // at the end of run, clear memory for that specific block
+            _MemoryAccessor.resetMem();
         }
 
         // simply grabs byte (instruction) from memory

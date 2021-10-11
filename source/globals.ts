@@ -58,8 +58,10 @@ var _Kernel: TSOS.Kernel;
 var _KernelInterruptQueue: TSOS.Queue = null;
 var _KernelInputQueue: TSOS.Queue = null;
 var _KernelReadyQueue: TSOS.Queue = null;
+var _KernelResidentQueue: TSOS.Queue = null;
 var _KernelBuffers = null;
 var _KernelCommandHistory: TSOS.CommandHistory;
+var _KernelPCBList;
 
 // Standard input and output
 var _StdIn:  TSOS.Console = null;
@@ -69,7 +71,6 @@ var _StdOut: TSOS.Console = null;
 var _Console: TSOS.Console;
 var _OsShell: TSOS.Shell;
 var _UserInput = document.getElementById("taProgramInput");
-//var _MemoryTable = (<HTMLTableElement>document.getElementById("tableMemory"));
 var _MemoryTableCells = new Array<HTMLTableCellElement>();
 // At least this OS is not trying to kill you. (Yet.)
 var _SarcasticMode: boolean = false;

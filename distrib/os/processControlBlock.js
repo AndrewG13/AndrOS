@@ -23,7 +23,7 @@ var TSOS;
         }
     }
     // For assigning states of PCBs
-    PCB.STATES = ["New", "Resident", "Ready", "Running", "Terminated"];
+    PCB.STATES = ["Resident", "Ready", "Running", "Terminated"];
     // For assigning PIDs
     PCB.PID = 0;
     TSOS.PCB = PCB;

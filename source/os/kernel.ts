@@ -20,7 +20,8 @@ module TSOS {
             _KernelInterruptQueue = new Queue();  // A (currently) non-priority queue for interrupt requests (IRQs).
             _KernelBuffers = new Array();         // Buffers... for the kernel.
             _KernelInputQueue = new Queue();      // Where device input lands before being processed out somewhere.
-            _KernelReadyQueue = new Queue();      // The Ready Queue which hosts PCBs
+            _KernelReadyQueue = new Queue();      // Processes that will be executed
+            _KernelResidentQueue = new Queue();   // Processes waiting to be run
             _KernelCommandHistory = new CommandHistory();
 
             // Launch the Memory Manager software
@@ -78,7 +79,16 @@ module TSOS {
         /       Fires up the CPU to run the program in Memory
         */
         public krnInitProg() {
-            _CPU.run();
+            if (_KernelResidentQueue.isEmpty) {
+                // nothing to run
+            } else {
+                let runThisPCB = _KernelResidentQueue.dequeue();
+                _CPU.run(runThisPCB);
+            }
+        }
+
+        private checkResQueue() {
+
         }
 
 

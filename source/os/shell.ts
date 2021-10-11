@@ -568,7 +568,7 @@ module TSOS {
 
                     // Create a PCB & enqueue on Ready Queue (these maybe need to go to a different queue?)
                     let newPCB = new PCB(_CPU.PC, _CPU.Acc, _CPU.Xreg, _CPU.Yreg, _CPU.Zflag);
-                    _KernelReadyQueue.enqueue(newPCB);
+                    _KernelResidentQueue.enqueue(newPCB);
 
                     // display registers on-screen (from start -> end) 
                     _MemoryAccessor.displayRegisters(startAddr, startAddr + 0xFF);
@@ -593,8 +593,8 @@ module TSOS {
         /*
         /  Run function
         /    
-        /     Runs the program in memory
-        /     If no program or PID passed, display error
+        /     Runs the program in memory.
+        /     If no program or PID passed, display error.
         */
         public shellRun(args: string[]) {
             if (args.length > 0) {
