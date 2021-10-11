@@ -25,7 +25,7 @@ module TSOS {
       // Array of Opcodes (denoting operand quantity)
       oneByteOpcode : number[] = [0xA9, 0xA2, 0xA0, 0xD0];
       twoByteOpcode : number[] = [0xAD, 0x8D, 0x6D, 0xAE, 0xAC, 0xEC, 0xEE, 0xFF];
-      
+
       // CPU-specific members
       currentCommand: Commands;
       firstDPhase: boolean = true;
@@ -64,6 +64,32 @@ module TSOS {
             // Do the real work here. Be sure to set this.isExecuting appropriately.
             if (this.isExecuting) {
 
+            // Check to see what Command should proceed each cycle
+            // Afterwards, move on to next appropriate Command
+
+            if (this.currentCommand === Commands.FETCH){
+                this.fetch();
+
+                // Switch to next Command
+                this.currentCommand = Commands.DECODE;
+            } else
+            if (this.currentCommand === Commands.DECODE){
+
+                // in reverse order just in case 0 operand, unaffectant otherwises
+                this.currentCommand = Commands.EXECUTE;
+                this.decode();
+            } else
+            if (this.currentCommand === Commands.EXECUTE){
+
+                // in reverse order just in case Instruction which requires Write Back
+                this.currentCommand = Commands.FETCH;
+                this.execute();
+            } else { // must be WRITEBACK
+                this.writeBack();
+
+                this.currentCommand = Commands.FETCH;
+            } 
+
             }
         }
 
@@ -74,7 +100,10 @@ module TSOS {
 
         // simply grabs byte (instruction) from memory
         public fetch() {
-
+            _MemoryAccessor.changeMAR(this.progCounter);
+            _MemoryAccessor.readFrom();
+            this.instrReg = _MemoryAccessor.checkMDR();
+            this.progCounter++;
         }
 
         // Retrieve data based on instruction (0, 1, or 2 bytes?)
@@ -82,6 +111,46 @@ module TSOS {
         //                   (if an instruction with 1 byte of data)
         //       or 2 phases (if an instruction with 2 bytes of data, remember little endian)
         public decode() {
+
+            if (this.instrReg == 0xFF && (this.xReg == 0x01 || this.xReg == 0x02)) {
+
+                if (this.debug){console.log("0 Operand Instruction, SKIP DECODE");}
+                this.execute();
+            } else  // this.xReg == 0x03
+                    // It will proceed to the two byte opcode block for FF
+      
+      
+            // Check for '2 Operands' Instruction
+            if (this.isTwoByteOPCODE()) {
+              if (this.firstDPhase){
+                // set Little Endian flag
+                this._mmu.setLeFlag();
+                this._mmu.changeMAR(this.progCounter);
+                this._mmu.readFrom();
+                this.progCounter++;
+                this.firstDPhase = false;
+                this.currentCommand = Commands.DECODE;
+              } else {
+                // retrieve data, setup for Execute
+                this._mmu.changeMAR(this.progCounter);
+                this._mmu.readFrom();
+                this.progCounter++;
+                this.firstDPhase = true;
+              }
+            } else
+            // Check for '1 Operand' Instruction
+            if (this.isOneByteOPCODE()) {
+              // retrieve data, setup for Execute
+              this._mmu.changeMAR(this.progCounter);
+              this._mmu.readFrom();
+              this.progCounter++;
+            } else {
+            // Must be '0 Operand' Instruction
+            // Since the Decode phase does nothing here, call Execute immediately
+            if (this.debug){console.log("0 Operand Instruction, SKIP DECODE");}
+            this.currentCommand = Commands.INTERRUPTCHECK;
+            this.execute();
+            }
 
         }
 
