@@ -23,9 +23,9 @@
             private availEnd : number;   // ending address available, may not use
 
             constructor() {
-                // Initial available range 0x00 -> 0xFF (256 bytes)
+                // Initial available range 0x00 -> 0xFF (Proj 3 range will increase)
                 this.availStart = 0x00;
-                this.availEnd = 0xFF; 
+                this.availEnd = MEMORY_SIZE - 0x01; 
             }
 
             // May not use
@@ -48,6 +48,15 @@
             public verifyMemory() : boolean {
                 // Check if adequate memory is available
                 return (this.availStart < MEMORY_SIZE);
+            }
+
+            /*
+            /  Deallocate Range Function
+            /    * Proj 3, this will be reworked
+            /    Frees up range availability
+            */
+            public deallocateRange() : void {
+                this.availStart -= 0x100;
             }
 
             /*
