@@ -12,8 +12,8 @@
 }
 
 body {
-  background: #909193;
-  /* background-image: url(distrib/images/backdrop.jpg); */
+  /* background: #909193; */
+   background-image: url(distrib/images/minor-planets.jpg); 
   background-size: cover;
   font-family: Helvetica, Verdana, Arial, sans-serif;
   font-size: 12pt;
@@ -52,9 +52,22 @@ h3 {
 
 #tablePCB, #tableCPU {
   border: 1.5px solid orangered;
-  width: 40%;
+  width: 50%;
   background-color: darkslategrey;
 
+}
+
+.normal_button {
+  font-size: 20px;
+  background-color: peachpuff;
+}
+
+.normal_button:hover {
+  background-color: burlywood;
+}
+
+.normal_button:active {
+  background-color: black;
 }
 
 #tableMemory {
@@ -73,7 +86,7 @@ h3 {
 }
 
 label {
-  color: darkslategrey;
+  color: orangered;
   font-size: 20px;
   font-family: monospace;
   font-weight: bold;

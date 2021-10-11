@@ -93,7 +93,8 @@ var TSOS;
             _CPU.init();
             this.isExecuting = true;
             // * Proj 3, will decide which of 3 memory blocks to run based on passed in PCB
-            pcb.state = TSOS.PCB.STATES[2];
+            pcb.state = TSOS.PCB.STATES[2]; // running
+            this.pidRunning = pcb.PID;
         }
         // simply grabs byte (instruction) from memory
         fetch() {
@@ -232,7 +233,8 @@ var TSOS;
                     // Stop the CPU commands, may need to change this
                     this.isExecuting = false;
                     // Ask Kernel to conclude program
-                    _Kernel.krnEndProg();
+                    _Kernel.krnEndProg(parseInt(this.pidRunning));
+                    this.pidRunning = null;
                     break;
                 case 0xEC: // Compare value from Memory Register to X Register, zFlag = true if equal
                     this.zFlag = (this.xReg == _MemoryAccessor.checkMDR());

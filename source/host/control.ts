@@ -22,6 +22,8 @@ module TSOS {
 
     export class Control {
 
+        static HtmlPCBs : PCB[] = new Array();
+
         public static hostInit(): void {
             // This is called from index.html's onLoad event via the onDocumentLoad function pointer.
 
@@ -159,5 +161,35 @@ module TSOS {
                 document.getElementById("CPU_Z").innerHTML = hexLog(0, 2);
             }
         }
+
+        public static displayPCB(PID : number) {
+
+        }
+
+        public static createPCBGraphic(pcb : PCB) {
+            /*
+            // Get the table, add PCB reference to list
+            let htmlPCBTable = (<HTMLTableElement>document.getElementById("tablePCB"));
+            Control.HtmlPCBs[pcb.PID] = pcb;
+            let attributes = 9;
+
+
+            for (let i = 0; i < attributes; i++) {
+                let row = htmlMemory.insertRow();
+                let label = (<HTMLTableCellElement>row.insertCell());
+                label.classList.add("addresses");
+                label.innerHTML = "0x" + hexLog((i * memCols), 2);
+                label.style["color"] = "red";
+                for (let reg = 0; reg < memCols; reg++) {
+                        let newCell = row.insertCell()
+                        newCell.classList.add("registers");
+                        newCell.innerHTML = hexLog(0x00, 2); // initial value of regs, no need to check
+                        _MemoryTableCells[(i * memCols) + reg] = newCell;
+
+                } 
+            }
+            */
+        }
+
     }
 }

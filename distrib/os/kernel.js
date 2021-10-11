@@ -18,7 +18,7 @@ var TSOS;
             _KernelInterruptQueue = new TSOS.Queue(); // A (currently) non-priority queue for interrupt requests (IRQs).
             _KernelBuffers = new Array(); // Buffers... for the kernel.
             _KernelInputQueue = new TSOS.Queue(); // Where device input lands before being processed out somewhere.
-            _KernelReadyQueue = new TSOS.Queue(); // Processes that will be executed
+            _KernelReadyQueue = new TSOS.Queue(); // * Proj 3, implement Ready Queue functionality
             _KernelResidentQueue = new TSOS.Queue(); // Processes waiting to be run
             _KernelCommandHistory = new TSOS.CommandHistory();
             // Launch the Memory Manager software
@@ -76,7 +76,7 @@ var TSOS;
             let runThisPCB = _KernelResidentQueue.dequeue();
             _CPU.run(runThisPCB);
         }
-        krnEndProg() {
+        krnEndProg(pid) {
             // Once the process terminates, clear memory for that specific block.
             // For now, the whole memory is cleared.
             // Proj 3 will clear the CORRECT portion of memory, not the whole thing
@@ -88,8 +88,8 @@ var TSOS;
             _StdOut.putText("Program Terminated");
             _StdOut.advanceLine();
             _OsShell.putPrompt();
-            PCBList[0].state = TSOS.PCB.STATES[3];
-            PCBList.shift;
+            // make this a pid
+            PCBList[pid].state = TSOS.PCB.STATES[3];
         }
         krnOnCPUClockPulse() {
             /* This gets called from the host hardware simulation every time there is a hardware clock pulse.

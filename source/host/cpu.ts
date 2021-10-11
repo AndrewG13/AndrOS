@@ -22,6 +22,9 @@ module TSOS {
 
     export class Cpu {
 
+        // PID running
+        pidRunning;
+
         // Array of Opcodes (denoting operand quantity)
         oneByteOpcode : number[] = [0xA9, 0xA2, 0xA0, 0xD0];
         twoByteOpcode : number[] = [0xAD, 0x8D, 0x6D, 0xAE, 0xAC, 0xEC, 0xEE]; // FF was here
@@ -102,7 +105,8 @@ module TSOS {
             _CPU.init();
             this.isExecuting = true;
             // * Proj 3, will decide which of 3 memory blocks to run based on passed in PCB
-            pcb.state = PCB.STATES[2];
+            pcb.state = PCB.STATES[2]; // running
+            this.pidRunning = pcb.PID;
         }
 
         // simply grabs byte (instruction) from memory
@@ -248,8 +252,10 @@ module TSOS {
                   this.isExecuting = false;
 
                   // Ask Kernel to conclude program
-                  _Kernel.krnEndProg();
+                  _Kernel.krnEndProg(parseInt(this.pidRunning));
 
+                  this.pidRunning = null;
+                  
                   break;
                 case 0xEC: // Compare value from Memory Register to X Register, zFlag = true if equal
                   this.zFlag = (this.xReg == _MemoryAccessor.checkMDR());

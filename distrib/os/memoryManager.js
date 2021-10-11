@@ -9,8 +9,6 @@
 var TSOS;
 (function (TSOS) {
     // MyTODO: 
-    // Check on Run command seeing Res Queue as empty
-    // Making the CPU pause for interrupts possible fix: Add some CPU attribute to the kernel interrupt queue
     // add html displays (checking text file for code)
     // linewrap
     class MemoryManager {

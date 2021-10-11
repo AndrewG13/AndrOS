@@ -20,7 +20,7 @@ module TSOS {
             _KernelInterruptQueue = new Queue();  // A (currently) non-priority queue for interrupt requests (IRQs).
             _KernelBuffers = new Array();         // Buffers... for the kernel.
             _KernelInputQueue = new Queue();      // Where device input lands before being processed out somewhere.
-            _KernelReadyQueue = new Queue();      // Processes that will be executed
+            _KernelReadyQueue = new Queue();      // * Proj 3, implement Ready Queue functionality
             _KernelResidentQueue = new Queue();   // Processes waiting to be run
             _KernelCommandHistory = new CommandHistory();
 
@@ -90,7 +90,7 @@ module TSOS {
             _CPU.run(runThisPCB);
         }
 
-        public krnEndProg() {
+        public krnEndProg(pid : number) {
             // Once the process terminates, clear memory for that specific block.
             // For now, the whole memory is cleared.
             // Proj 3 will clear the CORRECT portion of memory, not the whole thing
@@ -106,9 +106,8 @@ module TSOS {
             _StdOut.advanceLine();
             _OsShell.putPrompt();
 
-            PCBList[0].state = PCB.STATES[3];
-            PCBList.shift;
-
+            // make this a pid
+            PCBList[pid].state = PCB.STATES[3];
         }
 
 

@@ -14,6 +14,7 @@ module TSOS {
                     public currentXPosition = 0,
                     public currentYPosition = _DefaultFontSize,
                     public buffer = "",
+                    public maxWidth = 640, // linewrap limit 
                     public tabList = []) {
         }
 

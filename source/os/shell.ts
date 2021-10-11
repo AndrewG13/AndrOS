@@ -617,7 +617,7 @@ module TSOS {
                     failLog += "*PID NaN ";
                 }
                 // Check if PID doesn't exist
-                if (PCBList.length <= PID) {
+                if (PCBList.length <= PID || PID < 0) {
                     failLog += "*PID Nonexistant ";
                 }
                 // Check if PCB was terminated
