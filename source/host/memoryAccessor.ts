@@ -26,7 +26,7 @@
 
             /*
             / Set Little Endian Flag function
-            / Sets the flag accordingly (based on instruction/opcode)
+            /    Sets the flag accordingly (based on instruction/opcode)
             */
             public setLeFlag() : void {
                 this.leFlag[0] = 1; // on, indicating Little Endian
@@ -34,12 +34,12 @@
 
             /*
             / writeImmediate function
-            / Param: Register, Data
-            / Writes a single byte to memory based on specifications
-            / Utilizes MAR & MDR manipulation in one method
-            / MAR & MDR will remain untouched after computation
+            /    Param: Register, Data
+            /    Writes a single byte to memory based on specifications
+            /    Utilizes MAR & MDR manipulation in one method
+            /    MAR & MDR will remain untouched after computation
             /
-            / FOR OS PROJ: This is how "load" will populate main memory
+            /    FOR OS PROJ: This is how "load" will populate main memory
             */
             public writeImmediate(register: number, data : number) : void {
                 this.changeMDR(data);
@@ -47,16 +47,16 @@
                 this.writeTo();
             }
 
-            ///////////////////////////////////////////////////////////////////////////////////
-            // The following functions are major actions the Accessor does                   //
-            // Redundant, but simulates how the Accessor is the one doing the Memory touches //
-            // Not using inheritance because that conceptually doesn't make sense            //
-            ///////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////
+            //  The following functions are major actions the Accessor does.                    //
+            //  Redundant function calls, but simulates how the Accessor is manipulating Memory //
+            //  Not using inheritance because that doesn't conceptually make sense              //
+            /////////////////////////////////////////////////////////////////////////////////////
 
             /*
             / displayRegisters function
-            / Param: start address, end address
-            / Synonymous to Memory's displayMemory()
+            /    Param: start address, end address
+            /    Synonymous to Memory's displayMemory()
             */
             public displayRegisters(start : number, end : number) {
                 _Memory.display(start, end);
@@ -64,7 +64,7 @@
 
             /*
             / reset function
-            / Synonymous to Memory's reset()
+            /    Synonymous to Memory's reset()
             */
             public resetMem() : void {
                 _Memory.reset();
@@ -72,7 +72,7 @@
 
             /*
             / readFrom function
-            / Synonymous to Memory's read() + LE check
+            /    Synonymous to Memory's read() + LE check
             */
             public readFrom() : void {
                 _Memory.read();
@@ -112,8 +112,8 @@
 
             /*
             / checkMAR function
-            / Return: address (from MAR)
-            / Synonymous to Memory's getMAR()
+            /    Return: address (from MAR)
+            /    Synonymous to Memory's getMAR()
             */
             public checkMAR() : number {
                 return _Memory.getMAR();
@@ -121,8 +121,8 @@
 
             /*
             / checkMDR function
-            / Return: data (from MDR)
-            / Synonymous to Memory's getMDR()
+            /    Return: data (from MDR)
+            /    Synonymous to Memory's getMDR()
             */
             public checkMDR() : number {
                return _Memory.getMDR();
@@ -130,8 +130,8 @@
 
             /*
             / changeMAR function
-            / Param: address (to set MAR)
-            / Synonymous to Memory's setMAR()
+            /    Param: address (to set MAR)
+            /    Synonymous to Memory's setMAR()
             */
             public changeMAR(newMar : number) : void {
                 _Memory.setMAR(newMar);
@@ -139,9 +139,9 @@
 
             /*
             / changeMDR function
-            / Param: data (to set MDR)
-            / Synonymous to Memory's setMDR()
-            / Additional Check if Little Endian is required
+            /    Param: data (to set MDR)
+            /    Synonymous to Memory's setMDR()
+            /    Additional Check if Little Endian is required
             */
             public changeMDR(newMdr : number) : void {
                 _Memory.setMDR(newMdr);

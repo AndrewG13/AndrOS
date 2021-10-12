@@ -78,7 +78,6 @@ module TSOS {
 
         /*
         /   Kernel Initiate Program function
-        /
         /       Fires up the CPU to run the program in Memory.
         /       Upon termination, memory section in use is wiped.
         */
@@ -90,13 +89,19 @@ module TSOS {
             _CPU.run(runThisPCB);
         }
 
+        /*
+        / End Program Function
+        /    Terminates the program in execution & deallocates that Memory range
+        */
         public krnEndProg(pid : number) {
             // Once the process terminates, clear memory for that specific block.
-            // For now, the whole memory is cleared.
-            // Proj 3 will clear the CORRECT portion of memory, not the whole thing
+            // For now, this means the whole memory is cleared.
+            // * Proj 3 will clear the CORRECT portion of memory, not the whole thing
             
             // Uncomment to have memory wiped after running
             //_MemoryAccessor.resetMem();
+            
+            // Deallocate memory block
             _MemoryManager.deallocateRange();
             
             // CPU will be reset upon running next program
@@ -106,7 +111,7 @@ module TSOS {
             _StdOut.advanceLine();
             _OsShell.putPrompt();
 
-            // Change state to Terminated
+            // Change PCB state to Terminated
             PCBList[pid].state = PCB.STATES[3];
         }
 

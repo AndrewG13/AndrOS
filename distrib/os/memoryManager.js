@@ -17,11 +17,11 @@ var TSOS;
             this.availStart = 0x00;
             this.availEnd = MEMORY_SIZE - 0x01;
         }
-        // May not use
+        // May remove
         availRange() {
             return this.availStart;
         }
-        // May not use
+        // May remove
         /*
         public nextAvailRange() {
             return this.availStart + 0x100;
@@ -29,8 +29,8 @@ var TSOS;
         */
         /*
         / Verify Memory Function
-        /   * Used when creating a PCB *
         /   Checks if memory is available to allocate
+        /   Used when creating a PCB
         */
         verifyMemory() {
             // Check if adequate memory is available

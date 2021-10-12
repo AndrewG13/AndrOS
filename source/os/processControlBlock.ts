@@ -26,11 +26,11 @@
             public state : string;
             public PID : number;
             public PC : number;
-            public Acc : number; // may remove
+            public Acc : number; 
             public Xreg : number;
             public Yreg : number;
             public Zflag : boolean;
-            // public priority : number; // Project 3
+            // public priority : number; // * Proj 3
             public startAddr : number;
             public endAddr : number; // just start + 0xFF (programs are 256 bytes)
 
@@ -44,13 +44,17 @@
                 this.Zflag = savedZflag;
                 // this.priority = ?
 
-                // Since "load" contacted the Memory Manager, we know memory is available.
-                // Now assign an address range / block
-                this.startAddr = _MemoryManager.assignRange();
-                this.endAddr = this.startAddr + 0xFF;
+                // These will be assigned by the Memory Manager (triggered in "Load")
+                // For now default to zero
+                this.startAddr = null;
+                this.endAddr = null;
             }
             
-            
+            /*
+            / Update PCB Function
+            /    Syncs PCB attributes to CPU
+            /    This is used while in execution
+            */
             public updatePCB() {
                 this.PC = _CPU.progCounter;
                 this.Acc = _CPU.accumulator;

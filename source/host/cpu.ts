@@ -102,7 +102,10 @@ module TSOS {
             Control.displayCPU();
             }
         }
-
+        /*
+        / Run Function
+        /   Initiates the CPU to begin executing a program in Memory
+        */
         public run(pcb : PCB) {
             // Reset CPU registers
             _CPU.init();
@@ -112,18 +115,23 @@ module TSOS {
             this.pidRunning = "" + pcb.PID;
         }
 
-        // simply grabs byte (instruction) from memory
+        /*
+        / Fetch Function
+        /    Simply grabs byte (instruction) from Memory
+        */
         public fetch() {
             _MemoryAccessor.changeMAR(this.progCounter);
             _MemoryAccessor.readFrom();
             this.instrReg = _MemoryAccessor.checkMDR();
             this.progCounter++;
         }
-
-        // Retrieve data based on instruction (0, 1, or 2 bytes?)
-        // Can have 1 phase  (if an instruction with no bytes of data -> call execute immediately)
-        //                   (if an instruction with 1 byte of data)
-        //       or 2 phases (if an instruction with 2 bytes of data, remember little endian)
+        /*
+        / Decode Function
+        /    Retrieve data based on instruction (0, 1, or 2 bytes?)
+        /    Can have 1 phase  (if an instruction with no bytes of data -> call execute immediately)
+        /                   (if an instruction with 1 byte of data)
+        /       or 2 phases (if an instruction with 2 bytes of data, remember little endian)
+        */
         public decode() {
 
             // Special case: FF
@@ -301,7 +309,7 @@ module TSOS {
 
                     // where in memory = front part of PC & yReg
                     // example: PC=1234 yReg=AA, place in memory = 12AA
-                    let inMemory;
+                    let inMemory : number;
                     if (this.progCounter < 0x100) {
                       inMemory = this.yReg;
                     } else {
@@ -323,17 +331,19 @@ module TSOS {
                     break;
               }
         }
-
-        // To keep it in sync with Gormanly's project, writeback is an extra cycle
-        // Write back whats in MDR to the memory location in MAR
-        // Pretty sure just for EE
+        /*
+        / WriteBack Function
+        /   To keep it in sync with Gormanly's project, writeback is an extra cycle.
+        /   Writes back whats in MDR to the Memory location in MAR
+        /   Just for 8D & EE
+        */
         public writeBack() {
             _MemoryAccessor.writeTo();
         }
 
         /*
         / Is Two Byte Opcode? function
-        / Finds out if the current instruction requires 2 Operands (retrievals from memory)
+        /    Finds out if the current instruction requires 2 Operands (retrievals from memory)
         */
         public isTwoByteOPCODE(): boolean {
             for (let i = 0; i < this.twoByteOpcode.length; i++) {
@@ -346,7 +356,7 @@ module TSOS {
   
         /*
         / Is One Byte Opcode? function
-        / Finds out if the current instruction requires 1 Operand (retrievals from memory)
+        /   Finds out if the current instruction requires 1 Operand (retrievals from memory)
         */
         public isOneByteOPCODE(): boolean {
             for (let i = 0; i < this.oneByteOpcode.length; i++) {

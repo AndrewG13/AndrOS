@@ -16,14 +16,16 @@ export class AsciiLib {
             //  "'abcdefghijklmno"   Indices 60-6F
             //  "pqrstuvwxyz{|}~_"   Indices 70-7F
     
-    // How to encode from number: _asciiString.charAt(0x05)
-    // How to decode from string: _asciiString.indexOf("F")
+            
+            // How to encode from number: _asciiString.charAt(0x05)
+            // How to decode from string: _asciiString.indexOf("F")
     
+
       /*
       / Encode Function
-      / Param: hex number
-      / Return: encoded string
-      / Takes in a value to encode, and returns the ASCII representation
+      /    Param: hex number
+      /    Return: encoded string
+      /    Takes in a value to encode, and returns the ASCII representation
      */
       public static encode(hex : number) : string {
         // Special Cases
@@ -43,9 +45,9 @@ export class AsciiLib {
     
       /*
       / Decode Function
-      / Param: ASCII string
-      / Return: hex
-      / Takes in a string char to decode, and returns the number of its ASCII representation
+      /    Param: ASCII string
+      /    Return: hex
+      /    Takes in a string char to decode, and returns the number of its ASCII representation
      */
       public static decode(str : string) : number {
         // Note: All button/control inputs like LF will not work

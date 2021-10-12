@@ -509,7 +509,6 @@ module TSOS {
 
         /*
         *  Load function
-        *      
         *      Load user program into memory if valid
         */
         public shellLoad(args: string[]) {
@@ -556,8 +555,8 @@ module TSOS {
                 // Code successful!
                     
                     // Assign a block by Manager
-                    let startAddr  : number = _MemoryManager.assignRange();
-                    
+                    let startAddr : number = _MemoryManager.assignRange();
+
                     // Wipe leftover memory (may remove this?)
                     _MemoryAccessor.resetMem();
 
@@ -569,6 +568,8 @@ module TSOS {
 
                     // Create a PCB & enqueue on Resident Queue (and PCB list)
                     let newPCB = new PCB(_CPU.progCounter, _CPU.accumulator, _CPU.xReg, _CPU.yReg, _CPU.zFlag);
+                    newPCB.startAddr = startAddr;
+                    newPCB.endAddr = startAddr + 0xFF; // range of 256 bytes
                     _KernelResidentQueue.enqueue(newPCB);
                     PCBList[newPCB.PID] = newPCB;
 

@@ -148,6 +148,11 @@ module TSOS {
             location.reload();
         }
 
+        
+        /*
+        / Display CPU Function
+        /   Updates the HTML CPU display
+        */
         public static displayCPU() {
             document.getElementById("CPU_PC").innerHTML = hexLog(_CPU.progCounter, 2);
             document.getElementById("CPU_IR").innerHTML = hexLog(_CPU.instrReg, 2);
@@ -163,6 +168,10 @@ module TSOS {
             }
         }
 
+        /*
+        / Display PCB Function
+        /   Updates HTML visual for specified PCB
+        */
         public static displayPCB(pcb : PCB) {
             Control.HtmlPCBs[0].innerHTML = "" + pcb.state;
             Control.HtmlPCBs[1].innerHTML = "" + pcb.PID;
@@ -182,14 +191,21 @@ module TSOS {
             }
         }
 
+        
+        /*
+        / Create PCB Row Function
+        /   Spawns a visual HTML row for a newly created PCB
+        */
         public static createPCBrow(pcb : PCB) {
             
             // Get the table, add PCB reference to list
             let htmlPCBTable = (<HTMLTableElement>document.getElementById("tablePCB"));
             let attributes = 9;
 
+                // Insert a new row underneath prior ones
                 let row = htmlPCBTable.insertRow();
 
+                // Add the PCB attributes cells
                 for (let i = 0; i < attributes; i++) {
                         let newCell = row.insertCell()
                         newCell.classList.add("registers");

@@ -22,48 +22,48 @@ var TSOS;
         }
         /*
         / Set Little Endian Flag function
-        / Sets the flag accordingly (based on instruction/opcode)
+        /    Sets the flag accordingly (based on instruction/opcode)
         */
         setLeFlag() {
             this.leFlag[0] = 1; // on, indicating Little Endian
         }
         /*
         / writeImmediate function
-        / Param: Register, Data
-        / Writes a single byte to memory based on specifications
-        / Utilizes MAR & MDR manipulation in one method
-        / MAR & MDR will remain untouched after computation
+        /    Param: Register, Data
+        /    Writes a single byte to memory based on specifications
+        /    Utilizes MAR & MDR manipulation in one method
+        /    MAR & MDR will remain untouched after computation
         /
-        / FOR OS PROJ: This is how "load" will populate main memory
+        /    FOR OS PROJ: This is how "load" will populate main memory
         */
         writeImmediate(register, data) {
             this.changeMDR(data);
             this.changeMAR(register);
             this.writeTo();
         }
-        ///////////////////////////////////////////////////////////////////////////////////
-        // The following functions are major actions the Accessor does                   //
-        // Redundant, but simulates how the Accessor is the one doing the Memory touches //
-        // Not using inheritance because that conceptually doesn't make sense            //
-        ///////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////
+        //  The following functions are major actions the Accessor does.                    //
+        //  Redundant function calls, but simulates how the Accessor is manipulating Memory //
+        //  Not using inheritance because that doesn't conceptually make sense              //
+        /////////////////////////////////////////////////////////////////////////////////////
         /*
         / displayRegisters function
-        / Param: start address, end address
-        / Synonymous to Memory's displayMemory()
+        /    Param: start address, end address
+        /    Synonymous to Memory's displayMemory()
         */
         displayRegisters(start, end) {
             _Memory.display(start, end);
         }
         /*
         / reset function
-        / Synonymous to Memory's reset()
+        /    Synonymous to Memory's reset()
         */
         resetMem() {
             _Memory.reset();
         }
         /*
         / readFrom function
-        / Synonymous to Memory's read() + LE check
+        /    Synonymous to Memory's read() + LE check
         */
         readFrom() {
             _Memory.read();
@@ -100,33 +100,33 @@ var TSOS;
         }
         /*
         / checkMAR function
-        / Return: address (from MAR)
-        / Synonymous to Memory's getMAR()
+        /    Return: address (from MAR)
+        /    Synonymous to Memory's getMAR()
         */
         checkMAR() {
             return _Memory.getMAR();
         }
         /*
         / checkMDR function
-        / Return: data (from MDR)
-        / Synonymous to Memory's getMDR()
+        /    Return: data (from MDR)
+        /    Synonymous to Memory's getMDR()
         */
         checkMDR() {
             return _Memory.getMDR();
         }
         /*
         / changeMAR function
-        / Param: address (to set MAR)
-        / Synonymous to Memory's setMAR()
+        /    Param: address (to set MAR)
+        /    Synonymous to Memory's setMAR()
         */
         changeMAR(newMar) {
             _Memory.setMAR(newMar);
         }
         /*
         / changeMDR function
-        / Param: data (to set MDR)
-        / Synonymous to Memory's setMDR()
-        / Additional Check if Little Endian is required
+        /    Param: data (to set MDR)
+        /    Synonymous to Memory's setMDR()
+        /    Additional Check if Little Endian is required
         */
         changeMDR(newMdr) {
             _Memory.setMDR(newMdr);

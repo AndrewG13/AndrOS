@@ -25,12 +25,12 @@
                 this.availEnd = MEMORY_SIZE - 0x01; 
             }
 
-            // May not use
+            // May remove
             public availRange() {
                 return this.availStart;
             }
 
-            // May not use
+            // May remove
             /*
             public nextAvailRange() {
                 return this.availStart + 0x100;
@@ -39,8 +39,8 @@
 
             /*
             / Verify Memory Function
-            /   * Used when creating a PCB *
             /   Checks if memory is available to allocate 
+            /   Used when creating a PCB
             */
             public verifyMemory() : boolean {
                 // Check if adequate memory is available
@@ -64,7 +64,7 @@
                 // Since "load" verifies Memory, we know theres available space
 
                 // Next, retain available starting address to allot
-                let addr = this.availStart;
+                let addr : number = this.availStart;
                 // Finally, increment the available starting address (next block)
                 this.availStart += 0x100;
 

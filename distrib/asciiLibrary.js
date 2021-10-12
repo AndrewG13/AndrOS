@@ -13,9 +13,9 @@ var TSOS;
         // How to decode from string: _asciiString.indexOf("F")
         /*
         / Encode Function
-        / Param: hex number
-        / Return: encoded string
-        / Takes in a value to encode, and returns the ASCII representation
+        /    Param: hex number
+        /    Return: encoded string
+        /    Takes in a value to encode, and returns the ASCII representation
        */
         static encode(hex) {
             // Special Cases
@@ -34,9 +34,9 @@ var TSOS;
         }
         /*
         / Decode Function
-        / Param: ASCII string
-        / Return: hex
-        / Takes in a string char to decode, and returns the number of its ASCII representation
+        /    Param: ASCII string
+        /    Return: hex
+        /    Takes in a string char to decode, and returns the number of its ASCII representation
        */
         static decode(str) {
             // Note: All button/control inputs like LF will not work
