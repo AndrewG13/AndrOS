@@ -88,7 +88,7 @@ var TSOS;
             _StdOut.putText("Program Terminated");
             _StdOut.advanceLine();
             _OsShell.putPrompt();
-            // make this a pid
+            // Change state to Terminated
             PCBList[pid].state = TSOS.PCB.STATES[3];
         }
         krnOnCPUClockPulse() {

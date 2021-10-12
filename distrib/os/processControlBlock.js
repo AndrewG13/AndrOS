@@ -21,6 +21,13 @@ var TSOS;
             this.startAddr = _MemoryManager.assignRange();
             this.endAddr = this.startAddr + 0xFF;
         }
+        updatePCB() {
+            this.PC = _CPU.progCounter;
+            this.Acc = _CPU.accumulator;
+            this.Xreg = _CPU.xReg;
+            this.Yreg = _CPU.yReg;
+            this.Zflag = _CPU.zFlag;
+        }
     }
     // For assigning states of PCBs
     PCB.STATES = ["Resident", "Ready", "Running", "Terminated"];

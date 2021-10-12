@@ -168,8 +168,6 @@ var TSOS;
                     // Calculation complete. Seperate text from its "position of overflow"
                     let overflowText = text.substring(overflowIndex, text.length);
                     text = text.substring(0, overflowIndex);
-                    console.log(text);
-                    console.log(overflowText);
                     // Draw the SHORTENED text at the current X and Y coordinates.
                     _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
                     // Draw the OVERFLOW text at a new line

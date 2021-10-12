@@ -22,7 +22,8 @@ module TSOS {
 
     export class Control {
 
-        static HtmlPCBs : PCB[] = new Array();
+        // * Proj 3, this will be reworked for multiple running PCBs
+        static HtmlPCBs : HTMLTableCellElement[] = new Array();
 
         public static hostInit(): void {
             // This is called from index.html's onLoad event via the onDocumentLoad function pointer.
@@ -162,34 +163,42 @@ module TSOS {
             }
         }
 
-        public static displayPCB(PID : number) {
+        public static displayPCB(pcb : PCB) {
+            Control.HtmlPCBs[0].innerHTML = "" + pcb.state;
+            Control.HtmlPCBs[1].innerHTML = "" + pcb.PID;
+            Control.HtmlPCBs[2].innerHTML = "" + hexLog(pcb.PC, 2);
+            Control.HtmlPCBs[3].innerHTML = "" + hexLog(pcb.Acc, 2);
+            Control.HtmlPCBs[4].innerHTML = "" + hexLog(pcb.Xreg, 2);
+            Control.HtmlPCBs[5].innerHTML = "" + hexLog(pcb.Yreg, 2);
+            Control.HtmlPCBs[7].innerHTML = "" + hexLog(pcb.startAddr, 2);
+            Control.HtmlPCBs[8].innerHTML = "" + hexLog(pcb.endAddr, 2);
 
+            // Format boolean ZFlag as a numeric bit
+            if (pcb.Zflag) {
+                Control.HtmlPCBs[6].innerHTML = hexLog(1, 2);
+            } else {
+                Control.HtmlPCBs[6].innerHTML = hexLog(0, 2);
+
+            }
         }
 
-        public static createPCBGraphic(pcb : PCB) {
-            /*
+        public static createPCBrow(pcb : PCB) {
+            
             // Get the table, add PCB reference to list
             let htmlPCBTable = (<HTMLTableElement>document.getElementById("tablePCB"));
-            Control.HtmlPCBs[pcb.PID] = pcb;
             let attributes = 9;
 
+                let row = htmlPCBTable.insertRow();
 
-            for (let i = 0; i < attributes; i++) {
-                let row = htmlMemory.insertRow();
-                let label = (<HTMLTableCellElement>row.insertCell());
-                label.classList.add("addresses");
-                label.innerHTML = "0x" + hexLog((i * memCols), 2);
-                label.style["color"] = "red";
-                for (let reg = 0; reg < memCols; reg++) {
+                for (let i = 0; i < attributes; i++) {
                         let newCell = row.insertCell()
                         newCell.classList.add("registers");
-                        newCell.innerHTML = hexLog(0x00, 2); // initial value of regs, no need to check
-                        _MemoryTableCells[(i * memCols) + reg] = newCell;
+                        Control.HtmlPCBs[i] = newCell;
+                }
+                
+                // Populate display with PCB attributes
+                Control.displayPCB(pcb);
 
-                } 
             }
-            */
-        }
-
     }
 }

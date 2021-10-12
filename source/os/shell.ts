@@ -572,8 +572,10 @@ module TSOS {
                     _KernelResidentQueue.enqueue(newPCB);
                     PCBList[newPCB.PID] = newPCB;
 
-                    // display registers on-screen (from start -> end) 
+
+                    // display registers (from start -> end) & PCB 
                     _MemoryAccessor.displayRegisters(startAddr, startAddr + 0xFF);
+                    Control.createPCBrow(newPCB);
 
                     _StdOut.putText("Load Successful: PID=" + newPCB.PID);
                     

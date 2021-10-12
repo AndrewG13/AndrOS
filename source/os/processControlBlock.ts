@@ -50,6 +50,15 @@
                 this.endAddr = this.startAddr + 0xFF;
             }
             
+            
+            public updatePCB() {
+                this.PC = _CPU.progCounter;
+                this.Acc = _CPU.accumulator;
+                this.Xreg = _CPU.xReg;
+                this.Yreg = _CPU.yReg;
+                this.Zflag = _CPU.zFlag;
+            }
+
 
         }
     }

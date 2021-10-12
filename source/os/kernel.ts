@@ -106,7 +106,7 @@ module TSOS {
             _StdOut.advanceLine();
             _OsShell.putPrompt();
 
-            // make this a pid
+            // Change state to Terminated
             PCBList[pid].state = PCB.STATES[3];
         }
 

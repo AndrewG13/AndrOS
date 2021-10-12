@@ -481,8 +481,9 @@ var TSOS;
                     let newPCB = new TSOS.PCB(_CPU.progCounter, _CPU.accumulator, _CPU.xReg, _CPU.yReg, _CPU.zFlag);
                     _KernelResidentQueue.enqueue(newPCB);
                     PCBList[newPCB.PID] = newPCB;
-                    // display registers on-screen (from start -> end) 
+                    // display registers (from start -> end) & PCB 
                     _MemoryAccessor.displayRegisters(startAddr, startAddr + 0xFF);
+                    TSOS.Control.createPCBrow(newPCB);
                     _StdOut.putText("Load Successful: PID=" + newPCB.PID);
                 }
             }
