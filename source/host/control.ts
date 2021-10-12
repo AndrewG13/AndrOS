@@ -107,7 +107,7 @@ module TSOS {
                     let label = (<HTMLTableCellElement>row.insertCell());
                     label.classList.add("addresses");
                     label.innerHTML = "0x" + hexLog((i * memCols), 2);
-                    label.style["color"] = "red";
+                    label.style["color"] = "coral";
                     for (let reg = 0; reg < memCols; reg++) {
                             let newCell = row.insertCell()
                             newCell.classList.add("registers");

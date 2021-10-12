@@ -45,7 +45,7 @@ h3 {
 
 #display {
   background-color:#00000A;
-  border: 2px solid red;
+  border: 2px solid orangered;
   cursor: default;
 }
 
@@ -80,13 +80,13 @@ h3 {
 }
 
 .PCB_Members, .CPU_Members {
-  color: orangered;
+  color: coral;
   text-align: center;
-  background-color: darkred;
+  background-color: maroon;
 }
 
 label {
-  color: orangered;
+  color: coral;
   font-size: 20px;
   font-family: monospace;
   font-weight: bold;
@@ -99,7 +99,7 @@ td.CPU_registers {
 
 td.addresses {
   text-align: center;
-  background-color: darkred;
+  background-color: maroon;
 }
 
 td.registers {

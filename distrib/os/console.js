@@ -7,7 +7,7 @@
 var TSOS;
 (function (TSOS) {
     class Console {
-        constructor(currentFont = _DefaultFontFamily, currentFontSize = _DefaultFontSize, currentXPosition = 0, currentYPosition = _DefaultFontSize, buffer = "", maxWidth = 640, // linewrap limit 
+        constructor(currentFont = _DefaultFontFamily, currentFontSize = _DefaultFontSize, currentXPosition = 0, currentYPosition = _DefaultFontSize, buffer = "", maxWidth = 590, // linewrap limit 
         tabList = []) {
             this.currentFont = currentFont;
             this.currentFontSize = currentFontSize;
@@ -156,12 +156,34 @@ var TSOS;
                 decided to write one function and use the term "text" to connote string or char.
             */
             if (text !== "") {
-                // Implement linewrap in the future, didn't get to it :/
-                // Draw the text at the current X and Y coordinates.
-                _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
-                // Move the current X position.
+                // Check for x-overflow
                 var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
-                this.currentXPosition = this.currentXPosition + offset;
+                if (this.currentXPosition + offset > this.maxWidth) {
+                    // Start shortening the text until offset is no longer overflowing
+                    let overflowIndex = text.length;
+                    while (this.currentXPosition + offset > this.maxWidth) {
+                        overflowIndex--;
+                        offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text.substring(0, overflowIndex));
+                    }
+                    // Calculation complete. Seperate text from its "position of overflow"
+                    let overflowText = text.substring(overflowIndex, text.length);
+                    text = text.substring(0, overflowIndex);
+                    console.log(text);
+                    console.log(overflowText);
+                    // Draw the SHORTENED text at the current X and Y coordinates.
+                    _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
+                    // Draw the OVERFLOW text at a new line
+                    this.advanceLine();
+                    _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, overflowText);
+                    // Move the current X position
+                    this.currentXPosition = _DrawingContext.measureText(this.currentFont, this.currentFontSize, overflowText);
+                }
+                else {
+                    // Draw the text at the current X and Y coordinates.
+                    _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
+                    // Move the current X position.                
+                    this.currentXPosition = this.currentXPosition + offset;
+                }
             }
         }
         advanceLine() {

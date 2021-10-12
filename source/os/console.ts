@@ -14,7 +14,7 @@ module TSOS {
                     public currentXPosition = 0,
                     public currentYPosition = _DefaultFontSize,
                     public buffer = "",
-                    public maxWidth = 640, // linewrap limit 
+                    public maxWidth = 590, // linewrap limit 
                     public tabList = []) {
         }
 
@@ -167,16 +167,34 @@ module TSOS {
                 decided to write one function and use the term "text" to connote string or char.
             */
             if (text !== "") {
+                // Check for x-overflow
+                var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
+                if (this.currentXPosition + offset > this.maxWidth) {
+                    
+                    // Start shortening the text until offset is no longer overflowing
+                    let overflowIndex = text.length;
+                    while (this.currentXPosition + offset > this.maxWidth) {
+                        overflowIndex--;
+                        offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text.substring(0, overflowIndex));
+                    }
+                    // Calculation complete. Seperate text from its "position of overflow"
+                    let overflowText = text.substring(overflowIndex, text.length);
+                    text = text.substring(0, overflowIndex);
 
-                // Implement linewrap in the future, didn't get to it :/
+                    // Draw the SHORTENED text at the current X and Y coordinates.
+                    _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
+                    // Draw the OVERFLOW text at a new line
+                    this.advanceLine();
+                    _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, overflowText);
+                    // Move the current X position
+                    this.currentXPosition = _DrawingContext.measureText(this.currentFont, this.currentFontSize, overflowText);
 
+                } else {
                 // Draw the text at the current X and Y coordinates.
                 _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
-                // Move the current X position.
-                var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
-                
+                // Move the current X position.                
                 this.currentXPosition = this.currentXPosition + offset;
-                
+                }
             }
          }
 

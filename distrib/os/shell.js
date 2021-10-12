@@ -240,7 +240,7 @@ var TSOS;
                         _StdOut.putText("Displays the current version of AndrOS.");
                         break;
                     case "help":
-                        _StdOut.putText("Help displays a list of (hopefully) valid commands.");
+                        _StdOut.putText("Help displays a list of (hopefully) valid commands. This is a test for linewrap. Can't let you do that, Starfox.");
                         break;
                     case "shutdown":
                         _StdOut.putText("Shuts down AndrOS.");
