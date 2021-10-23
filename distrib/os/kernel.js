@@ -65,7 +65,6 @@ var TSOS;
         }
         /*
         /   Kernel Initiate Program function
-        /
         /       Fires up the CPU to run the program in Memory.
         /       Upon termination, memory section in use is wiped.
         */
@@ -78,8 +77,7 @@ var TSOS;
         }
         /*
         / End Program Function
-        /    En
-        /
+        /    Terminates the program in execution & deallocates that Memory range
         */
         krnEndProg(pid) {
             // Once the process terminates, clear memory for that specific block.
@@ -87,13 +85,14 @@ var TSOS;
             // * Proj 3 will clear the CORRECT portion of memory, not the whole thing
             // Uncomment to have memory wiped after running
             //_MemoryAccessor.resetMem();
+            // Deallocate memory block
             _MemoryManager.deallocateRange();
             // CPU will be reset upon running next program
             _StdOut.advanceLine();
             _StdOut.putText("Program Terminated");
             _StdOut.advanceLine();
             _OsShell.putPrompt();
-            // Change state to Terminated
+            // Change PCB state to Terminated
             PCBList[pid].state = TSOS.PCB.STATES[3];
         }
         krnOnCPUClockPulse() {

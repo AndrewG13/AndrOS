@@ -11,7 +11,8 @@
 
         export class Memory {
 
-            // Main Memory, 256 addresses, 1 byte stored at each address, will be x 3 Proj 3
+            // Main Memory, 768 addresses, 1 byte stored at each address
+            // Partitioned into 3 blocks [0-255], [256-511], [512-767]
             private memoryAddr : number[];
 
             // The MAR & MDR, they handle address retrieval & manipulation

@@ -7,6 +7,7 @@
           serious injuries may occur when trying to write your own Operating System.
    ------------ */
 // TODO: Write a base class / prototype for system services and let Shell inherit from it.
+// Project 3 Branch creation
 var TSOS;
 (function (TSOS) {
     class Shell {
@@ -174,6 +175,7 @@ var TSOS;
             }
         }
         shellCurse() {
+            _OsShell.promptStr = "8=D ";
             _StdOut.putText("Oh, so that's how it's going to be, eh? Fine.");
             _StdOut.advanceLine();
             _StdOut.putText("Bitch.");
@@ -181,6 +183,7 @@ var TSOS;
         }
         shellApology() {
             if (_SarcasticMode) {
+                _OsShell.promptStr = ">";
                 _StdOut.putText("I think we can put our differences behind us.");
                 _StdOut.advanceLine();
                 _StdOut.putText("For science . . . You monster.");
@@ -342,7 +345,10 @@ var TSOS;
         *      Changes prompt to passed in text
         */
         shellPrompt(args) {
-            if (args.length > 0) {
+            if (_SarcasticMode) {
+                _StdOut.putText("Access Denied");
+            }
+            else if (args.length > 0) {
                 _OsShell.promptStr = args[0];
             }
             else {
@@ -423,11 +429,11 @@ var TSOS;
         shellBeginAssault(args) {
             goodluck.play();
             _StdOut.putText(" \"Good Luck\" ");
-            //setTimeout(_StdOut.init,2000);
+            setTimeout(_Console.clearScreen, 2000);
+            _Console.resetXY();
         }
         /*
         *  Load function
-        *
         *      Load user program into memory if valid
         */
         shellLoad(args) {

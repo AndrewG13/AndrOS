@@ -115,6 +115,10 @@ var TSOS;
             // The easiest and most thorough way to do this is to reload (not refresh) the document.
             location.reload();
         }
+        /*
+        / Display CPU Function
+        /   Updates the HTML CPU display
+        */
         static displayCPU() {
             document.getElementById("CPU_PC").innerHTML = hexLog(_CPU.progCounter, 2);
             document.getElementById("CPU_IR").innerHTML = hexLog(_CPU.instrReg, 2);
@@ -129,6 +133,10 @@ var TSOS;
                 document.getElementById("CPU_Z").innerHTML = hexLog(0, 2);
             }
         }
+        /*
+        / Display PCB Function
+        /   Updates HTML visual for specified PCB
+        */
         static displayPCB(pcb) {
             Control.HtmlPCBs[0].innerHTML = "" + pcb.state;
             Control.HtmlPCBs[1].innerHTML = "" + pcb.PID;
@@ -146,11 +154,17 @@ var TSOS;
                 Control.HtmlPCBs[6].innerHTML = hexLog(0, 2);
             }
         }
+        /*
+        / Create PCB Row Function
+        /   Spawns a visual HTML row for a newly created PCB
+        */
         static createPCBrow(pcb) {
             // Get the table, add PCB reference to list
             let htmlPCBTable = document.getElementById("tablePCB");
             let attributes = 9;
+            // Insert a new row underneath prior ones
             let row = htmlPCBTable.insertRow();
+            // Add the PCB attributes cells
             for (let i = 0; i < attributes; i++) {
                 let newCell = row.insertCell();
                 newCell.classList.add("registers");

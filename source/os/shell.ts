@@ -238,6 +238,7 @@ module TSOS {
         }
 
         public shellCurse() {
+            _OsShell.promptStr = "8=D ";
             _StdOut.putText("Oh, so that's how it's going to be, eh? Fine.");
             _StdOut.advanceLine();
             _StdOut.putText("Bitch.");
@@ -246,6 +247,7 @@ module TSOS {
 
         public shellApology() {
            if (_SarcasticMode) {
+              _OsShell.promptStr = ">";
               _StdOut.putText("I think we can put our differences behind us.");
               _StdOut.advanceLine();
               _StdOut.putText("For science . . . You monster.");
@@ -412,6 +414,9 @@ module TSOS {
         *      Changes prompt to passed in text
         */
         public shellPrompt(args: string[]) {
+            if (_SarcasticMode) {
+                _StdOut.putText("Access Denied");
+            } else
             if (args.length > 0) {
                 _OsShell.promptStr = args[0];
             } else {
@@ -504,9 +509,9 @@ module TSOS {
         public shellBeginAssault(args: string[]) {
             goodluck.play();
             _StdOut.putText(" \"Good Luck\" ");
-            //setTimeout(_StdOut.init,2000);
-
-
+            setTimeout(_Console.clearScreen,2000);
+            _Console.resetXY();
+            
         }
 
         /*
