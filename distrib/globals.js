@@ -18,8 +18,7 @@ const CPU_CLOCK_INTERVAL = 100; // This is in ms (milliseconds) so 1000 = 1 seco
 const TIMER_IRQ = 0; // Pages 23 (timer), 9 (interrupts), and 561 (interrupt priority).
 // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
 const KEYBOARD_IRQ = 1;
-const MEMORY_SIZE = 0x100; // Main Memory size, 256 addresses, 1 byte stored at each address
-// will be x 3 Proj 3
+const MEMORY_SIZE = 0x300; // Main Memory size, 758 addresses, 1 byte stored at each address
 var goodluck = new Audio("distrib/images/Good_Luck_Starfo_ 64.mp3");
 //
 // Global Variables

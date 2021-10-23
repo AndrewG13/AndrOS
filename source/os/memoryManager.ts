@@ -2,27 +2,30 @@
      MemoryManager.ts
 
      Manages Memory allocation
-     Meaning, doing something like "Load" , "Load" should fail for Proj2
-     So essentially monitoring & deciding what blocks of memory are free / should be used
-
+     Monitoring & deciding what blocks of memory are free / should be used.
+     Memory has a size of 758 bytes, allowing 3 blocks for individual programs.
      ------------ */
 
      module TSOS {
 
-        // MyTODO: 
-        // add html displays (checking text file for code)
-        // linewrap
-
+        // My TODO:
+        //  + Make the list that will track which PCBs are in memory,
+        //    From that list, it will be known whether the process has
+        //    terminated or if it should remain in memory.
+        //    Terminated PCB = Block of memory that is ready to use. 
 
         export class MemoryManager {
             // Current available memory block / range
-            private availStart : number; // starting address available
-            private availEnd : number;   // ending address available, may not use
-
+            private availStart : number;   // starting address available.
+            private availEnd : number;     // ending address available, may not use.
+            private part : PCB[];          // PCB Partitions. part[x].state == Terminated -> Available Block.
+                                           // May change to just be PID number.
             constructor() {
-                // Initial available range 0x00 -> 0xFF (Proj 3 range will increase)
-                this.availStart = 0x00;
-                this.availEnd = MEMORY_SIZE - 0x01; 
+                // Initial available range 0x000 -> 0x2FF
+                this.availStart = 0x000;
+                this.availEnd = MEMORY_SIZE - 0x001; 
+                // Initial 3 free blocks.
+                this.part = [null,null,null]; 
             }
 
             // May remove
