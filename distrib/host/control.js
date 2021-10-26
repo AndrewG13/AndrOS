@@ -81,7 +81,7 @@ var TSOS;
                 let row = htmlMemory.insertRow();
                 let label = row.insertCell();
                 label.classList.add("addresses");
-                label.innerHTML = "0x" + hexLog((i * memCols), 2);
+                label.innerHTML = "0x" + hexLog((i * memCols), 3);
                 label.style["color"] = "coral";
                 for (let reg = 0; reg < memCols; reg++) {
                     let newCell = row.insertCell();
