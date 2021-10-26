@@ -575,8 +575,8 @@ module TSOS {
 
                     // Create a PCB & enqueue on Resident Queue (and PCB list)
                     let newPCB = new PCB(_CPU.progCounter, _CPU.accumulator, _CPU.xReg, _CPU.yReg, _CPU.zFlag);
-                    newPCB.startAddr = startAddr;
-                    newPCB.endAddr = startAddr + 0xFF; // range of 256 bytes
+                    newPCB.base = startAddr;
+                    newPCB.limit = startAddr + 0xFF; // range of 256 bytes
                     _KernelResidentQueue.enqueue(newPCB);
                     PCBList[newPCB.PID] = newPCB;
 

@@ -17,9 +17,9 @@ var TSOS;
             this.Zflag = savedZflag;
             // this.priority = ?
             // These will be assigned by the Memory Manager (triggered in "Load")
-            // For now default to zero
-            this.startAddr = null;
-            this.endAddr = null;
+            // For now default to null
+            this.base = null;
+            this.limit = null;
         }
         /*
         / Update PCB Function

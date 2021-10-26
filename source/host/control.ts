@@ -162,9 +162,9 @@ module TSOS {
 
             // Format boolean ZFlag as a numeric bit
             if (_CPU.zFlag) {
-                document.getElementById("CPU_Z").innerHTML = hexLog(1, 2);
+                document.getElementById("CPU_Z").innerHTML = hexLog(1, 1);
             } else {
-                document.getElementById("CPU_Z").innerHTML = hexLog(0, 2);
+                document.getElementById("CPU_Z").innerHTML = hexLog(0, 1);
             }
         }
 
@@ -179,8 +179,8 @@ module TSOS {
             Control.HtmlPCBs[3].innerHTML = "" + hexLog(pcb.Acc, 2);
             Control.HtmlPCBs[4].innerHTML = "" + hexLog(pcb.Xreg, 2);
             Control.HtmlPCBs[5].innerHTML = "" + hexLog(pcb.Yreg, 2);
-            Control.HtmlPCBs[7].innerHTML = "" + hexLog(pcb.startAddr, 2);
-            Control.HtmlPCBs[8].innerHTML = "" + hexLog(pcb.endAddr, 2);
+            Control.HtmlPCBs[7].innerHTML = "" + hexLog(pcb.base, 2);
+            Control.HtmlPCBs[8].innerHTML = "" + hexLog(pcb.limit, 2);
 
             // Format boolean ZFlag as a numeric bit
             if (pcb.Zflag) {

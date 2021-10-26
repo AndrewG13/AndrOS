@@ -30,9 +30,9 @@
             public Xreg : number;
             public Yreg : number;
             public Zflag : boolean;
-            // public priority : number; // * Proj 3
-            public startAddr : number;
-            public endAddr : number; // just start + 0xFF (programs are 256 bytes)
+            // public priority : number; // * Proj 4
+            public base : number;    // Beginning index
+            public limit : number;   // Ending index
 
             constructor(savedPC : number, savedAcc : number, savedXreg : number, savedYreg : number, savedZflag : boolean) {
                 this.state = PCB.STATES[0];
@@ -45,9 +45,9 @@
                 // this.priority = ?
 
                 // These will be assigned by the Memory Manager (triggered in "Load")
-                // For now default to zero
-                this.startAddr = null;
-                this.endAddr = null;
+                // For now default to null
+                this.base = null;
+                this.limit = null;
             }
             
             /*
