@@ -19,6 +19,7 @@ const TIMER_IRQ = 0; // Pages 23 (timer), 9 (interrupts), and 561 (interrupt pri
 // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
 const KEYBOARD_IRQ = 1;
 const MEMORY_SIZE = 0x300; // Main Memory size, 758 addresses, 1 byte stored at each address
+const QUANTUM = 6; // Default value for Round Robin
 var goodluck = new Audio("distrib/images/Good_Luck_Starfo_ 64.mp3");
 //
 // Global Variables
