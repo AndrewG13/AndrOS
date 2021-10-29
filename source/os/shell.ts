@@ -106,23 +106,59 @@ module TSOS {
                                   "- Trigger the BSOD from Kernal error.");
             this.commandList[this.commandList.length] = sc;
 
+            // load
             sc = new ShellCommand(this.shellLoad,
                                   "load",
-                                  "- Loads a program to memory.");
+                                  "- Load a program into memory.");
             this.commandList[this.commandList.length] = sc;
 
+            // beginassault
             sc = new ShellCommand(this.shellBeginAssault,
                                   "beginassault",
                                   "- Begin attack on Star Wolf!");
             this.commandList[this.commandList.length] = sc;
-
+            
+            // run
             sc = new ShellCommand(this.shellRun,
                                   "run",
                                   "<PID> - Run the program with the specified PID");
             this.commandList[this.commandList.length] = sc;
 
-            // ps  - list the running processes and their IDs
-            // kill <id> - kills the specified process id.
+            // runall
+            sc = new ShellCommand(this.shellRunall,
+                "runall",
+                "- Run all programs loaded in memory");
+            this.commandList[this.commandList.length] = sc;
+
+            // clearmem
+            sc = new ShellCommand(this.shellClearmem,
+                "clearmem",
+                "- Clear all memory partitions");
+            this.commandList[this.commandList.length] = sc;
+
+            // ps
+            sc = new ShellCommand(this.shellPs,
+                "ps",
+                "- List all inputted processes & info");
+            this.commandList[this.commandList.length] = sc;
+
+            // kill
+            sc = new ShellCommand(this.shellKill,
+                "kill",
+                "<PID> - Kill the program with the specified PID");
+            this.commandList[this.commandList.length] = sc;
+
+            // killall
+            sc = new ShellCommand(this.shellKillall,
+                "killall",
+                "- Kill all programs in execution");
+            this.commandList[this.commandList.length] = sc;
+
+            // quantum
+            sc = new ShellCommand(this.shellQuantum,
+                "quantum",
+                "<int> - Set the Round Robin quantum with specified integer");
+            this.commandList[this.commandList.length] = sc;
 
             // Display the initial prompt.
             this.putPrompt();
@@ -355,6 +391,24 @@ module TSOS {
                         break;
                     case "run":
                         _StdOut.putText("Runs the program in memory with PID given")
+                        break;
+                    case "runall":
+                        _StdOut.putText("Run all programs");
+                        break;
+                    case "clearmem":
+                        _StdOut.putText("Wipe entirety of memory");
+                        break;
+                    case "kill":
+                        _StdOut.putText("Kill the process with PID given");
+                        break;
+                    case "killall":
+                        _StdOut.putText("Kill all processes");
+                        break;
+                    case "ps":
+                        _StdOut.putText("List all processes");
+                        break;
+                    case "quantum":
+                        _StdOut.putText("Change RR quantum");
                         break;
 
                     default:
@@ -665,6 +719,69 @@ module TSOS {
             // Run a shutdown as normal
             _Kernel.krnShutdown();
 
+        }
+
+        /*
+        *  Runall function
+        *      
+        *      Run all processes
+        */
+        public shellRunall(args: string[]) {
+
+        }
+
+        /*
+        *  Clearmem function
+        *      
+        *      Clear memory
+        */
+        public shellClearmem(args: string[]) {
+
+        }
+
+        /*
+        *  Kill function
+        *      
+        *      Kill PID process
+        */
+        public shellKill(args: string[]) {
+            if (args.length > 0) {
+
+            } else {
+                _StdOut.putText("Usage: kill <PID>  Please supply a PID.");
+            }
+        }
+
+        /*
+        *  Killall function
+        *      
+        *      Kill all processes
+        */
+        public shellKillall(args: string[]) {
+            
+        }
+
+        /*
+        *  PS function
+        *      
+        *      List all processes
+        */
+        public shellPs(args: string[]) {
+
+        }
+
+        /*
+        *  Quantum function
+        *      
+        *      Set the RR quantum
+        */
+        public shellQuantum(args: string[]) {
+            if (args.length > 0) {
+                
+
+            } else {
+                _StdOut.putText("Usage: quantum <int>  Please supply an integer.");
+            }
         }
 
     }

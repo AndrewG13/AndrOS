@@ -24,6 +24,8 @@ const KEYBOARD_IRQ: number = 1;
 
 const MEMORY_SIZE: number = 0x300; // Main Memory size, 758 addresses, 1 byte stored at each address
 
+const QUANTUM: number = 6; // Default value for Round Robin
+
 var goodluck = new Audio("distrib/images/Good_Luck_Starfo_ 64.mp3");
 
 //
