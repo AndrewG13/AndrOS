@@ -13,13 +13,12 @@ var TSOS;
     //    terminated or if it should remain in memory.
     //    Terminated PCB = Block of memory that is ready to use. 
     class MemoryManager {
-        // May change to just be PID number.
         constructor() {
             // Initial available range 0x000 -> 0x2FF
             this.availStart = 0x000;
             this.availEnd = MEMORY_SIZE - 0x001;
             // Initial 3 free blocks.
-            this.part = [null, null, null];
+            this.parti = [true, true, true];
         }
         // May remove
         availRange() {
@@ -35,10 +34,29 @@ var TSOS;
         / Verify Memory Function
         /   Checks if memory is available to allocate
         /   Used when creating a PCB
+        /   Returns the partition number if available, -1 otherwise.
         */
         verifyMemory() {
+            // Prepare array of info to return
+            //   Index 1 = Partition #
+            //   Index 2 = Base
+            //   Index 3 = Limit
+            let retInfo = [-1, 0, 0];
             // Check if adequate memory is available
-            return (this.availStart < MEMORY_SIZE);
+            for (let block = 0; (block < this.parti.length) && (retInfo[0] === -1); block++) {
+                if (this.parti[block]) {
+                    retInfo[0] = block;
+                }
+            }
+            // If memory is available, calculate base & limit
+            if (retInfo[0] >= 0) {
+                // Base
+                retInfo[1] = 0x100 * retInfo[0];
+                // Limit
+                retInfo[2] = (0x100 * retInfo[0]) + 0x0FF;
+            }
+            // If memory unavailable, return will indicate with -1
+            return retInfo;
         }
         /*
         /  Deallocate Range Function
@@ -52,13 +70,10 @@ var TSOS;
         / Assign Range Function
         /   Allocates a [256 byte sized] block of memory for a PCB
         */
-        assignRange() {
+        assignRange(partition) {
             // Since "load" verifies Memory, we know theres available space
-            // Next, retain available starting address to allot
-            let addr = this.availStart;
-            // Finally, increment the available starting address (next block)
-            this.availStart += 0x100;
-            return addr;
+            // Next, update the partition array
+            this.parti[partition] = false;
         }
     }
     TSOS.MemoryManager = MemoryManager;

@@ -502,7 +502,8 @@ var TSOS;
                     }
                 }
                 // Contact the Memory Manager if memory is available
-                if ((_MemoryManager.verifyMemory()) === false) {
+                let partition = _MemoryManager.verifyMemory();
+                if (partition[0] === -1) {
                     failLog += "*Insufficient Memory ";
                 }
                 // If user code failed, display why and cease 'load'
@@ -512,7 +513,8 @@ var TSOS;
                 else {
                     // Code successful!
                     // Assign a block by Manager
-                    let startAddr = _MemoryManager.assignRange();
+                    _MemoryManager.assignRange(partition[0]);
+                    // Calculate the base and limit registers
                     // Wipe leftover memory (may remove this?)
                     _MemoryAccessor.resetMem();
                     // Put into memory by Accessor

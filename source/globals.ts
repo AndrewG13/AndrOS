@@ -39,7 +39,7 @@ var _Memory: TSOS.Memory;
 var _MemoryAccessor: TSOS.MemoryAccessor;
 
 // Software (OS)
-var _MemoryManager: any = null;
+var _MemoryManager: TSOS.MemoryManager = null;
 
 var _OSclock: number = 0;  // Page 23.
 

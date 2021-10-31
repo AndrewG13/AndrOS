@@ -11,6 +11,8 @@ var TSOS;
         constructor() {
             this.num = 0x000;
         }
+        scheduleProcess() {
+        }
     }
     TSOS.Scheduler = Scheduler;
 })(TSOS || (TSOS = {}));

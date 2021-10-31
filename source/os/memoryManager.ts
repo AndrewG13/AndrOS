@@ -18,14 +18,14 @@
             // Current available memory block / range
             private availStart : number;   // starting address available.
             private availEnd : number;     // ending address available, may not use.
-            private part : PCB[];          // PCB Partitions. part[x].state == Terminated -> Available Block.
-                                           // May change to just be PID number.
+            private parti : boolean[];     // Partitions. 'parti[x] == true' -> Available Block.
+
             constructor() {
                 // Initial available range 0x000 -> 0x2FF
                 this.availStart = 0x000;
                 this.availEnd = MEMORY_SIZE - 0x001; 
                 // Initial 3 free blocks.
-                this.part = [null,null,null]; 
+                this.parti = [true, true, true]; 
             }
 
             // May remove
@@ -44,10 +44,34 @@
             / Verify Memory Function
             /   Checks if memory is available to allocate 
             /   Used when creating a PCB
+            /   Returns the partition number if available, -1 otherwise.
             */
-            public verifyMemory() : boolean {
+            public verifyMemory() : number[] {
+
+                // Prepare array of info to return
+                //   Index 1 = Partition #
+                //   Index 2 = Base
+                //   Index 3 = Limit
+                let retInfo : number[] = [-1,0,0];
+
                 // Check if adequate memory is available
-                return (this.availStart < MEMORY_SIZE);
+                for (let block : number = 0; (block < this.parti.length) && (retInfo[0] === -1); block++) {
+                    if (this.parti[block]) {
+                        retInfo[0] = block;
+                    }
+                }
+
+                // If memory is available, calculate base & limit
+                if (retInfo[0] >= 0) {
+                    // Base
+                    retInfo[1] = 0x100 * retInfo[0];
+                    // Limit
+                    retInfo[2] = (0x100 * retInfo[0]) + 0x0FF;
+                }
+                
+                // If memory unavailable, return will indicate with -1
+                return retInfo;
+                
             }
 
             /*
@@ -63,15 +87,14 @@
             / Assign Range Function
             /   Allocates a [256 byte sized] block of memory for a PCB
             */
-            public assignRange() : number {
+            public assignRange(partition : number) : void {
                 // Since "load" verifies Memory, we know theres available space
 
-                // Next, retain available starting address to allot
-                let addr : number = this.availStart;
-                // Finally, increment the available starting address (next block)
-                this.availStart += 0x100;
+                // Next, update the partition array
+                this.parti[partition] = false;
 
-                return addr;
+
+
             }
     
         }

@@ -16,6 +16,10 @@
                 this.num = 0x000;
             }
 
+            public scheduleProcess() {
+                
+            }
+
         }
     }
     

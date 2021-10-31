@@ -10,6 +10,8 @@ var TSOS;
         constructor() {
             this.num = 0x000;
         }
+        performConSwi() {
+        }
     }
     TSOS.Dispatcher = Dispatcher;
 })(TSOS || (TSOS = {}));
