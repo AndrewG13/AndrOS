@@ -71,6 +71,14 @@
             }
 
             /*
+            / resetBlock function
+            /    Resets a specified portion of memory
+            */
+            public resetBlock(start : number, end : number) : void {
+                _Memory.resetRegs(start, end);
+            }
+
+            /*
             / readFrom function
             /    Synonymous to Memory's read() + LE check
             */

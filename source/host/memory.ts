@@ -45,6 +45,17 @@
                 this.mdr = 0x00;
                 this.mar = 0x00;
             }
+
+            /*
+            / ResetRegs Function
+            /   Initializes memory registers
+            */
+            public resetRegs(start : number, end : number) : void {
+                // Change all bytes in memory between start & end
+                for (let addr = start; addr <= end; addr++) {
+                    this.memoryAddr[addr] = 0x00;
+                }
+            }
     
             /*
             / GetMar Function

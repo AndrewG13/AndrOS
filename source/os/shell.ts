@@ -616,31 +616,33 @@ module TSOS {
                 } else {
                 // Code successful!
                     
-                    // Assign a block by Manager
-                    _MemoryManager.assignRange(partition[0]);
+                    // Note:
+                    // partition[0]: partition#
+                    // partition[1]: base reg
+                    // partition[2]: limit reg
 
-                    // Calculate the base and limit registers
-                    
+                    // Assign a block by Manager (send in partition# & PID-to-use)
+                    _MemoryManager.assignRange(partition[0], PCB.PID);
 
-                    // Wipe leftover memory (may remove this?)
-                    _MemoryAccessor.resetMem();
+                    // Wipe leftover memory in that parition
+                    _MemoryAccessor.resetBlock(partition[1], partition[2]);
 
                     // Put into memory by Accessor
-                    for (let reg = 0x00; reg < numOfBytes; reg += 0x01) {
+                    for (let reg = partition[1]; reg <= partition[2]; reg += 0x001) {
                         let data = parseInt(input.substring(reg*2, (reg*2)+2), 16);
                         _MemoryAccessor.writeImmediate(reg, data);
                     }
 
-                    // Create a PCB & enqueue on Resident Queue (and PCB list)
+                    // Create a PCB & enqueue on Ready Queue (and PCB list)
                     let newPCB = new PCB(_CPU.progCounter, _CPU.accumulator, _CPU.xReg, _CPU.yReg, _CPU.zFlag);
-                    newPCB.base = startAddr;
-                    newPCB.limit = startAddr + 0xFF; // range of 256 bytes
-                    _KernelResidentQueue.enqueue(newPCB);
+                    newPCB.base = partition[1];
+                    newPCB.limit = partition[2];
+                    _KernelReadyQueue.enqueue(newPCB);
                     PCBList[newPCB.PID] = newPCB;
 
 
                     // display registers (from start -> end) & PCB 
-                    _MemoryAccessor.displayRegisters(startAddr, startAddr + 0xFF);
+                    _MemoryAccessor.displayRegisters(newPCB.base, newPCB.limit);
                     Control.createPCBrow(newPCB);
 
                     _StdOut.putText("Load Successful: PID=" + newPCB.PID);
@@ -667,7 +669,7 @@ module TSOS {
         /     If no program or PID passed, display error.
         */
         public shellRun(args: string[]) {
-            console.log(_KernelResidentQueue.toString());
+            console.log(_KernelReadyQueue.toString());
 
             if (args.length > 0) {
 
@@ -676,7 +678,7 @@ module TSOS {
                 let failLog : string = "";
                 
                 // Check if any programs are Resident
-                if (_KernelResidentQueue.isEmpty()) {
+                if (_KernelReadyQueue.isEmpty()) {
                     failLog += "*Res. Queue Empty ";
                 } 
                 // Check if PID is numeric
@@ -731,7 +733,13 @@ module TSOS {
         *      Run all processes
         */
         public shellRunall(args: string[]) {
+            let noProgs = true; // To keep track if any programs 
+            
+            for (let block = 0; block < PARTITIONQUANTITY; block++) {
+                if (_MemoryManager.checkPart(block)) {
 
+                }
+            }
         }
 
         /*

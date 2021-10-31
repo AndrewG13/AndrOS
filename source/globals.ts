@@ -23,6 +23,8 @@ const TIMER_IRQ: number = 0;  // Pages 23 (timer), 9 (interrupts), and 561 (inte
 const KEYBOARD_IRQ: number = 1;
 
 const MEMORY_SIZE: number = 0x300; // Main Memory size, 758 addresses, 1 byte stored at each address
+const PARTITIONQUANTITY : number = 3; // Number of segments/divisions in Memory
+                                      // Only needed to keep the partition array private for good practice. 
 
 const QUANTUM: number = 6; // Default value for Round Robin
 
@@ -58,7 +60,7 @@ var _Kernel: TSOS.Kernel;
 var _KernelInterruptQueue: TSOS.Queue = null;
 var _KernelInputQueue: TSOS.Queue = null;
 var _KernelReadyQueue: TSOS.Queue = null;
-var _KernelResidentQueue: TSOS.Queue = null;
+//var _KernelResidentQueue: TSOS.Queue = null; // unused
 var _KernelBuffers = null;
 var _KernelCommandHistory: TSOS.CommandHistory;
 var PCBList = new Array<TSOS.PCB>();

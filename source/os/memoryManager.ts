@@ -18,14 +18,15 @@
             // Current available memory block / range
             private availStart : number;   // starting address available.
             private availEnd : number;     // ending address available, may not use.
-            private parti : boolean[];     // Partitions. 'parti[x] == true' -> Available Block.
+            private parti : number[];     // Partitions. 'parti[x] !== -1' -> Available Block.
+                                          // element values = PID at 'Index' partition
 
             constructor() {
                 // Initial available range 0x000 -> 0x2FF
                 this.availStart = 0x000;
                 this.availEnd = MEMORY_SIZE - 0x001; 
                 // Initial 3 free blocks.
-                this.parti = [true, true, true]; 
+                this.parti = [-1, -1, -1]; 
             }
 
             // May remove
@@ -56,7 +57,7 @@
 
                 // Check if adequate memory is available
                 for (let block : number = 0; (block < this.parti.length) && (retInfo[0] === -1); block++) {
-                    if (this.parti[block]) {
+                    if (this.parti[block] !== -1) {
                         retInfo[0] = block;
                     }
                 }
@@ -87,15 +88,23 @@
             / Assign Range Function
             /   Allocates a [256 byte sized] block of memory for a PCB
             */
-            public assignRange(partition : number) : void {
+            public assignRange(partition : number, pid : number) : void {
                 // Since "load" verifies Memory, we know theres available space
 
                 // Next, update the partition array
-                this.parti[partition] = false;
-
-
-
+                this.parti[partition] = pid;
             }
+
+            /*
+            public checkPart(partition : number) : boolean {
+                if ((partition >= 0) && (partition < this.parti.length)) {
+                    return this.parti[partition];
+                } else {
+                    console.log(partition + " is not valid")
+                    return false;
+                }
+            }
+            */
     
         }
     }

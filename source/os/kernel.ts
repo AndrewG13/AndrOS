@@ -21,7 +21,7 @@ module TSOS {
             _KernelBuffers = new Array();         // Buffers... for the kernel.
             _KernelInputQueue = new Queue();      // Where device input lands before being processed out somewhere.
             _KernelReadyQueue = new Queue();      // * Proj 3, implement Ready Queue functionality
-            _KernelResidentQueue = new Queue();   // Processes waiting to be run
+            //_KernelResidentQueue = new Queue();   // Processes waiting to be run
             _KernelCommandHistory = new CommandHistory();
 
             // Launch the Memory Manager software
@@ -85,7 +85,7 @@ module TSOS {
             // Resident Queue already checked by Run.
             // Right now this just dequeues Res. Queue, 
             // Proj 3 will actually check which PCB in Res. Queue to run.
-            let runThisPCB = _KernelResidentQueue.dequeue();
+            let runThisPCB = _KernelReadyQueue.dequeue();
             _CPU.run(runThisPCB);
         }
 

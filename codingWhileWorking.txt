@@ -11,7 +11,7 @@ Code written while away from my laptop.  Scrap paper, if you will.
     // ISSUE #22
     // Just update the Ready Queue graphic every clock pulse.  This ensures its accurate (to the T)
 
-
+    // 
 /*************************************************/
     // Blinking cursor code, because I was bored
         let colored = false;
