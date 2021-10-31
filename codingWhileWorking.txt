@@ -1,34 +1,15 @@
 Code written while away from my laptop.  Scrap paper, if you will.
 
-
-// Creating the Memory display table
-
-https://stackoverflow.com/questions/24307292/how-can-i-get-the-value-of-an-input-in-a-specific-table-cell-using-javascript
-https://stackoverflow.com/questions/27859976/how-to-dynamically-change-html-table-content-using-javascript
-https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_tr_insertcell
-
-let _MemoryTable = document.getElementById("divMemoryTable"); // Put in globals.ts
-let _MemoryTableCells = new Array();
-
-// put in control.ts
-let memRows = MEMORY_SIZE / 0x08; // number of rows
-let memCols = 0x08;               // number of columns (8 bytes)
-
-for (let i = 0; i < memRows; i++) {
-        let row = _MemoryTable.insertRow();
-        let label = row.insertCell();
-        label.innerHTML = i * 8;
-        label.style["color"] = "red";
-        for (let reg = 0; reg < memCols; reg++) {
-                let newCell = row.insertCell()
-                newCell.innerHTML = 0x00; // initial value of regs, no need to check
-                _MemoryTableCells[row * memCols] = newCell;
-                
-        } 
-    }
-// Load to Memory display 
-_MemoryAccessor.displayRegisters(0x00, 0xFF);
-
+    // Todo for Project 3:
+    
+    // ISSUE #24
+    // Make sure MMU knows of memory Partitions, maybe PCB keeps Part # ? 
+    // If not, PCB having Base regs have info regarding that -> B:0x000 = P0, B:0x100 = P1, B:0x200 = P2.
+    // Can make a boolean array to know whether a partition is available or not...
+    //availParti : boolean[] = [true,true,true]; // in MMU
+    
+    // ISSUE #22
+    // Just update the Ready Queue graphic every clock pulse.  This ensures its accurate (to the T)
 
 
 /*************************************************/
