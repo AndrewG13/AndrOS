@@ -26,7 +26,7 @@ const MEMORY_SIZE: number = 0x300; // Main Memory size, 758 addresses, 1 byte st
 const PARTITIONQUANTITY : number = 3; // Number of segments/divisions in Memory
                                       // Only needed to keep the partition array private for good practice. 
 
-const QUANTUM: number = 6; // Default value for Round Robin
+let QUANTUM: number = 6; // Default value for Round Robin
 
 var goodluck = new Audio("distrib/images/Good_Luck_Starfo_ 64.mp3");
 

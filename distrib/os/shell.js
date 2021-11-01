@@ -535,7 +535,7 @@ var TSOS;
                     // display registers (from start -> end) & PCB 
                     _MemoryAccessor.displayRegisters(newPCB.base, newPCB.limit);
                     TSOS.Control.createPCBrow(newPCB);
-                    _StdOut.putText("Load Successful: PID=" + newPCB.PID);
+                    _StdOut.putText("Load Successful: PID:" + newPCB.PID);
                 }
             }
             else {
@@ -683,9 +683,30 @@ var TSOS;
         /*
         *  PS function
         *
-        *      List all processes
+        *      List all processes (PID & State)
         */
         shellPs(args) {
+            // Check if any processes were inputted
+            if (PCBList.length === 0) {
+                if (_SarcasticMode) {
+                    _StdOut.putText("Really? Did you not read the help command?");
+                    _StdOut.advanceLine();
+                    _StdOut.putText("Do you not know how any of this works?");
+                }
+                else {
+                    _StdOut.putText("No Processes Available");
+                }
+            }
+            else {
+                // There are processes to log!
+                // Starting from PID 0, log until reaching the end
+                let pid = 0;
+                while (pid < PCBList.length) {
+                    _StdOut.putText("PID:" + pid + " | State: " + PCBList[pid].state);
+                    _StdOut.advanceLine();
+                    pid++;
+                }
+            }
         }
         /*
         *  Quantum function
@@ -694,6 +715,16 @@ var TSOS;
         */
         shellQuantum(args) {
             if (args.length > 0) {
+                let setQ = parseInt(args[0]);
+                // Check if Quantum is numeric
+                let validity = (args[0].search(/[^\d]/));
+                if (validity === 0) {
+                    _StdOut.putText("Quantum Not an Integer.");
+                }
+                else {
+                    // Quantum is valid, set it
+                    QUANTUM = setQ;
+                }
             }
             else {
                 _StdOut.putText("Usage: quantum <int>  Please supply an integer.");

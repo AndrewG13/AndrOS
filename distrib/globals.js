@@ -21,7 +21,7 @@ const KEYBOARD_IRQ = 1;
 const MEMORY_SIZE = 0x300; // Main Memory size, 758 addresses, 1 byte stored at each address
 const PARTITIONQUANTITY = 3; // Number of segments/divisions in Memory
 // Only needed to keep the partition array private for good practice. 
-const QUANTUM = 6; // Default value for Round Robin
+let QUANTUM = 6; // Default value for Round Robin
 var goodluck = new Audio("distrib/images/Good_Luck_Starfo_ 64.mp3");
 //
 // Global Variables
