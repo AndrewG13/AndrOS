@@ -666,7 +666,7 @@ var TSOS;
                     // Terminate CPU functionality
                     _CPU.isExecuting = false;
                     // Ask Kernel to conclude program
-                    _Kernel.krnEndProg(pid, " Manually.");
+                    _Kernel.krnEndProg(pid, "[Manually]");
                 }
             }
             else {

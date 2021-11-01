@@ -89,7 +89,6 @@ var TSOS;
             _StdOut.advanceLine();
             _StdOut.putText("PID: " + pid + " | Program Terminated " + msg);
             _StdOut.advanceLine();
-            _OsShell.putPrompt();
             // Change PCB state to Terminated
             PCBList[pid].state = TSOS.PCB.STATES[3];
         }
