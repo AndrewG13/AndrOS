@@ -530,7 +530,7 @@ var TSOS;
                     let newPCB = new TSOS.PCB(_CPU.progCounter, _CPU.accumulator, _CPU.xReg, _CPU.yReg, _CPU.zFlag);
                     newPCB.base = partition[1];
                     newPCB.limit = partition[2];
-                    _KernelReadyQueue.enqueue(newPCB);
+                    _SchedulerReadyQueue.enqueue(newPCB);
                     PCBList[newPCB.PID] = newPCB;
                     // display registers (from start -> end) & PCB 
                     _MemoryAccessor.displayRegisters(newPCB.base, newPCB.limit);
@@ -554,13 +554,13 @@ var TSOS;
         /     If no program or PID passed, display error.
         */
         shellRun(args) {
-            console.log(_KernelReadyQueue.toString());
+            //console.log(_SchedulerReadyQueue.toString());
             if (args.length > 0) {
                 let PID = parseInt(args[0]);
                 // FailLog to verify PCB validity
                 let failLog = "";
                 // Check if any programs are Resident
-                if (_KernelReadyQueue.isEmpty()) {
+                if (_SchedulerReadyQueue.isEmpty()) {
                     failLog += "*Res. Queue Empty ";
                 }
                 // Check if PID is numeric
@@ -585,6 +585,9 @@ var TSOS;
                 }
                 else {
                     // PCB valid and resident!
+                    // Set PCB state to "Running"
+                    PCBList[PID].state = TSOS.PCB.STATES[2];
+                    // Ask kernel to initiate program
                     _Kernel.krnInitProg(PID);
                 }
             }

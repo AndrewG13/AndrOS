@@ -113,7 +113,7 @@ module TSOS {
             _CPU.init();
             this.isExecuting = true;
             // * Proj 3, will decide which of 3 memory blocks to run based on passed in PCB
-            pcb.state = PCB.STATES[2]; // running
+
             this.pidRunning = pcb.PID;
         }
 

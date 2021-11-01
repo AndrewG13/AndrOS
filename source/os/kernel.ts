@@ -20,8 +20,6 @@ module TSOS {
             _KernelInterruptQueue = new Queue();  // A (currently) non-priority queue for interrupt requests (IRQs).
             _KernelBuffers = new Array();         // Buffers... for the kernel.
             _KernelInputQueue = new Queue();      // Where device input lands before being processed out somewhere.
-            _KernelReadyQueue = new Queue();      // * Proj 3, implement Ready Queue functionality
-            //_KernelResidentQueue = new Queue();   // Processes waiting to be run
             _KernelCommandHistory = new CommandHistory();
 
             // Launch the Memory Manager software
@@ -88,12 +86,12 @@ module TSOS {
         /       Upon termination, memory section in use is wiped.
         */
         public krnInitProg(PID : number) {
-            // Ready Queue already checked by Run.
-
-            // Find PCB to run based on PID
-            let runThisPCB = _KernelReadyQueue.dequeueValue(PCBList[PID]);
-            // Consider adding it to the Schedule isRunning variable?
-            _CPU.run(runThisPCB);
+            // At this point:
+            //  Ready Queue already checked by Run.
+            //  Scheduler has sent a PID to run based on its philosophy.
+            
+            // Trigger the CPU to run it.
+            _CPU.run(PCBList[PID]);                
         }
 
         /*

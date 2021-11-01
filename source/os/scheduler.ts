@@ -10,20 +10,64 @@
 
         export class Scheduler {
 
+            // Scheduling Philosophies
+            static AVAILABLEMODES : string[] = ["RR", "PRI", "FCFS"]; 
+
             // Consider having KrnInitProg deqVal, then enq it to put it in the back of the ReadyQueue 
             // (its state will be "Running")
             
             private pidRunning : number;
+            private mode : string;
+
             constructor() {
-                this.pidRunning = _CPU.pidRunning;
+                this.mode = Scheduler.AVAILABLEMODES[0]; // proj4, this will be settable
+                this.pidRunning = _CPU.pidRunning; // should initialize to -1 (nothings running!)
+                _SchedulerReadyQueue = new Queue(); // The Ready Queue, handled by the Scheduler
+
             }
 
             public cycle() : void {
-                
+                this.checkIfReady();
+            }
+
+            public schedulePIDProcess(PID : number) {
+                // Set pidRunning accordingly
+                this.pidRunning = PID;
+                // Ask kernel to run PCB
+                _Kernel.krnInitProg(PID);
             }
 
             public scheduleProcess() {
-                
+
+            }
+
+            private checkIfReady() {
+                let qSize = _SchedulerReadyQueue.getSize(); // Need size in seperate variable
+                let notFound = true; // Keep track if one process has already be initiated to run
+                let pcbToRun : PCB;
+
+                // For each PCB in Ready Queue, check if "Ready"
+                // First to be Ready will be ran
+                // Continue shifting the Queue until back to its original order (minus the dequeued PCB)
+                for (let i = 0; i < qSize; i++) {
+                    let pcb : PCB = _SchedulerReadyQueue.dequeue();
+                    if ((pcb.state === "Ready") && (notFound)) {
+                        pcbToRun = pcb;
+                        notFound = false;
+                    } else {
+                        _SchedulerReadyQueue.enqueue(pcb);
+                    }
+                }
+                // If a process found, initiate run.
+                if (!notFound) {
+                    // First put running process to the back of the Ready Queue
+                    // * Note: The Ready Queue keeps track of both Ready & Running processes
+                    //         This is to help retain the order in which the processes were received.
+                    _SchedulerReadyQueue.enqueue(pcbToRun);
+                    
+                    // Now schedule this process.
+                    this.schedulePIDProcess(pcbToRun.PID);
+                }
             }
 
         }

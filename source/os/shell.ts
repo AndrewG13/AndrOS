@@ -639,7 +639,7 @@ module TSOS {
                     let newPCB = new PCB(_CPU.progCounter, _CPU.accumulator, _CPU.xReg, _CPU.yReg, _CPU.zFlag);
                     newPCB.base = partition[1];
                     newPCB.limit = partition[2];
-                    _KernelReadyQueue.enqueue(newPCB);
+                    _SchedulerReadyQueue.enqueue(newPCB);
                     PCBList[newPCB.PID] = newPCB;
 
 
@@ -671,7 +671,7 @@ module TSOS {
         /     If no program or PID passed, display error.
         */
         public shellRun(args: string[]) {
-            console.log(_KernelReadyQueue.toString());
+            //console.log(_SchedulerReadyQueue.toString());
 
             if (args.length > 0) {
 
@@ -680,7 +680,7 @@ module TSOS {
                 let failLog : string = "";
                 
                 // Check if any programs are Resident
-                if (_KernelReadyQueue.isEmpty()) {
+                if (_SchedulerReadyQueue.isEmpty()) {
                     failLog += "*Res. Queue Empty ";
                 } 
                 // Check if PID is numeric
@@ -705,7 +705,9 @@ module TSOS {
                     _StdOut.putText("Run Failed: " + failLog);
                 } else {
                     // PCB valid and resident!
-                    _Kernel.krnInitProg(PID);
+
+                    // Set PCB state to "Running"
+                    PCBList[PID].state = PCB.STATES[2];
                 }
             } else {
                 _StdOut.putText("Usage: run <PID>  Please supply a PID.");

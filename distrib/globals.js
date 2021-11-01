@@ -45,7 +45,7 @@ var _Trace = true; // Default the OS trace to be on.
 var _Kernel;
 var _KernelInterruptQueue = null;
 var _KernelInputQueue = null;
-var _KernelReadyQueue = null;
+var _SchedulerReadyQueue = null;
 var _KernelBuffers = null;
 var _KernelCommandHistory;
 var PCBList = new Array(); // Index value = PID#
