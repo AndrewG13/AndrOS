@@ -69,10 +69,9 @@ var TSOS;
         /       Upon termination, memory section in use is wiped.
         */
         krnInitProg(PID) {
-            // Resident Queue already checked by Run.
-            // Right now this just dequeues Res. Queue, 
-            // Proj 3 will actually check which PCB in Res. Queue to run.
-            let runThisPCB = _KernelReadyQueue.dequeue();
+            // Ready Queue already checked by Run.
+            // Find PCB to run based on PID
+            let runThisPCB = _KernelReadyQueue.dequeueValue(PCBList[PID]);
             _CPU.run(runThisPCB);
         }
         /*

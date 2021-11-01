@@ -36,6 +36,24 @@ var TSOS;
             }
             return retVal;
         }
+        // This function assumes the value is in the Queue
+        // This assumption is made for the KernelInitProg function
+        dequeueValue(value) {
+            let retVal = null;
+            let orgSize = this.getSize();
+            for (let i = 0; i < orgSize; i++) {
+                // Check if front of Queue is Value
+                if (this.q[0] === value) {
+                    retVal = this.dequeue();
+                }
+                else {
+                    // Remove front element, put it 
+                    let e = this.dequeue();
+                    this.enqueue(e);
+                }
+            }
+            return retVal;
+        }
     }
     TSOS.Queue = Queue;
 })(TSOS || (TSOS = {}));
