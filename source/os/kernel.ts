@@ -104,12 +104,16 @@ module TSOS {
             _StdOut.advanceLine();
             _StdOut.putText("PID: " + pid + " | Program Terminated " + msg);
             _StdOut.advanceLine();
+            _OsShell.putPrompt();
 
             // Change PCB state to Terminated
             PCBList[pid].state = PCB.STATES[3];
         
             // Display Terminated PCB results
             Control.displayPCB(PCBList[pid]);
+
+            // Ensure registers in Memory are accurate by displaying results
+            _MemoryAccessor.displayRegisters(PCBList[pid].base, PCBList[pid].limit);
         }
 
 

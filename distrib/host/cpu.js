@@ -81,10 +81,14 @@ var TSOS;
                     this.writeBack();
                     this.currentCommand = Commands.FETCH;
                 }
-                // Display registers & Update PCB each cycle.  
-                _MemoryAccessor.displayRegisters(PCBList[this.pidRunning].base, PCBList[this.pidRunning].limit);
-                PCBList[this.pidRunning].updatePCB();
-                TSOS.Control.displayPCB(PCBList[this.pidRunning]);
+                // Display all info to FE tables
+                // First check if PID has been reset (this happens prior to displaying, see Execute case:00)
+                if (this.pidRunning !== -1) {
+                    // Display registers & Update PCB each cycle.  
+                    _MemoryAccessor.displayRegisters(PCBList[this.pidRunning].base, PCBList[this.pidRunning].limit);
+                    PCBList[this.pidRunning].updatePCB();
+                    TSOS.Control.displayPCB(PCBList[this.pidRunning]);
+                }
                 // Display CPU
                 TSOS.Control.displayCPU();
             }
@@ -256,7 +260,7 @@ var TSOS;
                     if (!this.zFlag) {
                         // Calculate how far back the Program Counter needs to go
                         let backtrackDifference = 0x100 - (_MemoryAccessor.checkMDR());
-                        console.log("Backtrack diff " + backtrackDifference);
+                        //console.log("Backtrack diff "+ backtrackDifference);
                         // Backtrack the Program Counter based on result (Loop back to desired register)
                         this.progCounter -= backtrackDifference;
                         if (this.progCounter < 0x00) {
