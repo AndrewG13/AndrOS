@@ -263,7 +263,7 @@ module TSOS {
                   this.isExecuting = false;
 
                   // Ask Kernel to conclude program
-                  _Kernel.krnEndProg(parseInt(this.pidRunning));
+                  _Kernel.krnEndProg(parseInt(this.pidRunning), "[Normally]");
 
                   //this.pidRunning = null;
                   

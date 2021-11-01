@@ -244,7 +244,7 @@ var TSOS;
                     // Stop the CPU commands, may need to change this
                     this.isExecuting = false;
                     // Ask Kernel to conclude program
-                    _Kernel.krnEndProg(parseInt(this.pidRunning));
+                    _Kernel.krnEndProg(parseInt(this.pidRunning), " Normally.");
                     //this.pidRunning = null;
                     break;
                 case 0xEC: // Compare value from Memory Register to X Register, zFlag = true if equal

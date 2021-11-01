@@ -643,7 +643,31 @@ var TSOS;
         *      Kill PID process
         */
         shellKill(args) {
+            // Check if a program is running
+            if (!(_CPU.isExecuting)) {
+                _StdOut.putText("CPU not in execution.");
+            }
+            else 
+            // Check if PID provided
             if (args.length > 0) {
+                let pid = parseInt(args[0]);
+                // Check if PID valid
+                if (pid < 0 || pid >= PCBList.length) {
+                    _StdOut.putText("Invalid PID.");
+                }
+                else 
+                // Finally check if the process is running
+                if (PCBList[pid].state !== "Running") {
+                    _StdOut.putText("PID: " + pid + " not in execution.");
+                }
+                else {
+                    // Process is valid & running!
+                    _StdOut.putText("Manual Kill Initiated");
+                    // Terminate CPU functionality
+                    _CPU.isExecuting = false;
+                    // Ask Kernel to conclude program
+                    _Kernel.krnEndProg(pid, " Manually.");
+                }
             }
             else {
                 _StdOut.putText("Usage: kill <PID>  Please supply a PID.");

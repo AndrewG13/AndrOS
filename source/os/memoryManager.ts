@@ -9,6 +9,7 @@
      module TSOS {
 
         export class MemoryManager {
+            // Allocating data & ensuring integrity for the Main Memory Object -> _Memory 
 
             private parti : number[];     // Partitions. 'parti[x] !== -1' -> Available Block.
                                           // element values = PID at 'Index' partition

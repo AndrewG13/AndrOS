@@ -8,8 +8,11 @@
      module TSOS {
 
         export class MemoryAccessor {
-            // Accessing the Main Memory Object -> _Memory 
+            // Accessing & Manipulating the Main Memory Object -> _Memory 
             
+            public base : number;
+            public limit : number;
+
             // Little Endian Flag: Used to indicate when the following 2 DATA inputs will be in LE format
             // Index 0 = Flag
             //           Flag = 0 : No
@@ -22,6 +25,11 @@
             constructor() {
                 this.leFlag[0] = 0; // LE flag      set to zero 
                 this.leFlag[1] = 0; // data-portion set to zero
+                
+                // Initialize Base & Limit registers
+                // Starting at Partition#1
+                this.base = 0x000; 
+                this.limit= 0x0FF; 
             }
 
             /*

@@ -10,7 +10,7 @@ var TSOS;
         constructor() {
             this.num = 0x000;
         }
-        performConSwi() {
+        performCxtSwt() {
         }
     }
     TSOS.Dispatcher = Dispatcher;

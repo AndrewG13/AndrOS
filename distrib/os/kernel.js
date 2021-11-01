@@ -79,17 +79,15 @@ var TSOS;
         / End Program Function
         /    Terminates the program in execution & deallocates that Memory range
         */
-        krnEndProg(pid) {
+        krnEndProg(pid, msg) {
             // Once the process terminates, clear memory for that specific block.
-            // For now, this means the whole memory is cleared.
-            // * Proj 3 will clear the CORRECT portion of memory, not the whole thing
-            // Uncomment to have memory wiped after running
+            // Uncomment to have memory wiped after running 
             //_MemoryAccessor.resetMem();
             // Deallocate memory block
             _MemoryManager.deallocateRange(pid);
-            // CPU will be reset upon running next program
+            // *Note: CPU will be reset upon running next program
             _StdOut.advanceLine();
-            _StdOut.putText("Program Terminated");
+            _StdOut.putText("PID: " + pid + " | Program Terminated " + msg);
             _StdOut.advanceLine();
             _OsShell.putPrompt();
             // Change PCB state to Terminated

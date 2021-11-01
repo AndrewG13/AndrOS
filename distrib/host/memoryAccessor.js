@@ -8,7 +8,6 @@ var TSOS;
 (function (TSOS) {
     class MemoryAccessor {
         constructor() {
-            // Accessing the Main Memory Object -> _Memory 
             // Little Endian Flag: Used to indicate when the following 2 DATA inputs will be in LE format
             // Index 0 = Flag
             //           Flag = 0 : No
@@ -19,6 +18,10 @@ var TSOS;
             this.leFlag = new Array(0x2);
             this.leFlag[0] = 0; // LE flag      set to zero 
             this.leFlag[1] = 0; // data-portion set to zero
+            // Initialize Base & Limit registers
+            // Starting at Partition#1
+            this.base = 0x000;
+            this.limit = 0x0FF;
         }
         /*
         / Set Little Endian Flag function
