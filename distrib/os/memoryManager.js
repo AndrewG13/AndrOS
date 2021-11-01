@@ -78,7 +78,7 @@ var TSOS;
         }
         /*
         / CheckRange Function
-        /   Returns PID if partition has a PCB (aka is unavailable)
+        /   Returns PID IF partition has a PCB (aka, is unavailable)
         /   Otherwise returns -1 (available to load)
         */
         checkRange(partition) {

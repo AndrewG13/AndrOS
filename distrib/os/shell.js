@@ -620,7 +620,7 @@ var TSOS;
                 // Check if PID is "Ready"
                 if (PID !== -1 && PCBList[PID].state === "Ready") {
                     noProgs = false;
-                    args[0] = block.toString();
+                    args[0] = PID.toString();
                     this.shellRun(args);
                 }
             }
@@ -664,7 +664,7 @@ var TSOS;
                 }
                 else 
                 // Finally check if the process is running
-                if (PCBList[pid].state !== "Running") {
+                if (PCBList[pid].state !== "Running" && args.length === 1) {
                     _StdOut.putText("PID: " + pid + " not in execution.");
                 }
                 else {
@@ -686,6 +686,23 @@ var TSOS;
         *      Kill all processes
         */
         shellKillall(args) {
+            if (PCBList.length === 0) {
+                _StdOut.putText("No Programs in memory.");
+            }
+            else {
+                for (let block = 0; block < PARTITIONQUANTITY; block++) {
+                    // Check if block has a PCB
+                    let PID = _MemoryManager.checkRange(block);
+                    if (PID > 0) {
+                        // PCB exists, attempt to kill it
+                        args[0] = PID.toString();
+                        // Ensure Kill won't bark about PCBs that aren't "Running"
+                        // attention to detail
+                        args[1] = "No log";
+                        this.shellKill(args);
+                    }
+                }
+            }
         }
         /*
         *  PS function
