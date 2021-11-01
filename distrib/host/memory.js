@@ -34,6 +34,16 @@ var TSOS;
             this.mar = 0x00;
         }
         /*
+        / ResetRegs Function
+        /   Initializes memory registers
+        */
+        resetRegs(start, end) {
+            // Change all bytes in memory between start & end
+            for (let addr = start; addr <= end; addr++) {
+                this.memoryAddr[addr] = 0x00;
+            }
+        }
+        /*
         / GetMar Function
         /   Returns the MAR
         */

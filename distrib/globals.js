@@ -19,6 +19,8 @@ const TIMER_IRQ = 0; // Pages 23 (timer), 9 (interrupts), and 561 (interrupt pri
 // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
 const KEYBOARD_IRQ = 1;
 const MEMORY_SIZE = 0x300; // Main Memory size, 758 addresses, 1 byte stored at each address
+const PARTITIONQUANTITY = 3; // Number of segments/divisions in Memory
+// Only needed to keep the partition array private for good practice. 
 const QUANTUM = 6; // Default value for Round Robin
 var goodluck = new Audio("distrib/images/Good_Luck_Starfo_ 64.mp3");
 //
@@ -44,10 +46,10 @@ var _Kernel;
 var _KernelInterruptQueue = null;
 var _KernelInputQueue = null;
 var _KernelReadyQueue = null;
-var _KernelResidentQueue = null;
+//var _KernelResidentQueue: TSOS.Queue = null; // unused
 var _KernelBuffers = null;
 var _KernelCommandHistory;
-var PCBList = new Array();
+var PCBList = new Array(); // Index value = PID#
 // Standard input and output
 var _StdIn = null;
 var _StdOut = null;

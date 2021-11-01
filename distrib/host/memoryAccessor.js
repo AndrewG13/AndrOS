@@ -62,6 +62,13 @@ var TSOS;
             _Memory.reset();
         }
         /*
+        / resetBlock function
+        /    Resets a specified portion of memory
+        */
+        resetBlock(start, end) {
+            _Memory.resetRegs(start, end);
+        }
+        /*
         / readFrom function
         /    Synonymous to Memory's read() + LE check
         */

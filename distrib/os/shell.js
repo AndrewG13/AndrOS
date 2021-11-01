@@ -512,24 +512,27 @@ var TSOS;
                 }
                 else {
                     // Code successful!
-                    // Assign a block by Manager
-                    _MemoryManager.assignRange(partition[0]);
-                    // Calculate the base and limit registers
-                    // Wipe leftover memory (may remove this?)
-                    _MemoryAccessor.resetMem();
+                    // Note:
+                    // partition[0]: partition#
+                    // partition[1]: base reg
+                    // partition[2]: limit reg
+                    // Assign a block by Manager (send in partition# & PID-to-use)
+                    _MemoryManager.assignRange(partition[0], TSOS.PCB.PID);
+                    // Wipe leftover memory in that parition
+                    _MemoryAccessor.resetBlock(partition[1], partition[2]);
                     // Put into memory by Accessor
-                    for (let reg = 0x00; reg < numOfBytes; reg += 0x01) {
+                    for (let reg = partition[1]; reg <= partition[2]; reg += 0x001) {
                         let data = parseInt(input.substring(reg * 2, (reg * 2) + 2), 16);
                         _MemoryAccessor.writeImmediate(reg, data);
                     }
-                    // Create a PCB & enqueue on Resident Queue (and PCB list)
+                    // Create a PCB & enqueue on Ready Queue (and PCB list)
                     let newPCB = new TSOS.PCB(_CPU.progCounter, _CPU.accumulator, _CPU.xReg, _CPU.yReg, _CPU.zFlag);
-                    newPCB.base = startAddr;
-                    newPCB.limit = startAddr + 0xFF; // range of 256 bytes
-                    _KernelResidentQueue.enqueue(newPCB);
+                    newPCB.base = partition[1];
+                    newPCB.limit = partition[2];
+                    _KernelReadyQueue.enqueue(newPCB);
                     PCBList[newPCB.PID] = newPCB;
                     // display registers (from start -> end) & PCB 
-                    _MemoryAccessor.displayRegisters(startAddr, startAddr + 0xFF);
+                    _MemoryAccessor.displayRegisters(newPCB.base, newPCB.limit);
                     TSOS.Control.createPCBrow(newPCB);
                     _StdOut.putText("Load Successful: PID=" + newPCB.PID);
                 }
@@ -550,13 +553,13 @@ var TSOS;
         /     If no program or PID passed, display error.
         */
         shellRun(args) {
-            console.log(_KernelResidentQueue.toString());
+            console.log(_KernelReadyQueue.toString());
             if (args.length > 0) {
                 let PID = parseInt(args[0]);
                 // FailLog to verify PCB validity
                 let failLog = "";
                 // Check if any programs are Resident
-                if (_KernelResidentQueue.isEmpty()) {
+                if (_KernelReadyQueue.isEmpty()) {
                     failLog += "*Res. Queue Empty ";
                 }
                 // Check if PID is numeric
@@ -571,6 +574,10 @@ var TSOS;
                 // Check if PCB was terminated
                 if (PCBList.length > PID && PCBList[PID].state === "Terminated") {
                     failLog += "*PID Terminated ";
+                }
+                // Check if PCB is currently running
+                if (PCBList.length > PID && PCBList[PID].state === "Running") {
+                    failLog += "*PID Running ";
                 }
                 if (failLog !== "") {
                     _StdOut.putText("Run Failed: " + failLog);
@@ -605,6 +612,20 @@ var TSOS;
         *      Run all processes
         */
         shellRunall(args) {
+            let noProgs = true; // To keep track if any programs 
+            // Check each block for PID
+            for (let block = 0; block < PARTITIONQUANTITY; block++) {
+                let PID = _MemoryManager.checkRange(block);
+                // Check if PID is "Ready"
+                if (PID !== -1 && PCBList[PID].state === "Ready") {
+                    noProgs = false;
+                    args[0] = block.toString();
+                    this.shellRun(args);
+                }
+            }
+            if (noProgs) {
+                _StdOut.putText("No Programs to Run.");
+            }
         }
         /*
         *  Clearmem function
@@ -612,6 +633,8 @@ var TSOS;
         *      Clear memory
         */
         shellClearmem(args) {
+            // Listening to Mario Party music while I write this
+            // https://www.youtube.com/watch?v=Yt-3zpmj3K8
         }
         /*
         *  Kill function

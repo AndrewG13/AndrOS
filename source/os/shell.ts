@@ -694,6 +694,10 @@ module TSOS {
                 if (PCBList.length > PID && PCBList[PID].state === "Terminated") {
                     failLog += "*PID Terminated "
                 }
+                // Check if PCB is currently running
+                if (PCBList.length > PID && PCBList[PID].state === "Running") {
+                failLog += "*PID Running "
+                }
 
                 if (failLog !== "") {
                     _StdOut.putText("Run Failed: " + failLog);
@@ -735,10 +739,19 @@ module TSOS {
         public shellRunall(args: string[]) {
             let noProgs = true; // To keep track if any programs 
             
-            for (let block = 0; block < PARTITIONQUANTITY; block++) {
-                if (_MemoryManager.checkPart(block)) {
-
+            // Check each block for PID
+            for (let block : number = 0; block < PARTITIONQUANTITY; block++) {
+                let PID = _MemoryManager.checkRange(block);
+                // Check if PID is "Ready"
+                if (PID !== -1 && PCBList[PID].state === "Ready") {
+                    noProgs = false;
+                    args[0] = block.toString();
+                    this.shellRun(args);
                 }
+            }
+
+            if (noProgs) {
+                _StdOut.putText("No Programs to Run.");
             }
         }
 
@@ -748,7 +761,10 @@ module TSOS {
         *      Clear memory
         */
         public shellClearmem(args: string[]) {
+            // Listening to Mario Party music while I write this
+            // https://www.youtube.com/watch?v=Yt-3zpmj3K8
 
+            
         }
 
         /*

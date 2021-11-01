@@ -19,7 +19,7 @@ var TSOS;
             _KernelBuffers = new Array(); // Buffers... for the kernel.
             _KernelInputQueue = new TSOS.Queue(); // Where device input lands before being processed out somewhere.
             _KernelReadyQueue = new TSOS.Queue(); // * Proj 3, implement Ready Queue functionality
-            _KernelResidentQueue = new TSOS.Queue(); // Processes waiting to be run
+            //_KernelResidentQueue = new Queue();   // Processes waiting to be run
             _KernelCommandHistory = new TSOS.CommandHistory();
             // Launch the Memory Manager software
             _MemoryManager = new TSOS.MemoryManager();
@@ -72,7 +72,7 @@ var TSOS;
             // Resident Queue already checked by Run.
             // Right now this just dequeues Res. Queue, 
             // Proj 3 will actually check which PCB in Res. Queue to run.
-            let runThisPCB = _KernelResidentQueue.dequeue();
+            let runThisPCB = _KernelReadyQueue.dequeue();
             _CPU.run(runThisPCB);
         }
         /*

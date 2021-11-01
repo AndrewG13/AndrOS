@@ -13,12 +13,14 @@ var TSOS;
     //    terminated or if it should remain in memory.
     //    Terminated PCB = Block of memory that is ready to use. 
     class MemoryManager {
+        // element values = PID at 'Index' partition
+        // index values = Partition#
         constructor() {
             // Initial available range 0x000 -> 0x2FF
             this.availStart = 0x000;
             this.availEnd = MEMORY_SIZE - 0x001;
-            // Initial 3 free blocks.
-            this.parti = [true, true, true];
+            // Initially 3 free blocks.
+            this.parti = [-1, -1, -1];
         }
         // May remove
         availRange() {
@@ -43,8 +45,8 @@ var TSOS;
             //   Index 3 = Limit
             let retInfo = [-1, 0, 0];
             // Check if adequate memory is available
-            for (let block = 0; (block < this.parti.length) && (retInfo[0] === -1); block++) {
-                if (this.parti[block]) {
+            for (let block = 0; (block < PARTITIONQUANTITY) && (retInfo[0] === -1); block++) {
+                if (this.parti[block] !== -1) {
                     retInfo[0] = block;
                 }
             }
@@ -70,10 +72,28 @@ var TSOS;
         / Assign Range Function
         /   Allocates a [256 byte sized] block of memory for a PCB
         */
-        assignRange(partition) {
+        assignRange(partition, pid) {
             // Since "load" verifies Memory, we know theres available space
             // Next, update the partition array
-            this.parti[partition] = false;
+            this.parti[partition] = pid;
+        }
+        freeRange(partition) {
+            if ((partition >= 0) && (partition < PARTITIONQUANTITY)) {
+                // Make PID = -1, which indicates this partition is free!
+                this.parti[partition] = -1;
+            }
+            else {
+                console.log(partition + " is not valid");
+            }
+        }
+        checkRange(partition) {
+            if ((partition >= 0) && (partition < PARTITIONQUANTITY)) {
+                return this.parti[partition];
+            }
+            else {
+                console.log(partition + " is not valid");
+                return -1;
+            }
         }
     }
     TSOS.MemoryManager = MemoryManager;

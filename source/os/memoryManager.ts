@@ -18,14 +18,16 @@
             // Current available memory block / range
             private availStart : number;   // starting address available.
             private availEnd : number;     // ending address available, may not use.
+
             private parti : number[];     // Partitions. 'parti[x] !== -1' -> Available Block.
                                           // element values = PID at 'Index' partition
+                                          // index values = Partition#
 
             constructor() {
                 // Initial available range 0x000 -> 0x2FF
                 this.availStart = 0x000;
                 this.availEnd = MEMORY_SIZE - 0x001; 
-                // Initial 3 free blocks.
+                // Initially 3 free blocks.
                 this.parti = [-1, -1, -1]; 
             }
 
@@ -56,7 +58,7 @@
                 let retInfo : number[] = [-1,0,0];
 
                 // Check if adequate memory is available
-                for (let block : number = 0; (block < this.parti.length) && (retInfo[0] === -1); block++) {
+                for (let block : number = 0; (block < PARTITIONQUANTITY) && (retInfo[0] === -1); block++) {
                     if (this.parti[block] !== -1) {
                         retInfo[0] = block;
                     }
@@ -95,16 +97,24 @@
                 this.parti[partition] = pid;
             }
 
-            /*
-            public checkPart(partition : number) : boolean {
-                if ((partition >= 0) && (partition < this.parti.length)) {
+            
+            public freeRange(partition : number) : void {
+                if ((partition >= 0) && (partition < PARTITIONQUANTITY)) {
+                    // Make PID = -1, which indicates this partition is free!
+                    this.parti[partition] = -1
+                } else {
+                    console.log(partition + " is not valid")
+                }
+            }
+            
+            public checkRange(partition : number) : number {
+                if ((partition >= 0) && (partition < PARTITIONQUANTITY)) {
                     return this.parti[partition];
                 } else {
                     console.log(partition + " is not valid")
-                    return false;
+                    return -1;
                 }
             }
-            */
     
         }
     }
