@@ -47,7 +47,7 @@
             / Verify Memory Function
             /   Checks if memory is available to allocate 
             /   Used when creating a PCB
-            /   Returns the partition number if available, -1 otherwise.
+            /   Returns the partition# + info if available, -1 otherwise.
             */
             public verifyMemory() : number[] {
 
@@ -57,9 +57,9 @@
                 //   Index 3 = Limit
                 let retInfo : number[] = [-1,0,0];
 
-                // Check if adequate memory is available
+                // Check if adequate memory is available, stops once found space
                 for (let block : number = 0; (block < PARTITIONQUANTITY) && (retInfo[0] === -1); block++) {
-                    if (this.parti[block] !== -1) {
+                    if (this.parti[block] === -1) {
                         retInfo[0] = block;
                     }
                 }

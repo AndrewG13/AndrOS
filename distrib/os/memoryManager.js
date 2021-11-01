@@ -36,7 +36,7 @@ var TSOS;
         / Verify Memory Function
         /   Checks if memory is available to allocate
         /   Used when creating a PCB
-        /   Returns the partition number if available, -1 otherwise.
+        /   Returns the partition# + info if available, -1 otherwise.
         */
         verifyMemory() {
             // Prepare array of info to return
@@ -44,9 +44,9 @@ var TSOS;
             //   Index 2 = Base
             //   Index 3 = Limit
             let retInfo = [-1, 0, 0];
-            // Check if adequate memory is available
+            // Check if adequate memory is available, stops once found space
             for (let block = 0; (block < PARTITIONQUANTITY) && (retInfo[0] === -1); block++) {
-                if (this.parti[block] !== -1) {
+                if (this.parti[block] === -1) {
                     retInfo[0] = block;
                 }
             }

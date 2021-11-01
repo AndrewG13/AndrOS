@@ -144,8 +144,8 @@ var TSOS;
             Control.HtmlPCBs[3].innerHTML = "" + hexLog(pcb.Acc, 2);
             Control.HtmlPCBs[4].innerHTML = "" + hexLog(pcb.Xreg, 2);
             Control.HtmlPCBs[5].innerHTML = "" + hexLog(pcb.Yreg, 2);
-            Control.HtmlPCBs[7].innerHTML = "" + hexLog(pcb.base, 2);
-            Control.HtmlPCBs[8].innerHTML = "" + hexLog(pcb.limit, 2);
+            Control.HtmlPCBs[7].innerHTML = "" + hexLog(pcb.base, 3);
+            Control.HtmlPCBs[8].innerHTML = "" + hexLog(pcb.limit, 3);
             // Format boolean ZFlag as a numeric bit
             if (pcb.Zflag) {
                 Control.HtmlPCBs[6].innerHTML = hexLog(1, 2);

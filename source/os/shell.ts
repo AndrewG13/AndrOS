@@ -616,6 +616,8 @@ module TSOS {
                 } else {
                 // Code successful!
                     
+                    console.log(partition[0] + " " + partition[1] + " " + partition[2]);
+                    
                     // Note:
                     // partition[0]: partition#
                     // partition[1]: base reg
@@ -628,9 +630,9 @@ module TSOS {
                     _MemoryAccessor.resetBlock(partition[1], partition[2]);
 
                     // Put into memory by Accessor
-                    for (let reg = partition[1]; reg <= partition[2]; reg += 0x001) {
-                        let data = parseInt(input.substring(reg*2, (reg*2)+2), 16);
-                        _MemoryAccessor.writeImmediate(reg, data);
+                    for (let reg : number = 0; reg < numOfBytes; reg += 0x001) {
+                        let data : number = parseInt(input.substring(reg*2, (reg*2)+2), 16);
+                        _MemoryAccessor.writeImmediate(partition[1] + reg, data);
                     }
 
                     // Create a PCB & enqueue on Ready Queue (and PCB list)

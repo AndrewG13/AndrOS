@@ -119,7 +119,7 @@
                 if (start >= this.memoryAddr.length || start < 0 || end >= this.memoryAddr.length || end < start) {
                     _StdOut.putText("Illegal memory parameters");
                 } else {
-                // Must be valid range, display on FE accordingly
+                // Must be valid range, display accordingly
                     while(start < this.memoryAddr.length && start <= end) {
                         _MemoryTableCells[start].innerHTML = hexLog(this.memoryAddr[start], 2);
                         start = start + 0x01;

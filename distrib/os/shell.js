@@ -512,6 +512,7 @@ var TSOS;
                 }
                 else {
                     // Code successful!
+                    console.log(partition[0] + " " + partition[1] + " " + partition[2]);
                     // Note:
                     // partition[0]: partition#
                     // partition[1]: base reg
@@ -521,9 +522,9 @@ var TSOS;
                     // Wipe leftover memory in that parition
                     _MemoryAccessor.resetBlock(partition[1], partition[2]);
                     // Put into memory by Accessor
-                    for (let reg = partition[1]; reg <= partition[2]; reg += 0x001) {
+                    for (let reg = 0; reg < numOfBytes; reg += 0x001) {
                         let data = parseInt(input.substring(reg * 2, (reg * 2) + 2), 16);
-                        _MemoryAccessor.writeImmediate(reg, data);
+                        _MemoryAccessor.writeImmediate(partition[1] + reg, data);
                     }
                     // Create a PCB & enqueue on Ready Queue (and PCB list)
                     let newPCB = new TSOS.PCB(_CPU.progCounter, _CPU.accumulator, _CPU.xReg, _CPU.yReg, _CPU.zFlag);
