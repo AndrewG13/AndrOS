@@ -56,6 +56,18 @@ var TSOS;
             // do more here?
         }
         /*
+        /  Deallocate Range Function
+        /    Frees up all availability
+        /    Does not handle memory being cleared!
+        */
+        deallocateAll() {
+            // Clear all partitions
+            for (let block = 0; block < PARTITIONQUANTITY; block++) {
+                this.parti[block] = -1;
+            }
+            // do more here?
+        }
+        /*
         / Assign Range Function
         /   Allocates a [256 byte sized] block of memory for a PCB
         */

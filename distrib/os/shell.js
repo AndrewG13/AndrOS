@@ -631,11 +631,18 @@ var TSOS;
         /*
         *  Clearmem function
         *
-        *      Clear memory
+        *      Clear memory & deallocate partitions
         */
         shellClearmem(args) {
             // Listening to Mario Party music while I write this
             // https://www.youtube.com/watch?v=Yt-3zpmj3K8
+            // Reset Memory
+            _MemoryAccessor.resetMem();
+            // Deallocate all partitions
+            _MemoryManager.deallocateAll();
+            // Update registers display (Memory range: 0x000 -> 0x2FF)
+            _MemoryAccessor.displayRegisters(0x000, 0x2FF);
+            // do more?
         }
         /*
         *  Kill function
