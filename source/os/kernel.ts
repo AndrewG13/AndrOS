@@ -102,7 +102,7 @@ module TSOS {
             //_MemoryAccessor.resetMem();
             
             // Deallocate memory block
-            _MemoryManager.deallocateRange();
+            _MemoryManager.deallocateRange(pid);
             
             // CPU will be reset upon running next program
 

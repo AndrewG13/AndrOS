@@ -15,9 +15,6 @@
         //    Terminated PCB = Block of memory that is ready to use. 
 
         export class MemoryManager {
-            // Current available memory block / range
-            private availStart : number;   // starting address available.
-            private availEnd : number;     // ending address available, may not use.
 
             private parti : number[];     // Partitions. 'parti[x] !== -1' -> Available Block.
                                           // element values = PID at 'Index' partition
@@ -25,24 +22,12 @@
 
             constructor() {
                 // Initial available range 0x000 -> 0x2FF
-                this.availStart = 0x000;
-                this.availEnd = MEMORY_SIZE - 0x001; 
+
                 // Initially 3 free blocks.
                 this.parti = [-1, -1, -1]; 
             }
 
-            // May remove
-            public availRange() {
-                return this.availStart;
-            }
-
-            // May remove
-            /*
-            public nextAvailRange() {
-                return this.availStart + 0x100;
-            }
-            */
-
+            
             /*
             / Verify Memory Function
             /   Checks if memory is available to allocate 
@@ -80,10 +65,14 @@
             /*
             /  Deallocate Range Function
             /    Frees up range availability
-            /    * Proj 3, this will be reworked to deallocate a specific range
+            /    Does not handle memory being cleared!
             */
-            public deallocateRange() : void {
-                this.availStart = 0x00;
+            public deallocateRange(pid : number) : void {
+                // Compute partition number given the PCB's base register
+                // 0x100 is the 'block' range.
+                let partition = (PCBList[pid].base / 0x100);
+                this.parti[partition] = -1;
+                // do more here?
             }
 
             /*
@@ -98,7 +87,7 @@
             }
 
             
-            public freeRange(partition : number) : void {
+            private freeRange(partition : number) : void {
                 if ((partition >= 0) && (partition < PARTITIONQUANTITY)) {
                     // Make PID = -1, which indicates this partition is free!
                     this.parti[partition] = -1
