@@ -9,7 +9,7 @@
      module TSOS {
 
         // Known issues:
-        // load load load run0 kill0 load run3 kill3(problem)
+        // KrnInitProg is just dequeuing, not looking for pid
 
         export class MemoryManager {
             // Allocating data & ensuring integrity for the Main Memory Object -> _Memory 
