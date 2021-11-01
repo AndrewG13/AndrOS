@@ -93,7 +93,7 @@ module TSOS {
 
             // Display all info to FE tables
 
-            // First check if PID has been reset (this happens prior to displaying, see Execute case:00)
+            // First check if PID has been reset (this happens prior to displaying, see Execute() case:00)
             if (this.pidRunning !== -1) {
                 // Display registers & Update PCB each cycle.  
                 _MemoryAccessor.displayRegisters(PCBList[this.pidRunning].base, PCBList[this.pidRunning].limit);
@@ -261,12 +261,12 @@ module TSOS {
                   break;
                 case 0x00: // Break
                     
+                  // Initiate End Program Sequence:
+
                   // Stop the CPU commands, may need to change this
                   this.isExecuting = false;
-
                   // Ask Kernel to conclude program
                   _Kernel.krnEndProg(this.pidRunning, "[Normally]");
-
                   // Reset PID running variable
                   this.pidRunning = -1;
                   
@@ -333,6 +333,18 @@ module TSOS {
                   } 
                     this.currentCommand = Commands.FETCH;
                     break;
+                  default:
+                  // This means an Invalid OPCODE occurred.
+                  // Initiate End Program Sequence:
+
+                  // Stop the CPU commands, may need to change this
+                  this.isExecuting = false;
+                  // Ask Kernel to conclude program
+                  _Kernel.krnEndProg(this.pidRunning, "[Violation: Invalid OP Code]");
+                  // Reset PID running variable
+                  this.pidRunning = -1;
+                  
+                  break;
               }
         }
         /*

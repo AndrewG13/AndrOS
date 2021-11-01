@@ -23,6 +23,10 @@ var TSOS;
             _KernelCommandHistory = new TSOS.CommandHistory();
             // Launch the Memory Manager software
             _MemoryManager = new TSOS.MemoryManager();
+            // Launch the Scheduling software
+            _Scheduler = new TSOS.Scheduler();
+            // Trigger the Dispatching hardware
+            _Dispatcher = new TSOS.Dispatcher();
             // Initialize the console.
             _Console = new TSOS.Console(); // The command line interface / console I/O device.
             _Console.init();
@@ -72,6 +76,7 @@ var TSOS;
             // Ready Queue already checked by Run.
             // Find PCB to run based on PID
             let runThisPCB = _KernelReadyQueue.dequeueValue(PCBList[PID]);
+            // Consider adding it to the Schedule isRunning variable?
             _CPU.run(runThisPCB);
         }
         /*
@@ -109,6 +114,7 @@ var TSOS;
             }
             else if (_CPU.isExecuting) { // If there are no interrupts then run one CPU cycle if there is anything being processed.
                 _CPU.cycle();
+                // _Scheduler.cycle();
             }
             else { // If there are no interrupts and there is nothing being executed then just be idle.
                 this.krnTrace("Idle");

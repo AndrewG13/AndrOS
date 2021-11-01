@@ -9,7 +9,9 @@ var TSOS;
 (function (TSOS) {
     class Scheduler {
         constructor() {
-            this.num = 0x000;
+            this.pidRunning = _CPU.pidRunning;
+        }
+        cycle() {
         }
         scheduleProcess() {
         }

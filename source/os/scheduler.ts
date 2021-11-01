@@ -10,10 +10,16 @@
 
         export class Scheduler {
 
-            private num : number;   // dummy variable
-
+            // Consider having KrnInitProg deqVal, then enq it to put it in the back of the ReadyQueue 
+            // (its state will be "Running")
+            
+            private pidRunning : number;
             constructor() {
-                this.num = 0x000;
+                this.pidRunning = _CPU.pidRunning;
+            }
+
+            public cycle() : void {
+                
             }
 
             public scheduleProcess() {

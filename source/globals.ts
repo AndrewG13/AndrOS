@@ -63,6 +63,8 @@ var _KernelReadyQueue: TSOS.Queue = null;
 var _KernelBuffers = null;
 var _KernelCommandHistory: TSOS.CommandHistory;
 var PCBList = new Array<TSOS.PCB>(); // Index value = PID#
+var _Scheduler: TSOS.Scheduler = null;
+var _Dispatcher: TSOS.Dispatcher = null;
 
 // Standard input and output
 var _StdIn:  TSOS.Console = null;

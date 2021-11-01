@@ -49,6 +49,8 @@ var _KernelReadyQueue = null;
 var _KernelBuffers = null;
 var _KernelCommandHistory;
 var PCBList = new Array(); // Index value = PID#
+var _Scheduler = null;
+var _Dispatcher = null;
 // Standard input and output
 var _StdIn = null;
 var _StdOut = null;
