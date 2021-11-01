@@ -8,12 +8,6 @@
 
      module TSOS {
 
-        // My TODO:
-        //  + Make the list that will track which PCBs are in memory,
-        //    From that list, it will be known whether the process has
-        //    terminated or if it should remain in memory.
-        //    Terminated PCB = Block of memory that is ready to use. 
-
         export class MemoryManager {
 
             private parti : number[];     // Partitions. 'parti[x] !== -1' -> Available Block.
@@ -21,9 +15,9 @@
                                           // index values = Partition#
 
             constructor() {
-                // Initial available range 0x000 -> 0x2FF
+                // Total available range 0x000 -> 0x2FF
 
-                // Initially 3 free blocks.
+                // Initial 3 free blocks.
                 this.parti = [-1, -1, -1]; 
             }
 
@@ -85,17 +79,12 @@
                 // Next, update the partition array
                 this.parti[partition] = pid;
             }
-
             
-            private freeRange(partition : number) : void {
-                if ((partition >= 0) && (partition < PARTITIONQUANTITY)) {
-                    // Make PID = -1, which indicates this partition is free!
-                    this.parti[partition] = -1
-                } else {
-                    console.log(partition + " is not valid")
-                }
-            }
-            
+            /*
+            / CheckRange Function
+            /   Returns PID if partition has a PCB (aka is unavailable)
+            /   Otherwise returns -1 (available to load)
+            */
             public checkRange(partition : number) : number {
                 if ((partition >= 0) && (partition < PARTITIONQUANTITY)) {
                     return this.parti[partition];

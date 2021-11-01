@@ -7,31 +7,14 @@
      ------------ */
 var TSOS;
 (function (TSOS) {
-    // My TODO:
-    //  + Make the list that will track which PCBs are in memory,
-    //    From that list, it will be known whether the process has
-    //    terminated or if it should remain in memory.
-    //    Terminated PCB = Block of memory that is ready to use. 
     class MemoryManager {
         // element values = PID at 'Index' partition
         // index values = Partition#
         constructor() {
-            // Initial available range 0x000 -> 0x2FF
-            this.availStart = 0x000;
-            this.availEnd = MEMORY_SIZE - 0x001;
-            // Initially 3 free blocks.
+            // Total available range 0x000 -> 0x2FF
+            // Initial 3 free blocks.
             this.parti = [-1, -1, -1];
         }
-        // May remove
-        availRange() {
-            return this.availStart;
-        }
-        // May remove
-        /*
-        public nextAvailRange() {
-            return this.availStart + 0x100;
-        }
-        */
         /*
         / Verify Memory Function
         /   Checks if memory is available to allocate
@@ -63,10 +46,14 @@ var TSOS;
         /*
         /  Deallocate Range Function
         /    Frees up range availability
-        /    * Proj 3, this will be reworked to deallocate a specific range
+        /    Does not handle memory being cleared!
         */
-        deallocateRange() {
-            this.availStart = 0x00;
+        deallocateRange(pid) {
+            // Compute partition number given the PCB's base register
+            // 0x100 is the 'block' range.
+            let partition = (PCBList[pid].base / 0x100);
+            this.parti[partition] = -1;
+            // do more here?
         }
         /*
         / Assign Range Function
@@ -77,15 +64,11 @@ var TSOS;
             // Next, update the partition array
             this.parti[partition] = pid;
         }
-        freeRange(partition) {
-            if ((partition >= 0) && (partition < PARTITIONQUANTITY)) {
-                // Make PID = -1, which indicates this partition is free!
-                this.parti[partition] = -1;
-            }
-            else {
-                console.log(partition + " is not valid");
-            }
-        }
+        /*
+        / CheckRange Function
+        /   Returns PID if partition has a PCB (aka is unavailable)
+        /   Otherwise returns -1 (available to load)
+        */
         checkRange(partition) {
             if ((partition >= 0) && (partition < PARTITIONQUANTITY)) {
                 return this.parti[partition];

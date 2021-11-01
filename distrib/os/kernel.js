@@ -86,7 +86,7 @@ var TSOS;
             // Uncomment to have memory wiped after running
             //_MemoryAccessor.resetMem();
             // Deallocate memory block
-            _MemoryManager.deallocateRange();
+            _MemoryManager.deallocateRange(pid);
             // CPU will be reset upon running next program
             _StdOut.advanceLine();
             _StdOut.putText("Program Terminated");
