@@ -105,15 +105,31 @@ var TSOS;
             pcb.state = TSOS.PCB.STATES[2]; // running
             this.pidRunning = pcb.PID;
         }
+        end(msg) {
+            // Initiate End Program Sequence:
+            // Stop the CPU commands, may need to change this
+            this.isExecuting = false;
+            // Ask Kernel to conclude program
+            _Kernel.krnEndProg(this.pidRunning, msg);
+            // Reset PID running variable
+            this.pidRunning = -1;
+        }
         /*
         / Fetch Function
         /    Simply grabs byte (instruction) from Memory
         */
         fetch() {
-            _MemoryAccessor.changeMAR(this.progCounter);
-            _MemoryAccessor.readFrom();
-            this.instrReg = _MemoryAccessor.checkMDR();
-            this.progCounter++;
+            if (this.progCounter <= 0x0FF || this.progCounter >= 0x00) {
+                _MemoryAccessor.changeMAR(this.progCounter);
+                _MemoryAccessor.readFrom();
+                this.instrReg = _MemoryAccessor.checkMDR();
+                this.progCounter++;
+            }
+            else {
+                // This means Memory is out of bounds.
+                // Call End Program Sequence
+                this.end("[Violation: Out of Bounds]");
+            }
         }
         /*
         / Decode Function
@@ -245,13 +261,8 @@ var TSOS;
                     // Look it up, I'm serious
                     break;
                 case 0x00: // Break
-                    // Initiate End Program Sequence:
-                    // Stop the CPU commands, may need to change this
-                    this.isExecuting = false;
-                    // Ask Kernel to conclude program
-                    _Kernel.krnEndProg(this.pidRunning, "[Normally]");
-                    // Reset PID running variable
-                    this.pidRunning = -1;
+                    // Call End Program Sequence:
+                    this.end("[Normally]");
                     break;
                 case 0xEC: // Compare value from Memory Register to X Register, zFlag = true if equal
                     this.zFlag = (this.xReg == _MemoryAccessor.checkMDR());
@@ -314,13 +325,8 @@ var TSOS;
                     break;
                 default:
                     // This means an Invalid OPCODE occurred.
-                    // Initiate End Program Sequence:
-                    // Stop the CPU commands, may need to change this
-                    this.isExecuting = false;
-                    // Ask Kernel to conclude program
-                    _Kernel.krnEndProg(this.pidRunning, "[Violation: Invalid OP Code]");
-                    // Reset PID running variable
-                    this.pidRunning = -1;
+                    // Call End Program Sequence:
+                    this.end("[Violation: Invalid OP Code]");
                     break;
             }
         }
@@ -331,7 +337,14 @@ var TSOS;
         /   Just for 8D & EE
         */
         writeBack() {
-            _MemoryAccessor.writeTo();
+            if (this.instrReg <= 0x0FF || this.instrReg >= 0x000) {
+                _MemoryAccessor.writeTo();
+            }
+            else {
+                // This means a memory write violation has occurred
+                // Call the End Program Sequence
+                this.end("[Violation: Invalid Access Attempt]");
+            }
         }
         /*
         / Is Two Byte Opcode? function

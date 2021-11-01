@@ -117,15 +117,35 @@ module TSOS {
             this.pidRunning = pcb.PID;
         }
 
+        public end(msg : string) {
+            // Initiate End Program Sequence:
+
+            // Stop the CPU commands, may need to change this
+            this.isExecuting = false;
+            // Ask Kernel to conclude program
+            _Kernel.krnEndProg(this.pidRunning, msg);
+            // Reset PID running variable
+            this.pidRunning = -1;
+                  
+        }
+
         /*
         / Fetch Function
         /    Simply grabs byte (instruction) from Memory
         */
         public fetch() {
+          if (this.progCounter <= 0x0FF || this.progCounter >= 0x00) {
+
             _MemoryAccessor.changeMAR(this.progCounter);
             _MemoryAccessor.readFrom();
             this.instrReg = _MemoryAccessor.checkMDR();
             this.progCounter++;
+          } else {
+            // This means Memory is out of bounds.
+            // Call End Program Sequence
+            this.end("[Violation: Out of Bounds]")
+
+          }
         }
         /*
         / Decode Function
@@ -261,14 +281,8 @@ module TSOS {
                   break;
                 case 0x00: // Break
                     
-                  // Initiate End Program Sequence:
-
-                  // Stop the CPU commands, may need to change this
-                  this.isExecuting = false;
-                  // Ask Kernel to conclude program
-                  _Kernel.krnEndProg(this.pidRunning, "[Normally]");
-                  // Reset PID running variable
-                  this.pidRunning = -1;
+                  // Call End Program Sequence:
+                  this.end("[Normally]")
                   
                   break;
                 case 0xEC: // Compare value from Memory Register to X Register, zFlag = true if equal
@@ -335,14 +349,9 @@ module TSOS {
                     break;
                   default:
                   // This means an Invalid OPCODE occurred.
-                  // Initiate End Program Sequence:
-
-                  // Stop the CPU commands, may need to change this
-                  this.isExecuting = false;
-                  // Ask Kernel to conclude program
-                  _Kernel.krnEndProg(this.pidRunning, "[Violation: Invalid OP Code]");
-                  // Reset PID running variable
-                  this.pidRunning = -1;
+            
+                  // Call End Program Sequence:
+                  this.end("[Violation: Invalid OP Code]")
                   
                   break;
               }
@@ -354,7 +363,13 @@ module TSOS {
         /   Just for 8D & EE
         */
         public writeBack() {
-            _MemoryAccessor.writeTo();
+            if (this.instrReg <= 0x0FF || this.instrReg >= 0x000) {
+              _MemoryAccessor.writeTo();
+            } else {
+              // This means a memory write violation has occurred
+              // Call the End Program Sequence
+              this.end("[Violation: Invalid Access Attempt]")
+            }
         }
 
         /*
