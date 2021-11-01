@@ -82,7 +82,7 @@ var TSOS;
                     this.currentCommand = Commands.FETCH;
                 }
                 // Display registers & Update PCB each cycle.  
-                _MemoryAccessor.displayRegisters(0x00, 0xFF);
+                _MemoryAccessor.displayRegisters(PCBList[this.pidRunning].base, PCBList[this.pidRunning].limit);
                 PCBList[this.pidRunning].updatePCB();
                 TSOS.Control.displayPCB(PCBList[this.pidRunning]);
                 // Display CPU
@@ -99,7 +99,7 @@ var TSOS;
             this.isExecuting = true;
             // * Proj 3, will decide which of 3 memory blocks to run based on passed in PCB
             pcb.state = TSOS.PCB.STATES[2]; // running
-            this.pidRunning = "" + pcb.PID;
+            this.pidRunning = pcb.PID;
         }
         /*
         / Fetch Function
@@ -244,8 +244,9 @@ var TSOS;
                     // Stop the CPU commands, may need to change this
                     this.isExecuting = false;
                     // Ask Kernel to conclude program
-                    _Kernel.krnEndProg(parseInt(this.pidRunning), "[Normally]");
-                    //this.pidRunning = null;
+                    _Kernel.krnEndProg(this.pidRunning, "[Normally]");
+                    // Reset PID running variable
+                    this.pidRunning = -1;
                     break;
                 case 0xEC: // Compare value from Memory Register to X Register, zFlag = true if equal
                     this.zFlag = (this.xReg == _MemoryAccessor.checkMDR());

@@ -96,9 +96,6 @@ module TSOS {
         public krnEndProg(pid : number, msg : string) {
             // Once the process terminates, clear memory for that specific block.
             
-            // Uncomment to have memory wiped after running 
-            //_MemoryAccessor.resetMem();
-            
             // Deallocate memory block
             _MemoryManager.deallocateRange(pid);
             
@@ -110,6 +107,9 @@ module TSOS {
 
             // Change PCB state to Terminated
             PCBList[pid].state = PCB.STATES[3];
+        
+            // Display Terminated PCB results
+            Control.displayPCB(PCBList[pid]);
         }
 
 

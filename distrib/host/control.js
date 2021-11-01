@@ -138,20 +138,20 @@ var TSOS;
         /   Updates HTML visual for specified PCB
         */
         static displayPCB(pcb) {
-            Control.HtmlPCBs[0].innerHTML = "" + pcb.state;
-            Control.HtmlPCBs[1].innerHTML = "" + pcb.PID;
-            Control.HtmlPCBs[2].innerHTML = "" + hexLog(pcb.PC, 2);
-            Control.HtmlPCBs[3].innerHTML = "" + hexLog(pcb.Acc, 2);
-            Control.HtmlPCBs[4].innerHTML = "" + hexLog(pcb.Xreg, 2);
-            Control.HtmlPCBs[5].innerHTML = "" + hexLog(pcb.Yreg, 2);
-            Control.HtmlPCBs[7].innerHTML = "" + hexLog(pcb.base, 3);
-            Control.HtmlPCBs[8].innerHTML = "" + hexLog(pcb.limit, 3);
+            Control.HtmlPCBs[pcb.PID][0].innerHTML = "" + pcb.state;
+            Control.HtmlPCBs[pcb.PID][1].innerHTML = "" + pcb.PID;
+            Control.HtmlPCBs[pcb.PID][2].innerHTML = "" + hexLog(pcb.PC, 2);
+            Control.HtmlPCBs[pcb.PID][3].innerHTML = "" + hexLog(pcb.Acc, 2);
+            Control.HtmlPCBs[pcb.PID][4].innerHTML = "" + hexLog(pcb.Xreg, 2);
+            Control.HtmlPCBs[pcb.PID][5].innerHTML = "" + hexLog(pcb.Yreg, 2);
+            Control.HtmlPCBs[pcb.PID][7].innerHTML = "" + hexLog(pcb.base, 3);
+            Control.HtmlPCBs[pcb.PID][8].innerHTML = "" + hexLog(pcb.limit, 3);
             // Format boolean ZFlag as a numeric bit
             if (pcb.Zflag) {
-                Control.HtmlPCBs[6].innerHTML = hexLog(1, 2);
+                Control.HtmlPCBs[pcb.PID][6].innerHTML = hexLog(1, 2);
             }
             else {
-                Control.HtmlPCBs[6].innerHTML = hexLog(0, 2);
+                Control.HtmlPCBs[pcb.PID][6].innerHTML = hexLog(0, 2);
             }
         }
         /*
@@ -164,17 +164,19 @@ var TSOS;
             let attributes = 9;
             // Insert a new row underneath prior ones
             let row = htmlPCBTable.insertRow();
+            this.HtmlPCBs[pcb.PID] = row;
             // Add the PCB attributes cells
             for (let i = 0; i < attributes; i++) {
                 let newCell = row.insertCell();
                 newCell.classList.add("registers");
-                Control.HtmlPCBs[i] = newCell;
+                Control.HtmlPCBs[pcb.PID][i] = newCell;
             }
             // Populate display with PCB attributes
             Control.displayPCB(pcb);
         }
     }
     // * Proj 3, this will be reworked for multiple running PCBs
+    //static HtmlPCBs : HTMLTableCellElement[] = new Array();
     Control.HtmlPCBs = new Array();
     TSOS.Control = Control;
 })(TSOS || (TSOS = {}));

@@ -8,6 +8,9 @@
 
      module TSOS {
 
+        // Known issues:
+        // load load load run0 kill0 load run3 kill3(problem)
+
         export class MemoryManager {
             // Allocating data & ensuring integrity for the Main Memory Object -> _Memory 
 

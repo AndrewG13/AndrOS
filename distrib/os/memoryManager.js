@@ -7,6 +7,8 @@
      ------------ */
 var TSOS;
 (function (TSOS) {
+    // Known issues:
+    // load load load run0 kill0 load run3 kill3(problem)
     class MemoryManager {
         // element values = PID at 'Index' partition
         // index values = Partition#

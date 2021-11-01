@@ -664,7 +664,7 @@ var TSOS;
                 }
                 else 
                 // Finally check if the process is running
-                if (PCBList[pid].state !== "Running" && args.length === 1) {
+                if (PCBList[pid].state !== "Running") {
                     _StdOut.putText("PID: " + pid + " not in execution.");
                 }
                 else {

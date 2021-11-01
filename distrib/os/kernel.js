@@ -81,8 +81,6 @@ var TSOS;
         */
         krnEndProg(pid, msg) {
             // Once the process terminates, clear memory for that specific block.
-            // Uncomment to have memory wiped after running 
-            //_MemoryAccessor.resetMem();
             // Deallocate memory block
             _MemoryManager.deallocateRange(pid);
             // *Note: CPU will be reset upon running next program
@@ -91,6 +89,8 @@ var TSOS;
             _StdOut.advanceLine();
             // Change PCB state to Terminated
             PCBList[pid].state = TSOS.PCB.STATES[3];
+            // Display Terminated PCB results
+            TSOS.Control.displayPCB(PCBList[pid]);
         }
         krnOnCPUClockPulse() {
             /* This gets called from the host hardware simulation every time there is a hardware clock pulse.
