@@ -19,9 +19,8 @@ var TSOS;
             this.leFlag[0] = 0; // LE flag      set to zero 
             this.leFlag[1] = 0; // data-portion set to zero
             // Initialize Base & Limit registers
-            // Starting at Partition#1
             this.base = 0x000;
-            this.limit = 0x0FF;
+            this.limit = 0x000;
         }
         /*
         / Set Little Endian Flag function
@@ -76,29 +75,37 @@ var TSOS;
         /    Synonymous to Memory's read() + LE check
         */
         readFrom() {
-            _Memory.read();
-            // If MDR contains an instruction that utilizes Little Endian formats
-            //  in its next 2 registers/data inputs, set the leFlag = 1
-            // Checks for Little Endian Addressing:
-            // Check if MDR is a High Order Byte
-            if (this.leFlag[0] == 2) {
-                // Format address based on stored Lob and new Hob
-                this.leFlag[1] += (_Memory.getMDR() * 256);
-                // Change MAR to appropriate address, reset leFlag
-                _Memory.setMAR(this.leFlag[1]);
-                // Second read to get the appropriate value into the MDR
-                // based on the new (LE) MAR
-                _Memory.read();
-                // reset flag
-                this.leFlag[0] = 0;
-                this.leFlag[1] = 0;
+            if (this.checkMAR() < this.base || this.checkMAR() > this.limit) {
+                // This means a memory write violation has occurred
+                // Send violation notice to the CPU
+                _CPU.end("[Violation: Invalid Access Attempt]");
             }
-            // Check if MDR is a Low Order Byte
-            if (this.leFlag[0] == 1) {
-                // set address data
-                this.leFlag[1] = _Memory.getMDR();
-                // set flag to 2 (HOB incoming)
-                this.leFlag[0] = 2;
+            else {
+                // No violation, read
+                _Memory.read();
+                // If MDR contains an instruction that utilizes Little Endian formats
+                //  in its next 2 registers/data inputs, set the leFlag = 1
+                // Checks for Little Endian Addressing:
+                // Check if MDR is a High Order Byte
+                if (this.leFlag[0] == 2) {
+                    // Format address based on stored Lob and new Hob
+                    this.leFlag[1] += (_Memory.getMDR() * 256);
+                    // Change MAR to appropriate address, reset leFlag
+                    _Memory.setMAR(this.leFlag[1]);
+                    // Second read to get the appropriate value into the MDR
+                    // based on the new (LE) MAR
+                    _Memory.read();
+                    // reset flag
+                    this.leFlag[0] = 0;
+                    this.leFlag[1] = 0;
+                }
+                // Check if MDR is a Low Order Byte
+                if (this.leFlag[0] == 1) {
+                    // set address data
+                    this.leFlag[1] = _Memory.getMDR();
+                    // set flag to 2 (HOB incoming)
+                    this.leFlag[0] = 2;
+                }
             }
         }
         /*
@@ -106,7 +113,16 @@ var TSOS;
         /   Synonymous to Memory's write()
         */
         writeTo() {
-            _Memory.write();
+            // Check if memory violation attempt
+            if (this.checkMAR() < this.base || this.checkMAR() > this.limit) {
+                // This means a memory write violation has occurred
+                // Send violation notice to the CPU
+                _CPU.end("[Violation: Invalid Access Attempt]");
+            }
+            else {
+                // No violation, write
+                _Memory.write();
+            }
         }
         /*
         / checkMAR function

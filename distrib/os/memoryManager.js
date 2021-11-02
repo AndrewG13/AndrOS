@@ -58,7 +58,7 @@ var TSOS;
             // do more here?
         }
         /*
-        /  Deallocate Range Function
+        /  Deallocate All Function
         /    Frees up all availability
         /    Does not handle memory being cleared!
         */

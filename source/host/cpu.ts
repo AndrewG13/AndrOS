@@ -363,13 +363,7 @@ module TSOS {
         /   Just for 8D & EE
         */
         public writeBack() {
-            if (this.instrReg <= 0x0FF || this.instrReg >= 0x000) {
-              _MemoryAccessor.writeTo();
-            } else {
-              // This means a memory write violation has occurred
-              // Call the End Program Sequence
-              this.end("[Violation: Invalid Access Attempt]")
-            }
+              _MemoryAccessor.writeTo(); 
         }
 
         /*

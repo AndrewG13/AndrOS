@@ -623,6 +623,10 @@ module TSOS {
                     // partition[1]: base reg
                     // partition[2]: limit reg
 
+                                        // Send Base & Limit registers to MA
+                                        _MemoryAccessor.base = partition[1];
+                                        _MemoryAccessor.limit = partition[2];
+                                        
                     // Assign a block by Manager (send in partition# & PID-to-use)
                     _MemoryManager.assignRange(partition[0], PCB.PID);
 

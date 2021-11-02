@@ -89,7 +89,10 @@ module TSOS {
             // At this point:
             //  Ready Queue already checked by Run.
             //  Scheduler has sent a PID to run based on its philosophy.
-            
+                        
+            // Send Base & Limit registers to MA
+            _MemoryAccessor.base = PCBList[PID].base;
+            _MemoryAccessor.limit = PCBList[PID].limit;
             // Trigger the CPU to run it.
             _CPU.run(PCBList[PID]);                
         }
@@ -103,7 +106,10 @@ module TSOS {
             
             // Deallocate memory block
             _MemoryManager.deallocateRange(pid);
-            
+            // Clear Base & Limit registers in MA
+            _MemoryAccessor.base = 0x000;
+            _MemoryAccessor.limit = 0x000;
+
             // *Note: CPU will be reset upon running next program
 
             _StdOut.advanceLine();

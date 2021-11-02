@@ -27,9 +27,8 @@
                 this.leFlag[1] = 0; // data-portion set to zero
                 
                 // Initialize Base & Limit registers
-                // Starting at Partition#1
                 this.base = 0x000; 
-                this.limit= 0x0FF; 
+                this.limit= 0x000; 
             }
 
             /*
@@ -91,6 +90,13 @@
             /    Synonymous to Memory's read() + LE check
             */
             public readFrom() : void {
+                if (this.checkMAR() < this.base || this.checkMAR() > this.limit) {
+                    // This means a memory write violation has occurred
+                    // Send violation notice to the CPU
+                    _CPU.end("[Violation: Invalid Access Attempt]");
+                } else {
+                // No violation, read
+
                 _Memory.read();
                 // If MDR contains an instruction that utilizes Little Endian formats
                 //  in its next 2 registers/data inputs, set the leFlag = 1
@@ -117,13 +123,22 @@
                     this.leFlag[0] = 2;
                 }
             }
+            }
 
             /*
             / writeTo function
             /   Synonymous to Memory's write()
             */
             public writeTo() : void {
-                _Memory.write();
+                // Check if memory violation attempt
+                if (this.checkMAR() < this.base || this.checkMAR() > this.limit) {
+                    // This means a memory write violation has occurred
+                    // Send violation notice to the CPU
+                    _CPU.end("[Violation: Invalid Access Attempt]");
+                } else {
+                    // No violation, write
+                    _Memory.write();
+                }
             }
 
             /*
