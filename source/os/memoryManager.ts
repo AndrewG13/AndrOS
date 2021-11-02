@@ -65,12 +65,13 @@
             /    Frees up range availability
             /    Does not handle memory being cleared!
             */
-            public deallocateRange(pid : number) : void {
+            public deallocateRange(pid : number) : number {
                 // Compute partition number given the PCB's base register
                 // 0x100 is the 'block' range.
-                let partition = (PCBList[pid].base / 0x100);
+                let partition : number = (PCBList[pid].base / 0x100);
                 this.parti[partition] = -1;
-                // do more here?
+                // return the partition# that was deallocated
+                return partition
             }
 
             /*

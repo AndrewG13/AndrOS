@@ -111,7 +111,7 @@ module TSOS {
             // Once the process terminates, clear memory for that specific block.
             
             // Deallocate memory block
-            _MemoryManager.deallocateRange(pid);
+            let partition = _MemoryManager.deallocateRange(pid);
             // Clear Base & Limit registers in MA
             _MemoryAccessor.base = 0x000;
             _MemoryAccessor.limit = 0x000;
@@ -134,6 +134,9 @@ module TSOS {
 
             // Ensure registers in Memory are accurate by displaying results
             _MemoryAccessor.displayRegisters(PCBList[pid].base, PCBList[pid].limit);
+
+            // May need to reinitialize MARSTATES based on partition
+            MARSTATE[partition] = partition * 0x100;
 
             // If killed pid = PIDRUNNING, reset PIDRUNNING & quantum
             if (pid === PIDRUNNING) {

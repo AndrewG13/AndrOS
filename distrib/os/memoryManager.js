@@ -55,7 +55,8 @@ var TSOS;
             // 0x100 is the 'block' range.
             let partition = (PCBList[pid].base / 0x100);
             this.parti[partition] = -1;
-            // do more here?
+            // return the partition# that was deallocated
+            return partition;
         }
         /*
         /  Deallocate All Function
