@@ -142,7 +142,7 @@ var TSOS;
             //         then Quantum decrements
             _Scheduler.quantumVal--;
             if (_Scheduler.quantumVal === -1) {
-                console.log("PID:" + PIDRUNNING + "| Last Instr:" + hexLog(_CPU.instrReg, 2));
+                //console.log("PID:" +PIDRUNNING + "| Last Instr:" + hexLog(_CPU.instrReg, 2) )
             }
         }
         krnLoadStates() {
