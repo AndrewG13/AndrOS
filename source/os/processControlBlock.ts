@@ -24,6 +24,7 @@
 
             public state : string;
             public PID : number;
+            public IR : number
             public PC : number;
             public Acc : number; 
             public Xreg : number;
@@ -36,6 +37,7 @@
             constructor(savedPC : number, savedAcc : number, savedXreg : number, savedYreg : number, savedZflag : boolean) {
                 this.state = PCB.STATES[0];
                 this.PID = PCB.PID++;
+                this.IR = 0x00;
                 this.PC = savedPC;
                 this.Acc = savedAcc;
                 this.Xreg = savedXreg;

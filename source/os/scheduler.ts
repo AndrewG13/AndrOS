@@ -38,13 +38,18 @@
                         // Set the state
                         PCBList[PIDRUNNING].state = PCB.STATES[2];
                         // It already is in the back of the Queue,
+                        // So get next 
+
                         // Now call Dispatcher for Context Switch
                         _Dispatcher.contextSwitch();
                     }
                 }
 
-                // touch this for RR
-                this.checkIfReady();
+                // Check if processes are Ready if one is not already running
+                // May need to change
+                if (PIDRUNNING === -1) {
+                    this.checkIfReady();
+                }
             }
 
             public schedulePIDProcess(PID : number) {
