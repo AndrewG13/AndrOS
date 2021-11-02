@@ -169,13 +169,19 @@ module TSOS {
                 this.krnInterruptHandler(interrupt.irq, interrupt.params);
             } else if (_CPU.isExecuting) { // If there are no interrupts then run one CPU cycle if there is anything being processed.
                 _CPU.cycle();
+                _Scheduler.quantumVal--;
             } else {                       // If there are no interrupts and there is nothing being executed then just be idle.
     
-                if (_MemoryManager.checkAllRange()) { // If at least one partition is occupied
-                    _Scheduler.cycle();
-                }
+                //if (_MemoryManager.checkAllRange()) { // If at least one partition is occupied
+                //_Scheduler.cycle();
+                //}
                     this.krnTrace("Idle");
             }
+
+                // Want to cycle the Scheduler last to avoid data inconsistencies.
+                if (_MemoryManager.checkAllRange()) { // If at least one partition is occupied, cycle the Scheduler
+                    _Scheduler.cycle();
+                }
         }
 
 
@@ -210,6 +216,12 @@ module TSOS {
                 case KEYBOARD_IRQ:
                     _krnKeyboardDriver.isr(params);   // Kernel mode device driver
                     _StdIn.handleInput();
+                    break;
+                case DISPATCH_IRQ:
+                    // Now call Dispatcher for Context Switch
+                    _Dispatcher.contextSwitch();
+                    // Reset Quantum
+                    _Scheduler.quantumVal = QUANTUM;
                     break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");

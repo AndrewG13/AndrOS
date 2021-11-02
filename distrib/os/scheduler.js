@@ -17,7 +17,6 @@ var TSOS;
         cycle() {
             if (_CPU.isExecuting) {
                 // Decrement Quantum
-                this.quantumVal--;
                 // When Quantum hits -1, contact Dispatcher for Context Switch
                 // Its -1, not 0. This is due to Quantum-- before checking it.
                 // Check if RR Context Switch is needed
@@ -28,8 +27,12 @@ var TSOS;
                     // So get next (occurs on next cycle)
                     // On next cycle since we are not supposed to Context Switch within
                     // one cycle, not realistic.
+                    // Issues interrupt indicating Context Switch
+                    TSOS.Devices.hostOnContextSwitch();
                     // Now call Dispatcher for Context Switch
-                    _Dispatcher.contextSwitch();
+                    //_Dispatcher.contextSwitch();
+                    // Reset Quantum
+                    //this.quantumVal = QUANTUM;
                 }
             }
             // Check if processes are Ready if one is not already running

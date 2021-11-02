@@ -21,6 +21,7 @@ const CPU_CLOCK_INTERVAL: number = 100;   // This is in ms (milliseconds) so 100
 const TIMER_IRQ: number = 0;  // Pages 23 (timer), 9 (interrupts), and 561 (interrupt priority).
                               // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
 const KEYBOARD_IRQ: number = 1;
+const DISPATCH_IRQ: number = 2; // Interrupt for Dispatcher Context Switches
 
 const MEMORY_SIZE: number = 0x300; // Main Memory size, 758 addresses, 1 byte stored at each address
 const PARTITIONQUANTITY : number = 3; // Number of segments/divisions in Memory

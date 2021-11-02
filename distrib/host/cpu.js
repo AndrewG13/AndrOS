@@ -16,7 +16,6 @@
      ------------ */
 var TSOS;
 (function (TSOS) {
-    // is Command 'InterruptCheck' needed?
     let Commands;
     (function (Commands) {
         Commands[Commands["FETCH"] = 0] = "FETCH";

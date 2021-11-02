@@ -52,6 +52,12 @@ var TSOS;
                 _KernelInterruptQueue.enqueue(new TSOS.Interrupt(KEYBOARD_IRQ, params));
             }
         }
+        static hostOnContextSwitch() {
+            let params = [_Scheduler.mode];
+            // Enqueue interrupt to KernelInterruptQueue, noting Scheduling philosophy.
+            // proj4, Mode will matter & be implemented.
+            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(DISPATCH_IRQ, params));
+        }
     }
     TSOS.Devices = Devices;
 })(TSOS || (TSOS = {}));

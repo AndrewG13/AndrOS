@@ -17,7 +17,6 @@
 
 module TSOS {
 
-    // is Command 'InterruptCheck' needed?
     enum Commands { FETCH, DECODE, EXECUTE, WRITEBACK }
 
     export class Cpu {

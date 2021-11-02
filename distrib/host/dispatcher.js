@@ -14,6 +14,9 @@ var TSOS;
             // Remember that Scheduler already moves this to the back of Queue...
             // Dequeuing will occur next pulse.
             // Kernel will contact Dispatcher when PCB Attributes are needed.
+            // Indicate PIDRUNNING is now -1, next process begins the following cycle
+            //PIDRUNNING = -1;
+            _CPU.isExecuting = false;
         }
         // Save state of CPU into just-halted PCB
         saveState(pid) {

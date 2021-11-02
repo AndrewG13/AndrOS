@@ -16,8 +16,8 @@
             // Consider having KrnInitProg deqVal, then enq it to put it in the back of the ReadyQueue 
             // (its state will be "Running")
             
-            private mode : string;
-            private quantumVal : number;
+            public mode : string;
+            public quantumVal : number;
 
             constructor() {
                 this.mode = Scheduler.AVAILABLEMODES[0]; // proj4, this will be settable
@@ -29,7 +29,7 @@
             public cycle() : void {
                 if (_CPU.isExecuting) {
                     // Decrement Quantum
-                    this.quantumVal--;
+
                     // When Quantum hits -1, contact Dispatcher for Context Switch
                     // Its -1, not 0. This is due to Quantum-- before checking it.
                     
@@ -42,8 +42,12 @@
                         // On next cycle since we are not supposed to Context Switch within
                         // one cycle, not realistic.
 
+                        // Issues interrupt indicating Context Switch
+                        _KernelInterruptQueue.enqueue(new Interrupt(DISPATCH_IRQ,[this.mode]))
                         // Now call Dispatcher for Context Switch
-                        _Dispatcher.contextSwitch();
+                        //_Dispatcher.contextSwitch();
+                        // Reset Quantum
+                        //this.quantumVal = QUANTUM;
                     }
                 }
 
