@@ -82,13 +82,8 @@ var TSOS;
                     this.currentCommand = Commands.FETCH;
                 }
                 // Display all info to FE tables
-                // First check if PID has been reset (this happens prior to displaying, see Execute() case:00)
-                if (this.pidRunning !== -1) {
-                    // Display registers & Update PCB each cycle.  
-                    _MemoryAccessor.displayRegisters(PCBList[this.pidRunning].base, PCBList[this.pidRunning].limit);
-                    PCBList[this.pidRunning].updatePCB();
-                    TSOS.Control.displayPCB(PCBList[this.pidRunning]);
-                }
+                // Ask Kernel for this
+                _Kernel.krnCheckRunning();
                 // Display CPU
                 TSOS.Control.displayCPU();
             }
@@ -97,21 +92,17 @@ var TSOS;
         / Run Function
         /   Initiates the CPU to begin executing a program in Memory
         */
-        run(pcb) {
+        run() {
             // Reset CPU registers
             _CPU.init();
             this.isExecuting = true;
-            // * Proj 3, will decide which of 3 memory blocks to run based on passed in PCB
-            this.pidRunning = pcb.PID;
         }
         end(msg) {
             // Initiate End Program Sequence:
             // Stop the CPU commands, may need to change this
             this.isExecuting = false;
             // Ask Kernel to conclude program
-            _Kernel.krnEndProg(this.pidRunning, msg);
-            // Reset PID running variable
-            this.pidRunning = -1;
+            _Kernel.krnEndProg(msg);
         }
         /*
         / Fetch Function

@@ -10,15 +10,26 @@ var TSOS;
     class Scheduler {
         constructor() {
             this.mode = Scheduler.AVAILABLEMODES[0]; // proj4, this will be settable
-            this.pidRunning = _CPU.pidRunning; // should initialize to -1 (nothings running!)
+            PIDRUNNING = -1; // should initialize to -1 (nothings running!)
             _SchedulerReadyQueue = new TSOS.Queue(); // The Ready Queue, handled by the Scheduler
         }
         cycle() {
+            if (_CPU.isExecuting) {
+                // Decrement Quantum
+                QUANTUM--;
+                // When Quantum hits -1, contact Dispatcher for Context Switch
+                // Its -1, not 0. This is due to Quantum-- before checking it.
+                if (QUANTUM === -1) {
+                }
+            }
+            // touch this for RR
             this.checkIfReady();
         }
         schedulePIDProcess(PID) {
             // Set pidRunning accordingly
-            this.pidRunning = PID;
+            PIDRUNNING = PID;
+            // Set PCB to "Running"
+            PCBList[PID].state = TSOS.PCB.STATES[2];
             // Ask kernel to run PCB
             _Kernel.krnInitProg(PID);
         }
@@ -33,7 +44,7 @@ var TSOS;
             // Continue shifting the Queue until back to its original order (minus the dequeued PCB)
             for (let i = 0; i < qSize; i++) {
                 let pcb = _SchedulerReadyQueue.dequeue();
-                if ((pcb.state === "Running") && (notFound)) {
+                if ((pcb.state === "Ready") && (notFound)) {
                     pcbToRun = pcb;
                     notFound = false;
                 }

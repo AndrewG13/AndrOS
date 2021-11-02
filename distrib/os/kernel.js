@@ -80,32 +80,44 @@ var TSOS;
             // Ensure MemoryAccessor starts at appropriate address for MAR
             _MemoryAccessor.changeMAR(0);
             // Trigger the CPU to run it.
-            _CPU.run(PCBList[PID]);
+            _CPU.run();
+            PIDRUNNING = PID;
         }
         /*
         / End Program Function
         /    Terminates the program in execution & deallocates that Memory range
         */
-        krnEndProg(pid, msg) {
+        krnEndProg(msg) {
             // Once the process terminates, clear memory for that specific block.
             // Deallocate memory block
-            _MemoryManager.deallocateRange(pid);
+            _MemoryManager.deallocateRange(PIDRUNNING);
             // Clear Base & Limit registers in MA
             _MemoryAccessor.base = 0x000;
             _MemoryAccessor.limit = 0x000;
             // *Note: CPU will be reset upon running next program
             _StdOut.advanceLine();
-            _StdOut.putText("PID: " + pid + " | Program Terminated " + msg);
+            _StdOut.putText("PID: " + PIDRUNNING + " | Program Terminated " + msg);
             _StdOut.advanceLine();
             _OsShell.putPrompt();
             // Change PCB state to Terminated
-            PCBList[pid].state = TSOS.PCB.STATES[3];
+            PCBList[PIDRUNNING].state = TSOS.PCB.STATES[3];
             // Remove terminated pid from Ready Queue
-            _SchedulerReadyQueue.dequeueValue(PCBList[pid]);
+            _SchedulerReadyQueue.dequeueValue(PCBList[PIDRUNNING]);
             // Display Terminated PCB results
-            TSOS.Control.displayPCB(PCBList[pid]);
+            TSOS.Control.displayPCB(PCBList[PIDRUNNING]);
             // Ensure registers in Memory are accurate by displaying results
-            _MemoryAccessor.displayRegisters(PCBList[pid].base, PCBList[pid].limit);
+            _MemoryAccessor.displayRegisters(PCBList[PIDRUNNING].base, PCBList[PIDRUNNING].limit);
+            // Reset PID running variable
+            PIDRUNNING = -1;
+        }
+        krnCheckRunning() {
+            // First check if PID has been reset (this happens prior to displaying, see Execute() case:00)
+            if (PIDRUNNING !== -1) {
+                // Display registers & Update PCB each cycle.  
+                _MemoryAccessor.displayRegisters(PCBList[PIDRUNNING].base, PCBList[PIDRUNNING].limit);
+                PCBList[PIDRUNNING].updatePCB();
+                TSOS.Control.displayPCB(PCBList[PIDRUNNING]);
+            }
         }
         krnOnCPUClockPulse() {
             /* This gets called from the host hardware simulation every time there is a hardware clock pulse.

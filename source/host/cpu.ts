@@ -22,9 +22,6 @@ module TSOS {
 
     export class Cpu {
 
-        // PID running
-        pidRunning : number;
-
         // Array of Opcodes (denoting operand quantity)
         oneByteOpcode : number[] = [0xA9, 0xA2, 0xA0, 0xD0];
         twoByteOpcode : number[] = [0xAD, 0x8D, 0x6D, 0xAE, 0xAC, 0xEC, 0xEE]; // FF was here
@@ -92,14 +89,8 @@ module TSOS {
             } 
 
             // Display all info to FE tables
-
-            // First check if PID has been reset (this happens prior to displaying, see Execute() case:00)
-            if (this.pidRunning !== -1) {
-                // Display registers & Update PCB each cycle.  
-                _MemoryAccessor.displayRegisters(PCBList[this.pidRunning].base, PCBList[this.pidRunning].limit);
-                PCBList[this.pidRunning].updatePCB();
-                Control.displayPCB(PCBList[this.pidRunning]);
-            }
+            // Ask Kernel for this
+            _Kernel.krnCheckRunning();
             // Display CPU
             Control.displayCPU();
             }
@@ -108,13 +99,10 @@ module TSOS {
         / Run Function
         /   Initiates the CPU to begin executing a program in Memory
         */
-        public run(pcb : PCB) {
+        public run() {
             // Reset CPU registers
             _CPU.init();
             this.isExecuting = true;
-            // * Proj 3, will decide which of 3 memory blocks to run based on passed in PCB
-
-            this.pidRunning = pcb.PID;
         }
 
         public end(msg : string) {
@@ -123,10 +111,7 @@ module TSOS {
             // Stop the CPU commands, may need to change this
             this.isExecuting = false;
             // Ask Kernel to conclude program
-            _Kernel.krnEndProg(this.pidRunning, msg);
-            // Reset PID running variable
-            this.pidRunning = -1;
-                  
+            _Kernel.krnEndProg(msg);
         }
 
         /*

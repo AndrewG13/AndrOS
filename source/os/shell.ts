@@ -711,7 +711,7 @@ module TSOS {
                     // PCB valid and resident!
 
                     // Set PCB state to "Running"
-                    PCBList[PID].state = PCB.STATES[2];
+                    PCBList[PID].state = PCB.STATES[1];
                     Control.displayPCB(PCBList[PID]);
                 }
             } else {
@@ -753,7 +753,7 @@ module TSOS {
                 // Contact MMU for block info
                 let PID = _MemoryManager.checkRange(block);
                 // Check if it has a PCB & PID is "Ready"
-                if (PID !== -1 && PCBList[PID].state === "Ready") {
+                if (PID !== -1 && PCBList[PID].state === "Resident") {
                     noProgs = false;
                     args[0] = PID.toString();
                     this.shellRun(args);
@@ -771,17 +771,18 @@ module TSOS {
         *      Clear memory & deallocate partitions
         */
         public shellClearmem(args: string[]) {
-            // Listening to Mario Party music while I write this
-            // https://www.youtube.com/watch?v=Yt-3zpmj3K8
 
-            // Reset Memory
-            _MemoryAccessor.resetMem();
-            // Deallocate all partitions
-            _MemoryManager.deallocateAll();
-            // Update registers display (Memory range: 0x000 -> 0x2FF)
-            _MemoryAccessor.displayRegisters(0x000, 0x2FF);
-
-            // do more?
+            if (!(_CPU.isExecuting)) {
+                // Reset Memory
+                _MemoryAccessor.resetMem();
+                // Deallocate all partitions
+                _MemoryManager.deallocateAll();
+                // Update registers display (Memory range: 0x000 -> 0x2FF)
+                _MemoryAccessor.displayRegisters(0x000, 0x2FF)
+                _StdOut.putText("Memory Clear: Complete");
+            } else {
+                _StdOut.putText("Memory Clear: Denied")
+            }
         }
 
         /*
@@ -814,7 +815,7 @@ module TSOS {
                     _CPU.isExecuting = false;
 
                     // Ask Kernel to conclude program
-                    _Kernel.krnEndProg(pid, "[Manually]");
+                    _Kernel.krnEndProg("[Manually]");
                 }
             } else {
                 _StdOut.putText("Usage: kill <PID>  Please supply a PID.");
