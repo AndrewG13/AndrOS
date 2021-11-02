@@ -107,11 +107,11 @@ module TSOS {
         / End Program Function
         /    Terminates the program in execution & deallocates that Memory range
         */
-        public krnEndProg(msg : string) {
+        public krnEndProg(pid : number, msg : string) {
             // Once the process terminates, clear memory for that specific block.
             
             // Deallocate memory block
-            _MemoryManager.deallocateRange(PIDRUNNING);
+            _MemoryManager.deallocateRange(pid);
             // Clear Base & Limit registers in MA
             _MemoryAccessor.base = 0x000;
             _MemoryAccessor.limit = 0x000;
@@ -119,26 +119,28 @@ module TSOS {
             // *Note: CPU will be reset upon running next program
 
             _StdOut.advanceLine();
-            _StdOut.putText("PID: " + PIDRUNNING + " | Program Terminated " + msg);
+            _StdOut.putText("PID: " + pid + " | Program Terminated " + msg);
             _StdOut.advanceLine();
             _OsShell.putPrompt();
 
             // Change PCB state to Terminated
-            PCBList[PIDRUNNING].state = PCB.STATES[3];
+            PCBList[pid].state = PCB.STATES[3];
 
             // Remove terminated pid from Ready Queue
-            _SchedulerReadyQueue.dequeueValue(PCBList[PIDRUNNING]);
+            _SchedulerReadyQueue.dequeueValue(PCBList[pid]);
         
             // Display Terminated PCB results
-            Control.displayPCB(PCBList[PIDRUNNING]);
+            Control.displayPCB(PCBList[pid]);
 
             // Ensure registers in Memory are accurate by displaying results
-            _MemoryAccessor.displayRegisters(PCBList[PIDRUNNING].base, PCBList[PIDRUNNING].limit);
+            _MemoryAccessor.displayRegisters(PCBList[pid].base, PCBList[pid].limit);
 
-            // Reset PID running variable
-            PIDRUNNING = -1;
-            // Reset Quantum
-            _Scheduler.quantumVal = QUANTUM;
+            // If killed pid = PIDRUNNING, reset PIDRUNNING & quantum
+            if (pid === PIDRUNNING) {
+                PIDRUNNING = -1;
+                // Reset Quantum
+                _Scheduler.quantumVal = QUANTUM; 
+            }
         }
 
         public krnCheckRunning() {

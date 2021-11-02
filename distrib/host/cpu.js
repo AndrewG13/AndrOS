@@ -98,8 +98,8 @@ var TSOS;
             // Initiate End Program Sequence:
             // Stop the CPU commands, may need to change this
             this.isExecuting = false;
-            // Ask Kernel to conclude program
-            _Kernel.krnEndProg(msg);
+            // Ask Kernel to conclude current program
+            _Kernel.krnEndProg(PIDRUNNING, msg);
         }
         /*
         / Fetch Function

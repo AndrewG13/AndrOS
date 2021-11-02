@@ -809,9 +809,10 @@ module TSOS {
 
                     // Terminate CPU functionality
                     _CPU.isExecuting = false;
+                    // May need to retain quantum
 
                     // Ask Kernel to conclude program
-                    _Kernel.krnEndProg("[Manually]");
+                    _Kernel.krnEndProg(pid,"[Manually]");
                 }
             } else {
                 _StdOut.putText("Usage: kill <PID>  Please supply a PID.");
