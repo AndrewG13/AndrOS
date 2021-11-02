@@ -38,7 +38,9 @@
                         // Set the state
                         PCBList[PIDRUNNING].state = PCB.STATES[2];
                         // It already is in the back of the Queue,
-                        // So get next 
+                        // So get next (occurs on next cycle)
+                        // On next cycle since we are not supposed to Context Switch within
+                        // one cycle, not realistic.
 
                         // Now call Dispatcher for Context Switch
                         _Dispatcher.contextSwitch();

@@ -756,7 +756,7 @@ module TSOS {
                 if (PID !== -1 && PCBList[PID].state === "Resident") {
                     noProgs = false;
                     args[0] = PID.toString();
-                    this.shellRun(args);
+                    _OsShell.shellRun(args);
                 }
             }
 

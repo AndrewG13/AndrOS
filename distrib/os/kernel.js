@@ -119,6 +119,10 @@ var TSOS;
                 TSOS.Control.displayPCB(PCBList[PIDRUNNING]);
             }
         }
+        krnLoadCPU() {
+            // Provide state for CPU based on PCB
+            _Dispatcher.loadState();
+        }
         krnOnCPUClockPulse() {
             /* This gets called from the host hardware simulation every time there is a hardware clock pulse.
                This is NOT the same as a TIMER, which causes an interrupt and is handled like other interrupts.

@@ -149,6 +149,10 @@ module TSOS {
             }
         }
 
+        public krnLoadCPU() {
+            // Provide state for CPU based on PCB
+            _Dispatcher.loadState();
+        }
 
         public krnOnCPUClockPulse() {
             /* This gets called from the host hardware simulation every time there is a hardware clock pulse.

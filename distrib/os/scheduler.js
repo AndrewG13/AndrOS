@@ -12,18 +12,31 @@ var TSOS;
             this.mode = Scheduler.AVAILABLEMODES[0]; // proj4, this will be settable
             PIDRUNNING = -1; // should initialize to -1 (nothings running!)
             _SchedulerReadyQueue = new TSOS.Queue(); // The Ready Queue, handled by the Scheduler
+            this.quantumVal = QUANTUM;
         }
         cycle() {
             if (_CPU.isExecuting) {
                 // Decrement Quantum
-                QUANTUM--;
+                this.quantumVal--;
                 // When Quantum hits -1, contact Dispatcher for Context Switch
                 // Its -1, not 0. This is due to Quantum-- before checking it.
-                if (QUANTUM === -1) {
+                // Check if RR Context Switch is needed
+                if (this.quantumVal === -1) {
+                    // Set the state
+                    PCBList[PIDRUNNING].state = TSOS.PCB.STATES[2];
+                    // It already is in the back of the Queue,
+                    // So get next (occurs on next cycle)
+                    // On next cycle since we are not supposed to Context Switch within
+                    // one cycle, not realistic.
+                    // Now call Dispatcher for Context Switch
+                    _Dispatcher.contextSwitch();
                 }
             }
-            // touch this for RR
-            this.checkIfReady();
+            // Check if processes are Ready if one is not already running
+            // May need to change
+            if (PIDRUNNING === -1) {
+                this.checkIfReady();
+            }
         }
         schedulePIDProcess(PID) {
             // Set pidRunning accordingly

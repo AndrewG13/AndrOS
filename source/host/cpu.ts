@@ -100,8 +100,9 @@ module TSOS {
         /   Initiates the CPU to begin executing a program in Memory
         */
         public run() {
-            // Reset CPU registers
-            _CPU.init();
+            // Ask Kernel for CPU state
+            _Kernel.krnLoadCPU();
+
             this.isExecuting = true;
         }
 

@@ -93,8 +93,8 @@ var TSOS;
         /   Initiates the CPU to begin executing a program in Memory
         */
         run() {
-            // Reset CPU registers
-            _CPU.init();
+            // Ask Kernel for CPU state
+            _Kernel.krnLoadCPU();
             this.isExecuting = true;
         }
         end(msg) {

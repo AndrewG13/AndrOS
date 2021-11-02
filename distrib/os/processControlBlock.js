@@ -10,6 +10,7 @@ var TSOS;
         constructor(savedPC, savedAcc, savedXreg, savedYreg, savedZflag) {
             this.state = PCB.STATES[0];
             this.PID = PCB.PID++;
+            this.IR = 0x00;
             this.PC = savedPC;
             this.Acc = savedAcc;
             this.Xreg = savedXreg;
