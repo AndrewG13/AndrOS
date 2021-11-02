@@ -137,6 +137,8 @@ module TSOS {
 
             // If killed pid = PIDRUNNING, reset PIDRUNNING & quantum
             if (pid === PIDRUNNING) {
+                // Stop CPU execution
+                _CPU.isExecuting = false;
                 PIDRUNNING = -1;
                 // Reset Quantum
                 _Scheduler.quantumVal = QUANTUM; 

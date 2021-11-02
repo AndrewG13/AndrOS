@@ -807,8 +807,9 @@ module TSOS {
 
                     _StdOut.putText("Manual Kill Initiated")
 
-                    // Terminate CPU functionality
-                    _CPU.isExecuting = false;
+                    // This kill could be killing a program not currently running
+                    // therefor dont stop CPU 
+
                     // May need to retain quantum
 
                     // Ask Kernel to conclude program

@@ -110,6 +110,8 @@ var TSOS;
             _MemoryAccessor.displayRegisters(PCBList[pid].base, PCBList[pid].limit);
             // If killed pid = PIDRUNNING, reset PIDRUNNING & quantum
             if (pid === PIDRUNNING) {
+                // Stop CPU execution
+                _CPU.isExecuting = false;
                 PIDRUNNING = -1;
                 // Reset Quantum
                 _Scheduler.quantumVal = QUANTUM;
