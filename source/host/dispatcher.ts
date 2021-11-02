@@ -21,9 +21,9 @@
 
                 // Kernel will contact Dispatcher when PCB Attributes are needed.
 
-                // Indicate PIDRUNNING is now -1, next process begins the following cycle
-                //PIDRUNNING = -1;
-                //_CPU.isExecuting = false;
+                // Set state of PIDRUNNING to Ready
+                PCBList[PIDRUNNING].state = PCB.STATES[1];
+                
             }
 
             // Save state of CPU into just-halted PCB

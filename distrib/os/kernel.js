@@ -110,6 +110,8 @@ var TSOS;
             _MemoryAccessor.displayRegisters(PCBList[PIDRUNNING].base, PCBList[PIDRUNNING].limit);
             // Reset PID running variable
             PIDRUNNING = -1;
+            // Reset Quantum
+            _Scheduler.quantumVal = QUANTUM;
         }
         krnCheckRunning() {
             // First check if PID has been reset (this happens prior to displaying, see Execute() case:00)
@@ -143,6 +145,7 @@ var TSOS;
             }
             else if (_CPU.isExecuting) { // If there are no interrupts then run one CPU cycle if there is anything being processed.
                 _CPU.cycle();
+                console.log("Quantum:" + _Scheduler.quantumVal + "| PIDRUNN:" + PIDRUNNING);
             }
             else { // If there are no interrupts and there is nothing being executed then just be idle.
                 //if (_MemoryManager.checkAllRange()) { // If at least one partition is occupied
@@ -187,7 +190,9 @@ var TSOS;
                 case DISPATCH_IRQ:
                     // Now call Dispatcher for Context Switch
                     _Dispatcher.contextSwitch();
-                    // Reset Quantum
+                    // Display out updated PCB (Just put to Ready)
+                    TSOS.Control.displayPCB(PCBList[PIDRUNNING]);
+                    // Reset Quantum & schedule new program if Ready
                     _Scheduler.quantumVal = QUANTUM;
                     _Scheduler.schedIfReady();
                     break;
