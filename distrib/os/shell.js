@@ -660,11 +660,6 @@ var TSOS;
         *      Kill PID process
         */
         shellKill(args) {
-            // Check if a program is running
-            if (!(_CPU.isExecuting)) {
-                _StdOut.putText("CPU not in execution.");
-            }
-            else 
             // Check if PID provided
             if (args.length > 0) {
                 let pid = parseInt(args[0]);
@@ -673,9 +668,9 @@ var TSOS;
                     _StdOut.putText("Invalid PID.");
                 }
                 else 
-                // Finally check if the process is running
-                if (PCBList[pid].state !== "Running") {
-                    _StdOut.putText("PID: " + pid + " not in execution.");
+                // Finally check if the process is running or ready
+                if (PCBList[pid].state !== "Running" && PCBList[pid].state !== "Ready") {
+                    _StdOut.putText("PID: " + pid + " not ready or executing.");
                 }
                 else {
                     // Process is valid & running!
@@ -705,11 +700,6 @@ var TSOS;
                     let PID = _MemoryManager.checkRange(block);
                     if (PID > 0) {
                         // PCB exists, attempt to kill it
-                        args[0] = PID.toString();
-                        // Ensure Kill won't bark about PCBs that aren't "Running"
-                        // attention to detail
-                        args[1] = "No log";
-                        _OsShell.shellKill(args);
                     }
                 }
             }

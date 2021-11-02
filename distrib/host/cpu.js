@@ -319,7 +319,10 @@ var TSOS;
                     break;
             }
             // Have to decrement Quantum here for Instruction Basis
-            _Kernel.krnTraceInstr();
+            // if FF & xReg = 2, wait til writeback to do Quantum decrement
+            if (!(this.instrReg == 0x8D || this.instrReg == 0xEE)) {
+                _Kernel.krnTraceInstr();
+            }
         }
         /*
         / WriteBack Function
@@ -329,6 +332,8 @@ var TSOS;
         */
         writeBack() {
             _MemoryAccessor.writeTo();
+            // Always increment Quantum if a writeback occurred.
+            _Kernel.krnTraceInstr();
         }
         /*
         / Is Two Byte Opcode? function

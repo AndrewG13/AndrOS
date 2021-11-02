@@ -336,13 +336,15 @@ module TSOS {
             
                   // Call End Program Sequence:
                   this.end("[Violation: Invalid OP Code]")
-                  
                   break;
               }
 
               
           // Have to decrement Quantum here for Instruction Basis
-          _Kernel.krnTraceInstr();
+          // if FF & xReg = 2, wait til writeback to do Quantum decrement
+          if (!(this.instrReg == 0x8D || this.instrReg == 0xEE)) {
+            _Kernel.krnTraceInstr();
+          }
         }
         /*
         / WriteBack Function
@@ -351,7 +353,9 @@ module TSOS {
         /   Just for 8D & EE
         */
         public writeBack() {
-              _MemoryAccessor.writeTo(); 
+              _MemoryAccessor.writeTo();
+              // Always increment Quantum if a writeback occurred.
+              _Kernel.krnTraceInstr();
         }
 
         /*

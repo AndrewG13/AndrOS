@@ -791,10 +791,6 @@ module TSOS {
         *      Kill PID process
         */
         public shellKill(args: string[]) {
-            // Check if a program is running
-            if (!(_CPU.isExecuting)) {
-                _StdOut.putText("CPU not in execution.");
-            } else 
 
             // Check if PID provided
             if (args.length > 0) {
@@ -803,9 +799,9 @@ module TSOS {
                 if (pid < 0 || pid >= PCBList.length) {
                     _StdOut.putText("Invalid PID.");
                 } else
-                // Finally check if the process is running
-                if (PCBList[pid].state !== "Running") {
-                    _StdOut.putText("PID: " + pid +" not in execution.");
+                // Finally check if the process is running or ready
+                if (PCBList[pid].state !== "Running" && PCBList[pid].state !== "Ready") {
+                    _StdOut.putText("PID: " + pid +" not ready or executing.");
                 } else {
                     // Process is valid & running!
 
@@ -836,11 +832,8 @@ module TSOS {
                     let PID : number = _MemoryManager.checkRange(block);
                     if (PID > 0) {
                         // PCB exists, attempt to kill it
-                        args[0] = PID.toString();
-                        // Ensure Kill won't bark about PCBs that aren't "Running"
-                        // attention to detail
-                        args[1] = "No log";
-                        _OsShell.shellKill(args);
+                        
+                        
                     }
                 }
             }
