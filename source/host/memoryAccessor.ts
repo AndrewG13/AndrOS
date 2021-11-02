@@ -107,7 +107,7 @@
                     // Format address based on stored Lob and new Hob
                     this.leFlag[1] += (_Memory.getMDR() * 256);
                     // Change MAR to appropriate address, reset leFlag
-                    _Memory.setMAR(this.leFlag[1]);
+                    this.changeMAR(this.leFlag[1]);
                     // Second read to get the appropriate value into the MDR
                     // based on the new (LE) MAR
                     _Memory.read();
@@ -165,7 +165,7 @@
             /    Synonymous to Memory's setMAR()
             */
             public changeMAR(newMar : number) : void {
-                _Memory.setMAR(newMar);
+                _Memory.setMAR(newMar + this.base);
             }
 
             /*

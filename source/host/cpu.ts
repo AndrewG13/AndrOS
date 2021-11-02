@@ -340,7 +340,9 @@ module TSOS {
         
                     while (_MemoryAccessor.checkMDR() != 0x00) {
                       _StdOut.putText( AsciiLib.encode(_MemoryAccessor.checkMDR()) );
-                      _MemoryAccessor.changeMAR((_MemoryAccessor.checkMAR()) + 1);
+                      // weird arith neccessary to avoid Access Violations
+                      // This is essentially just incrementing the MAR, MAR++
+                      _MemoryAccessor.changeMAR((_MemoryAccessor.checkMAR()) + 1 - _MemoryAccessor.base); 
                       _MemoryAccessor.readFrom();
                     }
                     

@@ -626,7 +626,7 @@ module TSOS {
                                         // Send Base & Limit registers to MA
                                         _MemoryAccessor.base = partition[1];
                                         _MemoryAccessor.limit = partition[2];
-                                        
+
                     // Assign a block by Manager (send in partition# & PID-to-use)
                     _MemoryManager.assignRange(partition[0], PCB.PID);
 
@@ -636,7 +636,7 @@ module TSOS {
                     // Put into memory by Accessor
                     for (let reg : number = 0; reg < numOfBytes; reg += 0x001) {
                         let data : number = parseInt(input.substring(reg*2, (reg*2)+2), 16);
-                        _MemoryAccessor.writeImmediate(partition[1] + reg, data);
+                        _MemoryAccessor.writeImmediate(reg, data);
                     }
 
                     // Create a PCB & enqueue on Ready Queue (and PCB list)

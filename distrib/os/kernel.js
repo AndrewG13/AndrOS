@@ -77,6 +77,8 @@ var TSOS;
             // Send Base & Limit registers to MA
             _MemoryAccessor.base = PCBList[PID].base;
             _MemoryAccessor.limit = PCBList[PID].limit;
+            // Ensure MemoryAccessor starts at appropriate address for MAR
+            _MemoryAccessor.changeMAR(0);
             // Trigger the CPU to run it.
             _CPU.run(PCBList[PID]);
         }

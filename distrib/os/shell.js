@@ -527,7 +527,7 @@ var TSOS;
                     // Put into memory by Accessor
                     for (let reg = 0; reg < numOfBytes; reg += 0x001) {
                         let data = parseInt(input.substring(reg * 2, (reg * 2) + 2), 16);
-                        _MemoryAccessor.writeImmediate(partition[1] + reg, data);
+                        _MemoryAccessor.writeImmediate(reg, data);
                     }
                     // Create a PCB & enqueue on Ready Queue (and PCB list)
                     let newPCB = new TSOS.PCB(0x000, 0x00, 0x00, 0x00, false);
