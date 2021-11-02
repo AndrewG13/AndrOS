@@ -527,7 +527,7 @@ var TSOS;
                         _MemoryAccessor.writeImmediate(partition[1] + reg, data);
                     }
                     // Create a PCB & enqueue on Ready Queue (and PCB list)
-                    let newPCB = new TSOS.PCB(_CPU.progCounter, _CPU.accumulator, _CPU.xReg, _CPU.yReg, _CPU.zFlag);
+                    let newPCB = new TSOS.PCB(0x000, 0x00, 0x00, 0x00, false);
                     newPCB.base = partition[1];
                     newPCB.limit = partition[2];
                     _SchedulerReadyQueue.enqueue(newPCB);

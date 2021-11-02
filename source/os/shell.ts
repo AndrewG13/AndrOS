@@ -636,7 +636,7 @@ module TSOS {
                     }
 
                     // Create a PCB & enqueue on Ready Queue (and PCB list)
-                    let newPCB = new PCB(_CPU.progCounter, _CPU.accumulator, _CPU.xReg, _CPU.yReg, _CPU.zFlag);
+                    let newPCB = new PCB(0x000, 0x00, 0x00, 0x00, false);
                     newPCB.base = partition[1];
                     newPCB.limit = partition[2];
                     _SchedulerReadyQueue.enqueue(newPCB);
