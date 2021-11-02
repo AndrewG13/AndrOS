@@ -17,22 +17,29 @@
             // (its state will be "Running")
             
             private mode : string;
+            private quantumVal : number;
 
             constructor() {
                 this.mode = Scheduler.AVAILABLEMODES[0]; // proj4, this will be settable
                 PIDRUNNING = -1; // should initialize to -1 (nothings running!)
                 _SchedulerReadyQueue = new Queue(); // The Ready Queue, handled by the Scheduler
-
+                this.quantumVal = QUANTUM;
             }
 
             public cycle() : void {
                 if (_CPU.isExecuting) {
                     // Decrement Quantum
-                    QUANTUM--;
+                    this.quantumVal--;
                     // When Quantum hits -1, contact Dispatcher for Context Switch
                     // Its -1, not 0. This is due to Quantum-- before checking it.
-                    if (QUANTUM === -1) {
-
+                    
+                    // Check if RR Context Switch is needed
+                    if (this.quantumVal === -1) {
+                        // Set the state
+                        PCBList[PIDRUNNING].state = PCB.STATES[2];
+                        // It already is in the back of the Queue,
+                        // Now call Dispatcher for Context Switch
+                        _Dispatcher.contextSwitch();
                     }
                 }
 

@@ -16,7 +16,7 @@
             }
 
 
-            public performCxtSwt() {
+            public contextSwitch() {
 
             }
 
