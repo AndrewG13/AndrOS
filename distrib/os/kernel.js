@@ -92,7 +92,8 @@ var TSOS;
             // Once the process terminates, clear memory for that specific block.
             // Deallocate memory block
             let partition = _MemoryManager.deallocateRange(pid);
-            // Clear Base & Limit registers in MA
+            // Default to clearing Base & Limit registers in MA
+            // This will be overriden if a different program was running.
             _MemoryAccessor.base = 0x000;
             _MemoryAccessor.limit = 0x000;
             // *Note: CPU will be reset upon running next program
@@ -117,6 +118,13 @@ var TSOS;
                 PIDRUNNING = -1;
                 // Reset Quantum
                 _Scheduler.quantumVal = QUANTUM;
+            }
+            else 
+            // if there was a different program running at this time, ensure base & limit
+            if (_CPU.isExecuting) {
+                // Must do this, otherwise previous
+                _MemoryAccessor.base = PCBList[PIDRUNNING].base;
+                _MemoryAccessor.limit = PCBList[PIDRUNNING].limit;
             }
         }
         krnCheckRunning() {
