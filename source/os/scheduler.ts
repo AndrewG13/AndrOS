@@ -47,7 +47,9 @@
 
                         // Issues interrupt indicating Context Switch
                         _KernelInterruptQueue.enqueue(new Interrupt(DISPATCH_IRQ,[this.mode]))
-                        
+                        // Reset Quantum
+                        this.quantumVal = QUANTUM;
+
                         } else {
                             // Context Switch unneeded
                             this.quantumVal = QUANTUM;
@@ -63,6 +65,8 @@
 
             // Schedule a specific PID process
             public schedulePIDProcess(PID : number) {
+                // Ensure Quantum is fresh for new program
+                this.quantumVal = QUANTUM;
                 // Set pidRunning accordingly
                 PIDRUNNING = PID;
                 // Set PCB to "Running"
@@ -100,11 +104,11 @@
                     this.schedulePIDProcess(pcbToRun.PID);
                 }
             }
+
             // Check if there are Ready processes, return true if there are.
             public checkIfReady() {
                 let qSize = _SchedulerReadyQueue.getSize(); // Need size in seperate variable
-                let notFound = true; // Keep track if one process has already been initiated to run
-                var pcbToRun : PCB = null;
+                let found = false; // Keep track if one process has already been initiated to run
 
                 // For each PCB in Ready Queue, check if "Ready"
                 // Continue shifting the Queue until back to its original order. 
@@ -112,13 +116,12 @@
                     let pcb : PCB = _SchedulerReadyQueue.dequeue();
                     if (pcb.state === "Ready"){
                         _SchedulerReadyQueue.enqueue(pcb);
-                        return true;
+                        found = true;
                     } else {
                         _SchedulerReadyQueue.enqueue(pcb);
                     }
                 }
-                // None found
-                return false;
+                return found;
                 }
             }
         }

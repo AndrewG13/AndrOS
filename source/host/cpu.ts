@@ -184,9 +184,6 @@ module TSOS {
         // Can have 2 phases (only for EE)
         public execute() {
 
-          // Have to decrement Quantum here for Instruction Basis
-          _Kernel.krnTraceInstr();
-
             // OP Codes to use: 
 
             switch (this.instrReg) {
@@ -342,6 +339,10 @@ module TSOS {
                   
                   break;
               }
+
+              
+          // Have to decrement Quantum here for Instruction Basis
+          _Kernel.krnTraceInstr();
         }
         /*
         / WriteBack Function

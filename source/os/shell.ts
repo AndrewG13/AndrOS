@@ -840,7 +840,7 @@ module TSOS {
                         // Ensure Kill won't bark about PCBs that aren't "Running"
                         // attention to detail
                         args[1] = "No log";
-                        this.shellKill(args);
+                        _OsShell.shellKill(args);
                     }
                 }
             }

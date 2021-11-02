@@ -124,7 +124,12 @@ var TSOS;
         }
         // Decrement Quantum
         krnTraceInstr() {
+            // * Note: CPU executes the instr
+            //         then Quantum decrements
             _Scheduler.quantumVal--;
+            if (_Scheduler.quantumVal === -1) {
+                console.log("PID:" + PIDRUNNING + "| Last Instr:" + hexLog(_CPU.instrReg, 2));
+            }
         }
         krnLoadStates() {
             // Provide state for CPU based on PCB
@@ -145,7 +150,7 @@ var TSOS;
             }
             else if (_CPU.isExecuting) { // If there are no interrupts then run one CPU cycle if there is anything being processed.
                 _CPU.cycle();
-                console.log("Quantum:" + _Scheduler.quantumVal + "| PIDRUNN:" + PIDRUNNING);
+                //console.log("Quantum:" + _Scheduler.quantumVal + "| PIDRUNN:" + PIDRUNNING);
             }
             else { // If there are no interrupts and there is nothing being executed then just be idle.
                 //if (_MemoryManager.checkAllRange()) { // If at least one partition is occupied
@@ -192,8 +197,8 @@ var TSOS;
                     _Dispatcher.contextSwitch();
                     // Display out updated PCB (Just put to Ready)
                     TSOS.Control.displayPCB(PCBList[PIDRUNNING]);
-                    // Reset Quantum & schedule new program if Ready
-                    _Scheduler.quantumVal = QUANTUM;
+                    // Expire Quantum (to trigger time for new program) & schedule new program if Ready
+                    _Scheduler.quantumVal = -1;
                     _Scheduler.schedIfReady();
                     break;
                 default:

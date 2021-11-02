@@ -30,6 +30,8 @@ var TSOS;
                         // one cycle, not realistic.
                         // Issues interrupt indicating Context Switch
                         _KernelInterruptQueue.enqueue(new TSOS.Interrupt(DISPATCH_IRQ, [this.mode]));
+                        // Reset Quantum
+                        this.quantumVal = QUANTUM;
                     }
                     else {
                         // Context Switch unneeded
@@ -44,6 +46,8 @@ var TSOS;
         }
         // Schedule a specific PID process
         schedulePIDProcess(PID) {
+            // Ensure Quantum is fresh for new program
+            this.quantumVal = QUANTUM;
             // Set pidRunning accordingly
             PIDRUNNING = PID;
             // Set PCB to "Running"
@@ -82,22 +86,20 @@ var TSOS;
         // Check if there are Ready processes, return true if there are.
         checkIfReady() {
             let qSize = _SchedulerReadyQueue.getSize(); // Need size in seperate variable
-            let notFound = true; // Keep track if one process has already been initiated to run
-            var pcbToRun = null;
+            let found = false; // Keep track if one process has already been initiated to run
             // For each PCB in Ready Queue, check if "Ready"
             // Continue shifting the Queue until back to its original order. 
             for (let i = 0; i < qSize; i++) {
                 let pcb = _SchedulerReadyQueue.dequeue();
                 if (pcb.state === "Ready") {
                     _SchedulerReadyQueue.enqueue(pcb);
-                    return true;
+                    found = true;
                 }
                 else {
                     _SchedulerReadyQueue.enqueue(pcb);
                 }
             }
-            // None found
-            return false;
+            return found;
         }
     }
     // Scheduling Philosophies
