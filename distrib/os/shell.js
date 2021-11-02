@@ -512,7 +512,7 @@ var TSOS;
                 }
                 else {
                     // Code successful!
-                    console.log(partition[0] + " " + partition[1] + " " + partition[2]);
+                    //console.log(partition[0] + " " + partition[1] + " " + partition[2]);
                     // Note:
                     // partition[0]: partition#
                     // partition[1]: base reg
@@ -535,6 +535,7 @@ var TSOS;
                     // display registers (from start -> end) & PCB 
                     _MemoryAccessor.displayRegisters(newPCB.base, newPCB.limit);
                     TSOS.Control.createPCBrow(newPCB);
+                    // Log info
                     _StdOut.putText("Load Successful: PID:" + newPCB.PID);
                 }
             }
@@ -587,8 +588,7 @@ var TSOS;
                     // PCB valid and resident!
                     // Set PCB state to "Running"
                     PCBList[PID].state = TSOS.PCB.STATES[2];
-                    // Ask kernel to initiate program
-                    _Kernel.krnInitProg(PID);
+                    TSOS.Control.displayPCB(PCBList[PID]);
                 }
             }
             else {
@@ -619,8 +619,9 @@ var TSOS;
             let noProgs = true; // To keep track if any programs 
             // Check each block for PID
             for (let block = 0; block < PARTITIONQUANTITY; block++) {
+                // Contact MMU for block info
                 let PID = _MemoryManager.checkRange(block);
-                // Check if PID is "Ready"
+                // Check if it has a PCB & PID is "Ready"
                 if (PID !== -1 && PCBList[PID].state === "Ready") {
                     noProgs = false;
                     args[0] = PID.toString();

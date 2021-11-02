@@ -110,6 +110,19 @@
                     return -1;
                 }
             }
+
+            // Returns true if at least one Partition is occupied
+            // This function serves to prevent Scheduler checking Ready Queue if unneeded.
+            public checkAllRange() : boolean {
+                // Could have this function just be a 1 liner, but want it like this for readability...
+
+                // Check if any of the 3 partitions contain a process
+                if (this.parti[0] !== -1 || this.parti[1] !== -1 || this.parti[2] !== -1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
     
         }
     }

@@ -113,6 +113,9 @@ module TSOS {
 
             // Change PCB state to Terminated
             PCBList[pid].state = PCB.STATES[3];
+
+            // Remove terminated pid from Ready Queue
+            _SchedulerReadyQueue.dequeueValue(PCBList[pid]);
         
             // Display Terminated PCB results
             Control.displayPCB(PCBList[pid]);
@@ -137,9 +140,12 @@ module TSOS {
                 this.krnInterruptHandler(interrupt.irq, interrupt.params);
             } else if (_CPU.isExecuting) { // If there are no interrupts then run one CPU cycle if there is anything being processed.
                 _CPU.cycle();
-                // _Scheduler.cycle();
             } else {                       // If there are no interrupts and there is nothing being executed then just be idle.
-                this.krnTrace("Idle");
+    
+                if (_MemoryManager.checkAllRange()) { // If at least one partition is occupied
+                    _Scheduler.cycle();
+                }
+                    this.krnTrace("Idle");
             }
         }
 

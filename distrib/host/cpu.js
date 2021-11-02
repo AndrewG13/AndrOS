@@ -118,7 +118,7 @@ var TSOS;
         /    Simply grabs byte (instruction) from Memory
         */
         fetch() {
-            if (this.progCounter <= 0x0FF || this.progCounter >= 0x00) {
+            if (this.progCounter <= 0x0FF || this.progCounter >= 0x000) {
                 _MemoryAccessor.changeMAR(this.progCounter);
                 _MemoryAccessor.readFrom();
                 this.instrReg = _MemoryAccessor.checkMDR();

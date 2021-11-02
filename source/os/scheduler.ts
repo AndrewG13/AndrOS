@@ -43,15 +43,15 @@
 
             private checkIfReady() {
                 let qSize = _SchedulerReadyQueue.getSize(); // Need size in seperate variable
-                let notFound = true; // Keep track if one process has already be initiated to run
-                let pcbToRun : PCB;
+                let notFound = true; // Keep track if one process has already been initiated to run
+                var pcbToRun : PCB = null;
 
                 // For each PCB in Ready Queue, check if "Ready"
                 // First to be Ready will be ran
                 // Continue shifting the Queue until back to its original order (minus the dequeued PCB)
                 for (let i = 0; i < qSize; i++) {
                     let pcb : PCB = _SchedulerReadyQueue.dequeue();
-                    if ((pcb.state === "Ready") && (notFound)) {
+                    if ((pcb.state === "Running") && (notFound)) {
                         pcbToRun = pcb;
                         notFound = false;
                     } else {
@@ -59,7 +59,7 @@
                     }
                 }
                 // If a process found, initiate run.
-                if (!notFound) {
+                if (!(notFound)) {
                     // First put running process to the back of the Ready Queue
                     // * Note: The Ready Queue keeps track of both Ready & Running processes
                     //         This is to help retain the order in which the processes were received.

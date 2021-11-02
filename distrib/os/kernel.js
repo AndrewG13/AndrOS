@@ -71,9 +71,11 @@ var TSOS;
         /       Upon termination, memory section in use is wiped.
         */
         krnInitProg(PID) {
-            // Ready Queue already checked by Run.
-            // Now call the Scheduler to decide upon the program to run
-            _Scheduler.schedulePIDProcess(PID);
+            // At this point:
+            //  Ready Queue already checked by Run.
+            //  Scheduler has sent a PID to run based on its philosophy.
+            // Trigger the CPU to run it.
+            _CPU.run(PCBList[PID]);
         }
         /*
         / End Program Function
@@ -90,6 +92,8 @@ var TSOS;
             _OsShell.putPrompt();
             // Change PCB state to Terminated
             PCBList[pid].state = TSOS.PCB.STATES[3];
+            // Remove terminated pid from Ready Queue
+            _SchedulerReadyQueue.dequeueValue(PCBList[pid]);
             // Display Terminated PCB results
             TSOS.Control.displayPCB(PCBList[pid]);
             // Ensure registers in Memory are accurate by displaying results
@@ -110,9 +114,11 @@ var TSOS;
             }
             else if (_CPU.isExecuting) { // If there are no interrupts then run one CPU cycle if there is anything being processed.
                 _CPU.cycle();
-                // _Scheduler.cycle();
             }
             else { // If there are no interrupts and there is nothing being executed then just be idle.
+                if (_MemoryManager.checkAllRange()) { // If at least one partition is occupied
+                    _Scheduler.cycle();
+                }
                 this.krnTrace("Idle");
             }
         }

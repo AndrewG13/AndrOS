@@ -616,7 +616,7 @@ module TSOS {
                 } else {
                 // Code successful!
                     
-                    console.log(partition[0] + " " + partition[1] + " " + partition[2]);
+                    //console.log(partition[0] + " " + partition[1] + " " + partition[2]);
                     
                     // Note:
                     // partition[0]: partition#
@@ -647,8 +647,8 @@ module TSOS {
                     _MemoryAccessor.displayRegisters(newPCB.base, newPCB.limit);
                     Control.createPCBrow(newPCB);
 
+                    // Log info
                     _StdOut.putText("Load Successful: PID:" + newPCB.PID);
-                    
                 }
                 
                 
@@ -708,6 +708,7 @@ module TSOS {
 
                     // Set PCB state to "Running"
                     PCBList[PID].state = PCB.STATES[2];
+                    Control.displayPCB(PCBList[PID]);
                 }
             } else {
                 _StdOut.putText("Usage: run <PID>  Please supply a PID.");
@@ -745,8 +746,9 @@ module TSOS {
             
             // Check each block for PID
             for (let block : number = 0; block < PARTITIONQUANTITY; block++) {
+                // Contact MMU for block info
                 let PID = _MemoryManager.checkRange(block);
-                // Check if PID is "Ready"
+                // Check if it has a PCB & PID is "Ready"
                 if (PID !== -1 && PCBList[PID].state === "Ready") {
                     noProgs = false;
                     args[0] = PID.toString();
