@@ -97,10 +97,10 @@ module TSOS {
             // Ensure MemoryAccessor starts at appropriate address for MAR
             _MemoryAccessor.changeMAR(0);
 
+            // Ask Kernel for CPU state
+            _Kernel.krnLoadStates();
             // Trigger the CPU to run it.
-            _CPU.run();
-            PIDRUNNING = PID;
-                
+            _CPU.run();                
         }
 
         /*
@@ -149,7 +149,12 @@ module TSOS {
             }
         }
 
-        public krnLoadCPU() {
+        // Decrement Quantum
+        public krnTraceInstr() {
+            _Scheduler.quantumVal--;
+        }
+
+        public krnLoadStates() {
             // Provide state for CPU based on PCB
             _Dispatcher.loadState();
         }
@@ -169,7 +174,7 @@ module TSOS {
                 this.krnInterruptHandler(interrupt.irq, interrupt.params);
             } else if (_CPU.isExecuting) { // If there are no interrupts then run one CPU cycle if there is anything being processed.
                 _CPU.cycle();
-                _Scheduler.quantumVal--;
+                
             } else {                       // If there are no interrupts and there is nothing being executed then just be idle.
     
                 //if (_MemoryManager.checkAllRange()) { // If at least one partition is occupied
@@ -222,6 +227,7 @@ module TSOS {
                     _Dispatcher.contextSwitch();
                     // Reset Quantum
                     _Scheduler.quantumVal = QUANTUM;
+                    _Scheduler.schedIfReady();
                     break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");

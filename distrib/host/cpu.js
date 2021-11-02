@@ -92,8 +92,6 @@ var TSOS;
         /   Initiates the CPU to begin executing a program in Memory
         */
         run() {
-            // Ask Kernel for CPU state
-            _Kernel.krnLoadCPU();
             this.isExecuting = true;
         }
         end(msg) {
@@ -174,6 +172,8 @@ var TSOS;
         // Executes the instruction (functionality goes here)
         // Can have 2 phases (only for EE)
         execute() {
+            // Have to decrement Quantum here for Instruction Basis
+            _Kernel.krnTraceInstr();
             // OP Codes to use: 
             switch (this.instrReg) {
                 case 0xA9: // Load Accu with Constant

@@ -710,7 +710,7 @@ module TSOS {
                 } else {
                     // PCB valid and resident!
 
-                    // Set PCB state to "Running"
+                    // Set PCB state to "Ready"
                     PCBList[PID].state = PCB.STATES[1];
                     Control.displayPCB(PCBList[PID]);
                 }

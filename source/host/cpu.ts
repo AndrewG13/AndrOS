@@ -99,9 +99,6 @@ module TSOS {
         /   Initiates the CPU to begin executing a program in Memory
         */
         public run() {
-            // Ask Kernel for CPU state
-            _Kernel.krnLoadCPU();
-
             this.isExecuting = true;
         }
 
@@ -186,6 +183,9 @@ module TSOS {
         // Executes the instruction (functionality goes here)
         // Can have 2 phases (only for EE)
         public execute() {
+
+          // Have to decrement Quantum here for Instruction Basis
+          _Kernel.krnTraceInstr();
 
             // OP Codes to use: 
 

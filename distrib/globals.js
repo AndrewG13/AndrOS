@@ -24,6 +24,9 @@ const PARTITIONQUANTITY = 3; // Number of segments/divisions in Memory
 // Only needed to keep the partition array private for good practice. 
 var QUANTUM = 6; // Default value for Round Robin
 var PIDRUNNING;
+// These are necessary for the Org & Arch implementation of this project.
+var MARSTATE = [0x000, 0x000, 0x000]; // For keeping track of where a halted program's MAR is
+var MDRSTATE = [0x00, 0x00, 0x00]; // Same for MDR
 var goodluck = new Audio("distrib/images/Good_Luck_Starfo_ 64.mp3");
 //
 // Global Variables

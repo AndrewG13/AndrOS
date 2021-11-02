@@ -1,10 +1,15 @@
 ### Andrew Giardina - Operating Systems Project
 
+Currently, it is not working fully. The concepts are nearly there, but I did not give myself enough time.
+Please grade "project3" branch. The "project3work" branch will be where my ongoing revisions are being made.
+
+
+
+
+
+
 > #  **AndrOS**
 *Not to be confused with the Starfox 64 villain*
-
-Refer to project1 branch for grading.
-My special command is: doabarrelroll
 
 
 2019 - 2021 Browser-based Operating System in TypeScript

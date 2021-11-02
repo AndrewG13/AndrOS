@@ -21,26 +21,28 @@ var TSOS;
                 // Its -1, not 0. This is due to Quantum-- before checking it.
                 // Check if RR Context Switch is needed
                 if (this.quantumVal === -1) {
-                    // Set the state
-                    PCBList[PIDRUNNING].state = TSOS.PCB.STATES[2];
-                    // It already is in the back of the Queue,
-                    // So get next (occurs on next cycle)
-                    // On next cycle since we are not supposed to Context Switch within
-                    // one cycle, not realistic.
-                    // Issues interrupt indicating Context Switch
-                    TSOS.Devices.hostOnContextSwitch();
-                    // Now call Dispatcher for Context Switch
-                    //_Dispatcher.contextSwitch();
-                    // Reset Quantum
-                    //this.quantumVal = QUANTUM;
+                    if (this.checkIfReady()) {
+                        // Set the state to Ready
+                        PCBList[PIDRUNNING].state = TSOS.PCB.STATES[1];
+                        // It already is in the back of the Queue,
+                        // So get next (occurs on next cycle)
+                        // On next cycle since we are not supposed to Context Switch within
+                        // one cycle, not realistic.
+                        // Issues interrupt indicating Context Switch
+                        _KernelInterruptQueue.enqueue(new TSOS.Interrupt(DISPATCH_IRQ, [this.mode]));
+                    }
+                    else {
+                        // Context Switch unneeded
+                        this.quantumVal = QUANTUM;
+                    }
                 }
             }
             // Check if processes are Ready if one is not already running
-            // May need to change
-            if (PIDRUNNING === -1) {
-                this.checkIfReady();
+            if (this.quantumVal === -1 || PIDRUNNING === -1) {
+                this.schedIfReady();
             }
         }
+        // Schedule a specific PID process
         schedulePIDProcess(PID) {
             // Set pidRunning accordingly
             PIDRUNNING = PID;
@@ -49,9 +51,8 @@ var TSOS;
             // Ask kernel to run PCB
             _Kernel.krnInitProg(PID);
         }
-        scheduleProcess() {
-        }
-        checkIfReady() {
+        // Check if there are Ready processes. If so, schedule them!
+        schedIfReady() {
             let qSize = _SchedulerReadyQueue.getSize(); // Need size in seperate variable
             let notFound = true; // Keep track if one process has already been initiated to run
             var pcbToRun = null;
@@ -77,6 +78,26 @@ var TSOS;
                 // Now schedule this process.
                 this.schedulePIDProcess(pcbToRun.PID);
             }
+        }
+        // Check if there are Ready processes, return true if there are.
+        checkIfReady() {
+            let qSize = _SchedulerReadyQueue.getSize(); // Need size in seperate variable
+            let notFound = true; // Keep track if one process has already been initiated to run
+            var pcbToRun = null;
+            // For each PCB in Ready Queue, check if "Ready"
+            // Continue shifting the Queue until back to its original order. 
+            for (let i = 0; i < qSize; i++) {
+                let pcb = _SchedulerReadyQueue.dequeue();
+                if (pcb.state === "Ready") {
+                    _SchedulerReadyQueue.enqueue(pcb);
+                    return true;
+                }
+                else {
+                    _SchedulerReadyQueue.enqueue(pcb);
+                }
+            }
+            // None found
+            return false;
         }
     }
     // Scheduling Philosophies

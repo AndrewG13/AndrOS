@@ -589,7 +589,7 @@ var TSOS;
                 }
                 else {
                     // PCB valid and resident!
-                    // Set PCB state to "Running"
+                    // Set PCB state to "Ready"
                     PCBList[PID].state = TSOS.PCB.STATES[1];
                     TSOS.Control.displayPCB(PCBList[PID]);
                 }

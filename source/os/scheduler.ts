@@ -35,8 +35,11 @@
                     
                     // Check if RR Context Switch is needed
                     if (this.quantumVal === -1) {
-                        // Set the state
-                        PCBList[PIDRUNNING].state = PCB.STATES[2];
+
+                        if (this.checkIfReady()) {
+
+                        // Set the state to Ready
+                        PCBList[PIDRUNNING].state = PCB.STATES[1];
                         // It already is in the back of the Queue,
                         // So get next (occurs on next cycle)
                         // On next cycle since we are not supposed to Context Switch within
@@ -44,20 +47,21 @@
 
                         // Issues interrupt indicating Context Switch
                         _KernelInterruptQueue.enqueue(new Interrupt(DISPATCH_IRQ,[this.mode]))
-                        // Now call Dispatcher for Context Switch
-                        //_Dispatcher.contextSwitch();
-                        // Reset Quantum
-                        //this.quantumVal = QUANTUM;
+                        
+                        } else {
+                            // Context Switch unneeded
+                            this.quantumVal = QUANTUM;
+                        }
                     }
                 }
 
                 // Check if processes are Ready if one is not already running
-                // May need to change
-                if (PIDRUNNING === -1) {
-                    this.checkIfReady();
+                if (this.quantumVal === -1 || PIDRUNNING === -1) {
+                    this.schedIfReady();
                 }
             }
 
+            // Schedule a specific PID process
             public schedulePIDProcess(PID : number) {
                 // Set pidRunning accordingly
                 PIDRUNNING = PID;
@@ -67,11 +71,8 @@
                 _Kernel.krnInitProg(PID);
             }
 
-            public scheduleProcess() {
-
-            }
-
-            private checkIfReady() {
+            // Check if there are Ready processes. If so, schedule them!
+            public schedIfReady() {
                 let qSize = _SchedulerReadyQueue.getSize(); // Need size in seperate variable
                 let notFound = true; // Keep track if one process has already been initiated to run
                 var pcbToRun : PCB = null;
@@ -99,7 +100,27 @@
                     this.schedulePIDProcess(pcbToRun.PID);
                 }
             }
+            // Check if there are Ready processes, return true if there are.
+            public checkIfReady() {
+                let qSize = _SchedulerReadyQueue.getSize(); // Need size in seperate variable
+                let notFound = true; // Keep track if one process has already been initiated to run
+                var pcbToRun : PCB = null;
 
+                // For each PCB in Ready Queue, check if "Ready"
+                // Continue shifting the Queue until back to its original order. 
+                for (let i = 0; i < qSize; i++) {
+                    let pcb : PCB = _SchedulerReadyQueue.dequeue();
+                    if (pcb.state === "Ready"){
+                        _SchedulerReadyQueue.enqueue(pcb);
+                        return true;
+                    } else {
+                        _SchedulerReadyQueue.enqueue(pcb);
+                    }
+                }
+                // None found
+                return false;
+                }
+            }
         }
-    }
+    
     
