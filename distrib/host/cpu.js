@@ -92,6 +92,7 @@ var TSOS;
         /   Initiates the CPU to begin executing a program in Memory
         */
         run() {
+            this.currentCommand = Commands.FETCH;
             this.isExecuting = true;
         }
         end(msg) {

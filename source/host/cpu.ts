@@ -99,6 +99,7 @@ module TSOS {
         /   Initiates the CPU to begin executing a program in Memory
         */
         public run() {
+            this.currentCommand = Commands.FETCH;
             this.isExecuting = true;
         }
 

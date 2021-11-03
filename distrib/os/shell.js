@@ -699,8 +699,11 @@ var TSOS;
                 for (let block = 0; block < PARTITIONQUANTITY; block++) {
                     // Check if block has a PCB
                     let PID = _MemoryManager.checkRange(block);
-                    if (PID > 0) {
+                    if (PID >= 0) {
                         // PCB exists, attempt to kill it
+                        // Cast pid and pass it as a parameter to kill
+                        args[0] = PID.toString();
+                        _OsShell.shellKill(args);
                     }
                 }
             }
