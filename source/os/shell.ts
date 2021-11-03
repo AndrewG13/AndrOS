@@ -761,7 +761,7 @@ module TSOS {
             }
 
             if (noProgs) {
-                _StdOut.putText("No Programs to Run.");
+                _StdOut.putText("No Programs to run.");
             }
         }
 
@@ -805,7 +805,7 @@ module TSOS {
                 } else {
                     // Process is valid & running!
 
-                    _StdOut.putText("Manual Kill Initiated")
+                    //_StdOut.putText("Manual Kill Initiated")
 
                     // This kill could be killing a program not currently running
                     // therefor dont stop CPU 
