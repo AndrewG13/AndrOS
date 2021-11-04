@@ -512,34 +512,14 @@ var TSOS;
                 }
                 else {
                     // Code successful!
-                    //console.log(partition[0] + " " + partition[1] + " " + partition[2]);
-                    // Note:
-                    // partition[0]: partition#
-                    // partition[1]: base reg
-                    // partition[2]: limit reg
-                    // Send Base & Limit registers to MA
-                    _MemoryAccessor.base = partition[1];
-                    _MemoryAccessor.limit = partition[2];
-                    // Assign a block by Manager (send in partition# & PID-to-use)
-                    _MemoryManager.assignRange(partition[0], TSOS.PCB.PID);
-                    // Wipe leftover memory in that parition
-                    _MemoryAccessor.resetBlock(partition[1], partition[2]);
-                    // Put into memory by Accessor
-                    for (let reg = 0; reg < numOfBytes; reg += 0x001) {
-                        let data = parseInt(input.substring(reg * 2, (reg * 2) + 2), 16);
-                        _MemoryAccessor.writeImmediate(reg, data);
+                    // If CPU is currently running, interrupt to allow MA & MMU to load program.
+                    // If CPU is not running, no need to interrupt!
+                    if (_CPU.isExecuting) {
+                        _KernelInterruptQueue.enqueue(new TSOS.Interrupt(LOAD_IRQ, [partition, numOfBytes, input]));
                     }
-                    // Create a PCB & enqueue on Ready Queue (and PCB list)
-                    let newPCB = new TSOS.PCB(0x000, 0x00, 0x00, 0x00, false);
-                    newPCB.base = partition[1];
-                    newPCB.limit = partition[2];
-                    _SchedulerReadyQueue.enqueue(newPCB);
-                    PCBList[newPCB.PID] = newPCB;
-                    // display registers (from start -> end) & PCB 
-                    _MemoryAccessor.displayRegisters(newPCB.base, newPCB.limit);
-                    TSOS.Control.createPCBrow(newPCB);
-                    // Log info
-                    _StdOut.putText("Load Successful: PID:" + newPCB.PID);
+                    else {
+                        _OsShell.loadIntoMemory(partition, numOfBytes, input);
+                    }
                 }
             }
             else {
@@ -550,6 +530,41 @@ var TSOS;
                     _StdOut.putText("Numeric Input: False");
                 }
             }
+        }
+        /*
+        / Helper function for shellLoad.
+        /
+        /   N
+        */
+        loadIntoMemory(partition, numOfBytes, input) {
+            //console.log(partition[0] + " " + partition[1] + " " + partition[2]);
+            // Note:
+            // partition[0]: partition#
+            // partition[1]: base reg
+            // partition[2]: limit reg
+            // Send Base & Limit registers to MA
+            _MemoryAccessor.base = partition[1];
+            _MemoryAccessor.limit = partition[2];
+            // Assign a block by MMU (send in partition# & PID-to-use)
+            _MemoryManager.assignRange(partition[0], TSOS.PCB.PID);
+            // Wipe leftover memory in that parition
+            _MemoryAccessor.resetBlock(partition[1], partition[2]);
+            // Put into memory by Accessor
+            for (let reg = 0; reg < numOfBytes; reg += 0x001) {
+                let data = parseInt(input.substring(reg * 2, (reg * 2) + 2), 16);
+                _MemoryAccessor.writeImmediate(reg, data);
+            }
+            // Create a PCB & enqueue on Ready Queue (and PCB list)
+            let newPCB = new TSOS.PCB(0x000, 0x00, 0x00, 0x00, false);
+            newPCB.base = partition[1];
+            newPCB.limit = partition[2];
+            _SchedulerReadyQueue.enqueue(newPCB);
+            PCBList[newPCB.PID] = newPCB;
+            // display registers (from start -> end) & PCB 
+            _MemoryAccessor.displayRegisters(newPCB.base, newPCB.limit);
+            TSOS.Control.createPCBrow(newPCB);
+            // Log info
+            _StdOut.putText("Load Successful: PID:" + newPCB.PID);
         }
         /*
         /  Run function
@@ -632,7 +647,7 @@ var TSOS;
                 }
             }
             if (noProgs) {
-                _StdOut.putText("No Programs to Run.");
+                _StdOut.putText("No Programs to run.");
             }
         }
         /*
@@ -674,7 +689,7 @@ var TSOS;
                 }
                 else {
                     // Process is valid & running!
-                    _StdOut.putText("Manual Kill Initiated");
+                    //_StdOut.putText("Manual Kill Initiated")
                     // This kill could be killing a program not currently running
                     // therefor dont stop CPU 
                     // May need to retain quantum

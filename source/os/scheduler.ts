@@ -46,7 +46,7 @@
                         // one cycle, not realistic.
 
                         // Issues interrupt indicating Context Switch
-                        _KernelInterruptQueue.enqueue(new Interrupt(DISPATCH_IRQ,[this.mode]))
+                        _KernelInterruptQueue.enqueue(new Interrupt(DISPATCH_IRQ,[this.mode]));
                         // Reset Quantum
                         this.quantumVal = QUANTUM;
 

@@ -616,6 +616,33 @@ module TSOS {
                 } else {
                 // Code successful!
                     
+                    // If CPU is currently running, interrupt to allow MA & MMU to load program.
+                    // If CPU is not running, no need to interrupt!
+                    if (_CPU.isExecuting) {
+                        _KernelInterruptQueue.enqueue(new Interrupt(LOAD_IRQ,[partition, numOfBytes, input]));
+                    } else {
+                        _OsShell.loadIntoMemory(partition, numOfBytes, input);
+                    }
+                   
+                }
+                
+                
+            
+            } else {   
+                if (_SarcasticMode) {
+                _StdOut.putText("Not a number doofus. Try looking while typing.");
+                } else {
+                _StdOut.putText("Numeric Input: False");
+                }
+            }
+        }
+
+        /*
+        / Helper function for shellLoad.
+        /
+        /   N
+        */
+        public loadIntoMemory(partition : number[], numOfBytes : number, input : string) {
                     //console.log(partition[0] + " " + partition[1] + " " + partition[2]);
                     
                     // Note:
@@ -623,11 +650,11 @@ module TSOS {
                     // partition[1]: base reg
                     // partition[2]: limit reg
 
-                                        // Send Base & Limit registers to MA
-                                        _MemoryAccessor.base = partition[1];
-                                        _MemoryAccessor.limit = partition[2];
+                    // Send Base & Limit registers to MA
+                    _MemoryAccessor.base = partition[1];
+                    _MemoryAccessor.limit = partition[2];
 
-                    // Assign a block by Manager (send in partition# & PID-to-use)
+                    // Assign a block by MMU (send in partition# & PID-to-use)
                     _MemoryManager.assignRange(partition[0], PCB.PID);
 
                     // Wipe leftover memory in that parition
@@ -653,19 +680,6 @@ module TSOS {
 
                     // Log info
                     _StdOut.putText("Load Successful: PID:" + newPCB.PID);
-                }
-                
-                
-            
-            } else {   
-                if (_SarcasticMode) {
-                _StdOut.putText("Not a number doofus. Try looking while typing.");
-                } else {
-                _StdOut.putText("Numeric Input: False");
-                }
-            }
-
-
         }
 
         /*

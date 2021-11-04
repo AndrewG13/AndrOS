@@ -215,6 +215,21 @@ var TSOS;
                     _Scheduler.quantumVal = -1;
                     _Scheduler.schedIfReady();
                     break;
+                case LOAD_IRQ:
+                    // First save state of currently running program (More for retaining the MAR & MDR)
+                    _Dispatcher.contextSwitch();
+                    // Now carry on with loading into memory
+                    // param[0] = partition#
+                    // param[1] = numOfBytes of input
+                    // param[2] = user program input
+                    _OsShell.loadIntoMemory(params[0], params[1], params[2]);
+                    // Once done, reload state & set the current program back to Running
+                    _Dispatcher.loadState();
+                    PCBList[PIDRUNNING].state = TSOS.PCB.STATES[2];
+                    // And finally ensure MA base & limit are accurate
+                    _MemoryAccessor.base = PCBList[PIDRUNNING].base;
+                    _MemoryAccessor.limit = PCBList[PIDRUNNING].limit;
+                    break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");
             }

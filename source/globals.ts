@@ -22,6 +22,8 @@ const TIMER_IRQ: number = 0;  // Pages 23 (timer), 9 (interrupts), and 561 (inte
                               // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
 const KEYBOARD_IRQ: number = 1;
 const DISPATCH_IRQ: number = 2; // Interrupt for Dispatcher Context Switches
+const LOAD_IRQ: number = 3;     // Interrupt for Loading a program into Memory while CPU is running.
+                                //   This is necessary to "pause" the CPU, so MA & MMU can be temporarily used.
 
 const MEMORY_SIZE: number = 0x300; // Main Memory size, 758 addresses, 1 byte stored at each address
 const PARTITIONQUANTITY : number = 3; // Number of segments/divisions in Memory

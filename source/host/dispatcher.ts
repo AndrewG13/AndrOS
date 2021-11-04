@@ -28,7 +28,7 @@
 
             // Save state of CPU into just-halted PCB
             // Also save state of MDR & MAR
-            private saveState(pid : number) {
+            public saveState(pid : number) {
                 PCBList[pid].Acc = _CPU.accumulator;
                 PCBList[pid].IR = _CPU.instrReg;
                 PCBList[pid].PC = _CPU.progCounter;

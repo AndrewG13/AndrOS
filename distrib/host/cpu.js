@@ -92,12 +92,15 @@ var TSOS;
         /   Initiates the CPU to begin executing a program in Memory
         */
         run() {
+            // Initiate Run Program Sequence:
+            // All programs always start with Fetch
             this.currentCommand = Commands.FETCH;
+            // Start CPU commands
             this.isExecuting = true;
         }
         end(msg) {
             // Initiate End Program Sequence:
-            // Stop the CPU commands, may need to change this
+            // Stop CPU commands, may need to change this
             this.isExecuting = false;
             // Ask Kernel to conclude current program
             _Kernel.krnEndProg(PIDRUNNING, msg);
