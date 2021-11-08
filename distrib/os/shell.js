@@ -215,7 +215,7 @@ var TSOS;
         // Although args is unused in some of these functions, it is always provided in the
         // actual parameter list when this function is called, so I feel like we need it.
         shellVer(args) {
-            _StdOut.putText(APP_NAME + " version: " + APP_VERSION);
+            _StdOut.putText("Version: " + APP_NAME + "" + APP_VERSION);
         }
         /*
         / Help function
