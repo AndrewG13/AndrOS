@@ -301,9 +301,8 @@ module TSOS {
         }
 
         /*
-        *  Help function
-        *      
-        *      Displays helpful command info
+        / Help function      
+        /    Displays helpful command info
         */
         public shellHelp(args: string[]) {
             _StdOut.putText("Commands:");
@@ -314,9 +313,8 @@ module TSOS {
         }
 
         /*
-        *  Shutdown function
-        *      
-        *      Terminates the OS
+        / Shutdown function      
+        /    Terminates the OS
         */
         public shellShutdown(args: string[]) {
              _StdOut.putText("Shutting down...");
@@ -326,9 +324,8 @@ module TSOS {
         }
 
         /*
-        *  Cls function
-        *      
-        *      Clears CLI
+        / Cls function      
+        /    Clears CLI
         */
         public shellCls(args: string[]) {
             _StdOut.clearScreen();
@@ -336,9 +333,9 @@ module TSOS {
         }
 
         /*
-        *  Man function
-        *      
-        *      Displays manual for specified command
+        / Man function      
+        /    Displays manual for specified command.
+        /    Not to be confused with the Woman function.
         */
         public shellMan(args: string[]) {
             if (args.length > 0) {
@@ -420,9 +417,8 @@ module TSOS {
         }
 
         /*
-        *  Trace function
-        *      
-        *      Shows a trace of the OS command flow
+        / Trace function      
+        /    Shows a trace of the OS command flow
         */
         public shellTrace(args: string[]) {
             if (args.length > 0) {
@@ -449,9 +445,8 @@ module TSOS {
         }
 
         /*
-        *  Rot13 function
-        *      
-        *      Ask Alan
+        / Rot13 function      
+        /    Ask Alan
         */
         public shellRot13(args: string[]) {
             if (args.length > 0) {
@@ -463,9 +458,8 @@ module TSOS {
         }
 
         /*
-        *  Prompt function
-        *      
-        *      Changes prompt to passed in text
+        / Prompt function      
+        /    Changes prompt to passed in text
         */
         public shellPrompt(args: string[]) {
             if (_SarcasticMode) {
@@ -479,9 +473,8 @@ module TSOS {
         }
 
         /*
-        *  Date function
-        *      
-        *      Displays current time & date
+        / Date function      
+        /    Displays current time & date
         */
         public shellDate(args: string[]) {
             // Fetch current time
@@ -508,18 +501,16 @@ module TSOS {
         }
 
         /*
-        *  WhereAmI function
-        *      
-        *      Displays user location
+        / WhereAmI function      
+        /    Displays user location
         */
         public shellWhereami(args: string[]) {
             _StdOut.putText("The Lylat System: Corneria");
         }
 
         /*
-        *  Status function
-        *      
-        *      Displays user specified status
+        / Status function      
+        /    Displays user specified status
         */
         public shellStatus(args: string[]) {
             // Check if strings were inputted
@@ -542,9 +533,8 @@ module TSOS {
         }
 
         /*
-        *  DoABarrelRoll function
-        *      
-        *      Rotates the canvas
+        / DoABarrelRoll function      
+        /    Rotates the canvas.
         */
         public shellDoabarrelroll(args: string[]) {
             // Initiate roll
@@ -569,8 +559,8 @@ module TSOS {
         }
 
         /*
-        *  Load function
-        *      Load user program into memory if valid
+        / Load function
+        /    Load user program into memory if valid
         */
         public shellLoad(args: string[]) {
             // Must cast into HTMLInputElement, since regular HTMLElements don't have .value (a textfield)
@@ -639,8 +629,6 @@ module TSOS {
 
         /*
         / Helper function for shellLoad.
-        /
-        /   N
         */
         public loadIntoMemory(partition : number[], numOfBytes : number, input : string) {
                     //console.log(partition[0] + " " + partition[1] + " " + partition[2]);
@@ -684,7 +672,6 @@ module TSOS {
 
         /*
         /  Run function
-        /    
         /     Runs the program in memory.
         /     If no program or PID passed, display error.
         */
@@ -735,9 +722,8 @@ module TSOS {
 
 
         /*
-        *  Error function
-        *      
-        *      Initiates an error & BSOD
+        / Error function      
+        /    Initiates an error & BSOD
         */
         public shellError(args: string[]) {
             let errorMsg: string[] = ["ERROR :", "0000x0H ", "0000xCR4P"];
@@ -755,9 +741,8 @@ module TSOS {
         }
 
         /*
-        *  Runall function
-        *      
-        *      Run all processes
+        / Runall function
+        /     Run all processes
         */
         public shellRunall(args: string[]) {
             let noProgs = true; // To keep track if any programs 
@@ -780,9 +765,8 @@ module TSOS {
         }
 
         /*
-        *  Clearmem function
-        *      
-        *      Clear memory & deallocate partitions
+        / Clearmem function
+        /     Clear memory & deallocate partitions.
         */
         public shellClearmem(args: string[]) {
 
@@ -800,9 +784,8 @@ module TSOS {
         }
 
         /*
-        *  Kill function
-        *      
-        *      Kill PID process
+        / Kill function     
+        /    Kill PID process
         */
         public shellKill(args: string[]) {
 
@@ -835,9 +818,8 @@ module TSOS {
         }
 
         /*
-        *  Killall function
-        *      
-        *      Kill all processes
+        /  Killall function     
+        /     Kill all processes
         */
         public shellKillall(args: string[]) {
             if (PCBList.length === 0) {
@@ -857,9 +839,8 @@ module TSOS {
         }
 
         /*
-        *  PS function
-        *      
-        *      List all processes (PID & State)
+        / PS function      
+        /    List all processes (PID & State)
         */
         public shellPs(args: string[]) {
             
@@ -886,9 +867,8 @@ module TSOS {
         }
 
         /*
-        *  Quantum function
-        *      
-        *      Set the RR quantum
+        / Quantum function  
+        /    Set the RR quantum
         */
         public shellQuantum(args: string[]) {
             if (args.length > 0) {

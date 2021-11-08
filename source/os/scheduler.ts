@@ -26,6 +26,10 @@
                 this.quantumVal = QUANTUM;
             }
 
+            /*
+            / Cycle Function
+            /    Clock pulse
+            */
             public cycle() : void {
                 if (_CPU.isExecuting) {
                     // Decrement Quantum
@@ -63,8 +67,11 @@
                 }
             }
 
-            // Schedule a specific PID process
-            public schedulePIDProcess(PID : number) {
+            /*
+            / SchedulePIDProcess Function
+            /    Schedule a specific PID process to run.
+            */
+            public schedPIDProcess(PID : number) {
                 // Ensure Quantum is fresh for new program
                 this.quantumVal = QUANTUM;
                 // Set pidRunning accordingly
@@ -75,7 +82,10 @@
                 _Kernel.krnInitProg(PID);
             }
 
-            // Check if there are Ready processes. If so, schedule them!
+            /*
+            / SchedIfReady Function
+            /    Check if there are Ready processes. If so, schedule them!
+            */
             public schedIfReady() {
                 let qSize = _SchedulerReadyQueue.getSize(); // Need size in seperate variable
                 let notFound = true; // Keep track if one process has already been initiated to run
@@ -101,11 +111,14 @@
                     _SchedulerReadyQueue.enqueue(pcbToRun);
                     
                     // Now schedule this process.
-                    this.schedulePIDProcess(pcbToRun.PID);
+                    this.schedPIDProcess(pcbToRun.PID);
                 }
             }
 
-            // Check if there are Ready processes, return true if there are.
+            /*
+            / CheckIfReady Function
+            /    Check if there are Ready processes, return true if there are.
+            */
             public checkIfReady() {
                 let qSize = _SchedulerReadyQueue.getSize(); // Need size in seperate variable
                 let found = false; // Keep track if one process has already been initiated to run

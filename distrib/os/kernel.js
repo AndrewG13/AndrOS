@@ -99,8 +99,11 @@ var TSOS;
             // *Note: CPU will be reset upon running next program
             _StdOut.advanceLine();
             _StdOut.putText("PID: " + pid + " | Program Terminated " + msg);
-            _StdOut.advanceLine();
-            _OsShell.putPrompt();
+            // This decides if a prompt should be placed. (shellKill creates its own).
+            if (msg !== "[Manually]") {
+                _StdOut.advanceLine();
+                _OsShell.putPrompt();
+            }
             // Change PCB state to Terminated
             PCBList[pid].state = TSOS.PCB.STATES[3];
             // Remove terminated pid from Ready Queue
@@ -216,7 +219,8 @@ var TSOS;
                     _Scheduler.schedIfReady();
                     break;
                 case LOAD_IRQ:
-                    // First save state of currently running program (More for retaining the MAR & MDR)
+                    // First save state of currently running program (for retaining the MAR & MDR).
+                    // For my OS, this is considered a Context Switch (switch from accessing to loading memory).
                     _Dispatcher.contextSwitch();
                     // Now carry on with loading into memory
                     // param[0] = partition#

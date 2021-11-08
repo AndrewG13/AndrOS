@@ -45,8 +45,8 @@
                 this.Zflag = savedZflag;
                 // this.priority = ?
 
-                // These will be assigned by the Memory Manager (triggered in "Load")
-                // For now default to null
+                // These will be assigned by the Memory Manager (triggered in "Load").
+                // For now default to null.
                 this.base = null;
                 this.limit = null;
             }
@@ -63,7 +63,6 @@
                 this.Yreg = _CPU.yReg;
                 this.Zflag = _CPU.zFlag;
             }
-
 
         }
     }

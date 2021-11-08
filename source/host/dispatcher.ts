@@ -1,33 +1,43 @@
 /* ------------
      Dispatcher.ts
 
-     Handles the context switches (initiated by the Scheduler)
-     More notes
+     Handles the context switches (initiated by the Scheduler).
+     A Context Switch is a halt (and stored state) of one process for the execution of another.
+
+     Context Switches are needed for scheduling the appropriate program 
+        given criteria (quantum expires, priority, etc.).
      ------------ */
 
      module TSOS {
 
         export class Dispatcher {
 
+            // Constructor unnecessary.
             constructor() {}
 
-
+            /*
+            / ContextSwitch function
+            /    
+            */
             public contextSwitch() {
                 // Ensure CPU Attributes are saved to PCB
                 this.saveState(PIDRUNNING);
-                // Remember that Scheduler already moves this to the back of Queue...
+                // Remember that Scheduler already moves the currently running
+                //   process to the back of Queue...
                 
-                // Dequeuing will occur next pulse.
+                // Dequeuing next prog will occur next pulse.
 
-                // Kernel will contact Dispatcher when PCB Attributes are needed.
+                // Kernel will contact Dispatcher when PCB State is needed (CPU & Memory attributes).
 
-                // Set state of PIDRUNNING to Ready
+                // Set state of PIDRUNNING to "Ready".
                 PCBList[PIDRUNNING].state = PCB.STATES[1];
-                
             }
 
-            // Save state of CPU into just-halted PCB
-            // Also save state of MDR & MAR
+            /*
+            / SaveState Function
+            /    Save state of CPU into the just-halted PCB.
+            /    Also save state of MDR & MAR.
+            */
             public saveState(pid : number) {
                 PCBList[pid].Acc = _CPU.accumulator;
                 PCBList[pid].IR = _CPU.instrReg;
@@ -36,8 +46,8 @@
                 PCBList[pid].Yreg = _CPU.yReg;
                 PCBList[pid].Zflag = _CPU.zFlag;
 
-                // Determining which partition owns this MAR & MDR
-                // Can do division to solve but this is more readable.
+                // Determining which partition owns this MAR & MDR.
+                // Division can be used to compute answer, but this is more readable.
                 switch (PCBList[pid].base) {
                     case 0x000:
                         MARSTATE[0] = _Memory.getMAR();
@@ -56,8 +66,11 @@
                 }
             }
 
-            // Load CPU with PCB-to-run's Attributes
-            // Also load state of MDR & MAR
+            /*
+            / LoadState Function
+            /    Load CPU with PCB-to-run's attributes.
+            /    Also load state of MDR & MAR.
+            */
             public loadState() {
                 _CPU.accumulator = PCBList[PIDRUNNING].Acc;
                 _CPU.instrReg = PCBList[PIDRUNNING].IR;
@@ -66,7 +79,7 @@
                 _CPU.yReg = PCBList[PIDRUNNING].Yreg;
                 _CPU.zFlag = PCBList[PIDRUNNING].Zflag;
 
-                // Determining which partition owns this MAR & MDR
+                // Determine which partition owns this MAR & MDR.
                 switch (PCBList[PIDRUNNING].base) {
                     case 0x000:
                         _Memory.setMAR(MARSTATE[0]);

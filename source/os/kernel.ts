@@ -98,14 +98,14 @@ module TSOS {
             _MemoryAccessor.changeMAR(0);
 
             // Ask Kernel for CPU state
-            _Kernel.krnLoadStates();
+            _Kernel.krnLoadState();
             // Trigger the CPU to run it.
             _CPU.run();                
         }
 
         /*
         / End Program Function
-        /    Terminates the program in execution & deallocates that Memory range
+        /    Terminates the program in execution & deallocates that Memory range.
         */
         public krnEndProg(pid : number, msg : string) {
             // Once the process terminates, clear memory for that specific block.
@@ -121,8 +121,13 @@ module TSOS {
 
             _StdOut.advanceLine();
             _StdOut.putText("PID: " + pid + " | Program Terminated " + msg);
-            _StdOut.advanceLine();
-            _OsShell.putPrompt();
+
+            // This decides if a prompt should be placed. (shellKill creates its own).
+            if (msg !== "[Manually]") {
+                _StdOut.advanceLine();
+                _OsShell.putPrompt();
+            }
+
 
             // Change PCB state to Terminated
             PCBList[pid].state = PCB.STATES[3];
@@ -155,8 +160,13 @@ module TSOS {
             }
         }
 
+        
+        /*
+        / KernelCheckRunning Function
+        /    Checks to see if a PID is running, if so display its info.
+        */
         public krnCheckRunning() {
-            // First check if PID has been reset (this happens prior to displaying, see Execute() case:00)
+            // First check if PID has been reset (this happens prior to displaying, see Execute() case:00 )
             if (PIDRUNNING !== -1) {
                 // Display registers & Update PCB each cycle.  
                 _MemoryAccessor.displayRegisters(PCBList[PIDRUNNING].base, PCBList[PIDRUNNING].limit);
@@ -165,18 +175,25 @@ module TSOS {
             }
         }
 
-        // Decrement Quantum
-        public krnTraceInstr() {
-            // * Note: CPU executes the instr
-            //         then Quantum decrements
+        /*
+        / KernelTraceInstr Function
+        /    Simply updates the Quantum.
+        */
+        public krnUpdateQuantum() {
+            // * Note: CPU executes the instruction, THEN Quantum decrements.
             _Scheduler.quantumVal--;
-            if (_Scheduler.quantumVal === -1) {
-                //console.log("PID:" +PIDRUNNING + "| Last Instr:" + hexLog(_CPU.instrReg, 2) )
-            }
+            //if (_Scheduler.quantumVal === -1) {
+            //    console.log("PID:" +PIDRUNNING + "| Last Instr:" + hexLog(_CPU.instrReg, 2) )
+            //}
         }
 
-        public krnLoadStates() {
-            // Provide state for CPU based on PCB
+        /*
+        / KernelLoadStates Function
+        /    Calls the Dispatcher to load CPU & Memory state.
+        /    Memory state = just MDR & MAR.
+        */
+        public krnLoadState() {
+            // Provide state for CPU based on PCB.
             _Dispatcher.loadState();
         }
 
@@ -253,7 +270,8 @@ module TSOS {
                     _Scheduler.schedIfReady();
                     break;
                 case LOAD_IRQ:
-                    // First save state of currently running program (More for retaining the MAR & MDR)
+                    // First save state of currently running program (for retaining the MAR & MDR).
+                    // For my OS, this is considered a Context Switch (switch from accessing to loading memory).
                     _Dispatcher.contextSwitch();
                     // Now carry on with loading into memory
                     // param[0] = partition#

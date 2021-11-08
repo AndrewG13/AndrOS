@@ -184,8 +184,6 @@ module TSOS {
             Control.HtmlPCBs[pcb.PID][7].innerHTML = "" + hexLog(pcb.base, 3);
             Control.HtmlPCBs[pcb.PID][8].innerHTML = "" + hexLog(pcb.limit, 3);
 
-            
-
             // Format boolean ZFlag as a numeric bit
             if (pcb.Zflag) {
                 Control.HtmlPCBs[pcb.PID][6].innerHTML = hexLog(1, 1);

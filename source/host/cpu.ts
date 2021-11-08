@@ -43,6 +43,10 @@ module TSOS {
 
         }
 
+        /*
+        / Init Function
+        /    Initializes the CPU to a "new" state.
+        */
         public init(): void {
             this.progCounter = 0;
             this.accumulator = 0;
@@ -55,14 +59,18 @@ module TSOS {
             this.isExecuting = false;
         }
 
+        /*
+        / Cycle Function
+        /    Decides which CPU Command to run.
+        /    Occurs each pulse.
+        */
         public cycle(): void {
             _Kernel.krnTrace('CPU cycle');
             // TODO: Accumulate CPU usage and profiling statistics here.
-            // Do the real work here. Be sure to set this.isExecuting appropriately.
             if (this.isExecuting) {
 
-            // Check to see what Command should proceed each cycle
-            // Afterwards, move on to next appropriate Command
+            // Check to see what Command should proceed each cycle.
+            // Afterwards, move on to next appropriate Command.
 
             if (this.currentCommand === Commands.FETCH){
                 this.fetch();
@@ -87,10 +95,9 @@ module TSOS {
                 this.currentCommand = Commands.FETCH;
             } 
 
-            // Display all info to FE tables
-            // Ask Kernel for this
+            // Ask Kernel to display all PCB info out to FE graphics.
             _Kernel.krnCheckRunning();
-            // Display CPU
+            // Display CPU.
             Control.displayCPU();
             }
         }
@@ -107,6 +114,10 @@ module TSOS {
             this.isExecuting = true;
         }
 
+        /*
+        / End Function
+        /    Disable the CPU pulses and request the Kernel to terminate the running program.
+        */
         public end(msg : string) {
             // Initiate End Program Sequence:
 
@@ -185,11 +196,14 @@ module TSOS {
 
         }
 
-        // Executes the instruction (functionality goes here)
-        // Can have 2 phases (only for EE)
+        /*
+        / Execute Function
+        /    Perform the current OP Code's procedure.
+        /    Can have 2 phases (only for EE).
+        */
         public execute() {
 
-            // OP Codes to use: 
+            // OP Code cases:
 
             switch (this.instrReg) {
                 case 0xA9: // Load Accu with Constant
@@ -348,9 +362,10 @@ module TSOS {
           // Have to decrement Quantum here for Instruction Basis
           // if FF & xReg = 2, wait til writeback to do Quantum decrement
           if (!(this.instrReg == 0x8D || this.instrReg == 0xEE)) {
-            _Kernel.krnTraceInstr();
+            _Kernel.krnUpdateQuantum();
           }
         }
+
         /*
         / WriteBack Function
         /   To keep it in sync with Gormanly's project, writeback is an extra cycle.
@@ -360,7 +375,7 @@ module TSOS {
         public writeBack() {
               _MemoryAccessor.writeTo();
               // Always increment Quantum if a writeback occurred.
-              _Kernel.krnTraceInstr();
+              _Kernel.krnUpdateQuantum();
         }
 
         /*
