@@ -7,11 +7,9 @@
      ------------ */
 var TSOS;
 (function (TSOS) {
-    // Known issues:
-    // KrnInitProg is just dequeuing, not looking for pid
     class MemoryManager {
-        // element values = PID at 'Index' partition
-        // index values = Partition#
+        // Element values = PID at 'Index' partition
+        // Index values = Partition#
         constructor() {
             // Total available range 0x000 -> 0x2FF
             // Initial 3 free blocks.
@@ -93,11 +91,15 @@ var TSOS;
                 return -1;
             }
         }
-        // Returns true if at least one Partition is occupied
-        // This function serves to prevent Scheduler checking Ready Queue if unneeded.
+        /*
+        / CheckAllRange Function
+        /    Checks if any of the 3 partitions contain a process.
+        /    This function serves to prevent Scheduler checking Ready Queue if unneeded.
+        /    Returns true if at least one Partition is occupied.
+        */
         checkAllRange() {
             // Could have this function just be a 1 liner, but want it like this for readability...
-            // Check if any of the 3 partitions contain a process
+            // Check partitions for a process.
             if (this.parti[0] !== -1 || this.parti[1] !== -1 || this.parti[2] !== -1) {
                 return true;
             }

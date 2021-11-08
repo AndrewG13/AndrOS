@@ -80,13 +80,13 @@ var TSOS;
             // Ensure MemoryAccessor starts at appropriate address for MAR
             _MemoryAccessor.changeMAR(0);
             // Ask Kernel for CPU state
-            _Kernel.krnLoadStates();
+            _Kernel.krnLoadState();
             // Trigger the CPU to run it.
             _CPU.run();
         }
         /*
         / End Program Function
-        /    Terminates the program in execution & deallocates that Memory range
+        /    Terminates the program in execution & deallocates that Memory range.
         */
         krnEndProg(pid, msg) {
             // Once the process terminates, clear memory for that specific block.
@@ -130,8 +130,12 @@ var TSOS;
                 _MemoryAccessor.limit = PCBList[PIDRUNNING].limit;
             }
         }
+        /*
+        / KernelCheckRunning Function
+        /    Checks to see if a PID is running, if so display its info.
+        */
         krnCheckRunning() {
-            // First check if PID has been reset (this happens prior to displaying, see Execute() case:00)
+            // First check if PID has been reset (this happens prior to displaying, see Execute() case:00 )
             if (PIDRUNNING !== -1) {
                 // Display registers & Update PCB each cycle.  
                 _MemoryAccessor.displayRegisters(PCBList[PIDRUNNING].base, PCBList[PIDRUNNING].limit);
@@ -139,17 +143,24 @@ var TSOS;
                 TSOS.Control.displayPCB(PCBList[PIDRUNNING]);
             }
         }
-        // Decrement Quantum
-        krnTraceInstr() {
-            // * Note: CPU executes the instr
-            //         then Quantum decrements
+        /*
+        / KernelTraceInstr Function
+        /    Simply updates the Quantum.
+        */
+        krnUpdateQuantum() {
+            // * Note: CPU executes the instruction, THEN Quantum decrements.
             _Scheduler.quantumVal--;
-            if (_Scheduler.quantumVal === -1) {
-                //console.log("PID:" +PIDRUNNING + "| Last Instr:" + hexLog(_CPU.instrReg, 2) )
-            }
+            //if (_Scheduler.quantumVal === -1) {
+            //    console.log("PID:" +PIDRUNNING + "| Last Instr:" + hexLog(_CPU.instrReg, 2) )
+            //}
         }
-        krnLoadStates() {
-            // Provide state for CPU based on PCB
+        /*
+        / KernelLoadStates Function
+        /    Calls the Dispatcher to load CPU & Memory state.
+        /    Memory state = just MDR & MAR.
+        */
+        krnLoadState() {
+            // Provide state for CPU based on PCB.
             _Dispatcher.loadState();
         }
         krnOnCPUClockPulse() {

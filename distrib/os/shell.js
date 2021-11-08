@@ -218,9 +218,8 @@ var TSOS;
             _StdOut.putText(APP_NAME + " version: " + APP_VERSION);
         }
         /*
-        *  Help function
-        *
-        *      Displays helpful command info
+        / Help function
+        /    Displays helpful command info
         */
         shellHelp(args) {
             _StdOut.putText("Commands:");
@@ -230,9 +229,8 @@ var TSOS;
             }
         }
         /*
-        *  Shutdown function
-        *
-        *      Terminates the OS
+        / Shutdown function
+        /    Terminates the OS
         */
         shellShutdown(args) {
             _StdOut.putText("Shutting down...");
@@ -241,18 +239,17 @@ var TSOS;
             // I got that final prompt to not happen!
         }
         /*
-        *  Cls function
-        *
-        *      Clears CLI
+        / Cls function
+        /    Clears CLI
         */
         shellCls(args) {
             _StdOut.clearScreen();
             _StdOut.resetXY();
         }
         /*
-        *  Man function
-        *
-        *      Displays manual for specified command
+        / Man function
+        /    Displays manual for specified command.
+        /    Not to be confused with the Woman function.
         */
         shellMan(args) {
             if (args.length > 0) {
@@ -333,9 +330,8 @@ var TSOS;
             }
         }
         /*
-        *  Trace function
-        *
-        *      Shows a trace of the OS command flow
+        / Trace function
+        /    Shows a trace of the OS command flow
         */
         shellTrace(args) {
             if (args.length > 0) {
@@ -363,9 +359,8 @@ var TSOS;
             }
         }
         /*
-        *  Rot13 function
-        *
-        *      Ask Alan
+        / Rot13 function
+        /    Ask Alan
         */
         shellRot13(args) {
             if (args.length > 0) {
@@ -377,9 +372,8 @@ var TSOS;
             }
         }
         /*
-        *  Prompt function
-        *
-        *      Changes prompt to passed in text
+        / Prompt function
+        /    Changes prompt to passed in text
         */
         shellPrompt(args) {
             if (_SarcasticMode) {
@@ -393,9 +387,8 @@ var TSOS;
             }
         }
         /*
-        *  Date function
-        *
-        *      Displays current time & date
+        / Date function
+        /    Displays current time & date
         */
         shellDate(args) {
             // Fetch current time
@@ -417,17 +410,15 @@ var TSOS;
                 + dateTime.getFullYear());
         }
         /*
-        *  WhereAmI function
-        *
-        *      Displays user location
+        / WhereAmI function
+        /    Displays user location
         */
         shellWhereami(args) {
             _StdOut.putText("The Lylat System: Corneria");
         }
         /*
-        *  Status function
-        *
-        *      Displays user specified status
+        / Status function
+        /    Displays user specified status
         */
         shellStatus(args) {
             // Check if strings were inputted
@@ -448,9 +439,8 @@ var TSOS;
             }
         }
         /*
-        *  DoABarrelRoll function
-        *
-        *      Rotates the canvas
+        / DoABarrelRoll function
+        /    Rotates the canvas.
         */
         shellDoabarrelroll(args) {
             // Initiate roll
@@ -470,8 +460,8 @@ var TSOS;
             _Console.resetXY();
         }
         /*
-        *  Load function
-        *      Load user program into memory if valid
+        / Load function
+        /    Load user program into memory if valid
         */
         shellLoad(args) {
             // Must cast into HTMLInputElement, since regular HTMLElements don't have .value (a textfield)
@@ -533,8 +523,6 @@ var TSOS;
         }
         /*
         / Helper function for shellLoad.
-        /
-        /   N
         */
         loadIntoMemory(partition, numOfBytes, input) {
             //console.log(partition[0] + " " + partition[1] + " " + partition[2]);
@@ -568,7 +556,6 @@ var TSOS;
         }
         /*
         /  Run function
-        /
         /     Runs the program in memory.
         /     If no program or PID passed, display error.
         */
@@ -614,9 +601,8 @@ var TSOS;
             }
         }
         /*
-        *  Error function
-        *
-        *      Initiates an error & BSOD
+        / Error function
+        /    Initiates an error & BSOD
         */
         shellError(args) {
             let errorMsg = ["ERROR :", "0000x0H ", "0000xCR4P"];
@@ -629,9 +615,8 @@ var TSOS;
             _Kernel.krnShutdown();
         }
         /*
-        *  Runall function
-        *
-        *      Run all processes
+        / Runall function
+        /     Run all processes
         */
         shellRunall(args) {
             let noProgs = true; // To keep track if any programs 
@@ -651,9 +636,8 @@ var TSOS;
             }
         }
         /*
-        *  Clearmem function
-        *
-        *      Clear memory & deallocate partitions
+        / Clearmem function
+        /     Clear memory & deallocate partitions.
         */
         shellClearmem(args) {
             if (!(_CPU.isExecuting)) {
@@ -670,9 +654,8 @@ var TSOS;
             }
         }
         /*
-        *  Kill function
-        *
-        *      Kill PID process
+        / Kill function
+        /    Kill PID process
         */
         shellKill(args) {
             // Check if PID provided
@@ -702,9 +685,8 @@ var TSOS;
             }
         }
         /*
-        *  Killall function
-        *
-        *      Kill all processes
+        /  Killall function
+        /     Kill all processes
         */
         shellKillall(args) {
             if (PCBList.length === 0) {
@@ -724,9 +706,8 @@ var TSOS;
             }
         }
         /*
-        *  PS function
-        *
-        *      List all processes (PID & State)
+        / PS function
+        /    List all processes (PID & State)
         */
         shellPs(args) {
             // Check if any processes were inputted
@@ -752,9 +733,8 @@ var TSOS;
             }
         }
         /*
-        *  Quantum function
-        *
-        *      Set the RR quantum
+        / Quantum function
+        /    Set the RR quantum
         */
         shellQuantum(args) {
             if (args.length > 0) {

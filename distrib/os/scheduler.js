@@ -14,6 +14,10 @@ var TSOS;
             _SchedulerReadyQueue = new TSOS.Queue(); // The Ready Queue, handled by the Scheduler
             this.quantumVal = QUANTUM;
         }
+        /*
+        / Cycle Function
+        /    Clock pulse
+        */
         cycle() {
             if (_CPU.isExecuting) {
                 // Decrement Quantum
@@ -44,8 +48,11 @@ var TSOS;
                 this.schedIfReady();
             }
         }
-        // Schedule a specific PID process
-        schedulePIDProcess(PID) {
+        /*
+        / SchedulePIDProcess Function
+        /    Schedule a specific PID process to run.
+        */
+        schedPIDProcess(PID) {
             // Ensure Quantum is fresh for new program
             this.quantumVal = QUANTUM;
             // Set pidRunning accordingly
@@ -55,7 +62,10 @@ var TSOS;
             // Ask kernel to run PCB
             _Kernel.krnInitProg(PID);
         }
-        // Check if there are Ready processes. If so, schedule them!
+        /*
+        / SchedIfReady Function
+        /    Check if there are Ready processes. If so, schedule them!
+        */
         schedIfReady() {
             let qSize = _SchedulerReadyQueue.getSize(); // Need size in seperate variable
             let notFound = true; // Keep track if one process has already been initiated to run
@@ -80,10 +90,13 @@ var TSOS;
                 //         This is to help retain the order in which the processes were received.
                 _SchedulerReadyQueue.enqueue(pcbToRun);
                 // Now schedule this process.
-                this.schedulePIDProcess(pcbToRun.PID);
+                this.schedPIDProcess(pcbToRun.PID);
             }
         }
-        // Check if there are Ready processes, return true if there are.
+        /*
+        / CheckIfReady Function
+        /    Check if there are Ready processes, return true if there are.
+        */
         checkIfReady() {
             let qSize = _SchedulerReadyQueue.getSize(); // Need size in seperate variable
             let found = false; // Keep track if one process has already been initiated to run
