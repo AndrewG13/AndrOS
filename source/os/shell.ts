@@ -9,7 +9,7 @@
 
 // TODO: Write a base class / prototype for system services and let Shell inherit from it.
 
-// Project 3 Branch creation
+// Proj4 TODO: Make the MAN messages
 
 module TSOS {
     export class Shell {
@@ -158,6 +158,54 @@ module TSOS {
             sc = new ShellCommand(this.shellQuantum,
                 "quantum",
                 "<int> - Set the Round Robin quantum with specified integer");
+            this.commandList[this.commandList.length] = sc;
+           
+            // create
+            sc = new ShellCommand(this.shellCreate,
+                "create",
+                "<filename> - Create a new file");
+            this.commandList[this.commandList.length] = sc;
+           
+            // read
+            sc = new ShellCommand(this.shellRead,
+                "read",
+                "<filename> - Read the contents of a file");
+            this.commandList[this.commandList.length] = sc;
+           
+            // write
+            sc = new ShellCommand(this.shellWrite,
+                "write",
+                "<filename> - Write to a file");
+            this.commandList[this.commandList.length] = sc;
+           
+            // delete
+            sc = new ShellCommand(this.shellDelete,
+                "delete",
+                "<filename> - Delete the specified file");
+            this.commandList[this.commandList.length] = sc;
+           
+            // format
+            sc = new ShellCommand(this.shellFormat,
+                "format",
+                "- Format the Disk");
+            this.commandList[this.commandList.length] = sc;
+           
+            // ls
+            sc = new ShellCommand(this.shellLs,
+                "ls",
+                "- List all files located on the Disk");
+            this.commandList[this.commandList.length] = sc;
+           
+            // set schedule
+            sc = new ShellCommand(this.shellSetSchedule,
+                "setschedule",
+                "<algorithm> - Set the Scheduling algorithm [See Manual for options]");
+            this.commandList[this.commandList.length] = sc;
+           
+            // get schedule
+            sc = new ShellCommand(this.shellGetSchedule,
+                "getschedule",
+                "- Check the currently enforced Scheduling algorithm");
             this.commandList[this.commandList.length] = sc;
 
             // Display the initial prompt.
@@ -406,6 +454,30 @@ module TSOS {
                         break;
                     case "quantum":
                         _StdOut.putText("Change RR quantum");
+                        break;
+                    case "create":
+                        _StdOut.putText("Create a new file on the Disk with the specified name, if the name is unique");
+                        break;
+                    case "read":
+                        _StdOut.putText("Read a file on the Disk with the specified name, if it exists");
+                        break;
+                    case "write":
+                        _StdOut.putText("Write to a file on the Disk with the specified name, if it exists");
+                        break;
+                    case "delete":
+                        _StdOut.putText("Delete a file on the Disk with the specified name, if it exists");
+                        break;
+                    case "format":
+                        _StdOut.putText("Format the contents of the Disk");
+                        break;
+                    case "ls":
+                        _StdOut.putText("List all contents of the Disk, if files exist");
+                        break;
+                    case "setschedule":
+                        _StdOut.putText("Set the Scheduler algorithm: [RR, FCFS, PRI]");
+                        break;
+                    case "getschedule":
+                        _StdOut.putText("Check the currently in-action Scheduler algorithm");
                         break;
 
                     default:
@@ -887,5 +959,105 @@ module TSOS {
             }
         }
 
+        /*
+        / Create function      
+        /    Create a file on the Disk, log response msg.
+        /    -Log success if: file created
+        /    -Log failure if: Disk not formatted, file name not unique, Disk full (maybe?)
+        */
+        public shellCreate(args: string[]) {
+            // Check if a filename was inputted
+            if (args.length > 0) {
+                
+            } else {
+                _StdOut.putText("Usage: status <filename>  Please supply a filename.");
+            }
+        }
+       
+        /*
+        / Read function      
+        /    Read a file on the Disk, log its content.
+        /    -Log failure if: Disk not formatted, file does not exist
+        */
+        public shellRead(args: string[]) {
+            // Check if a filename was inputted
+            if (args.length > 0) {
+
+            } else {
+                _StdOut.putText("Usage: status <filename>  Please supply a filename.");
+            }
+        }
+       
+        /*
+        / Write function      
+        /    Write to a file on the Disk, log response msg.
+        /    -Log failure if: Disk not formatted, file does not exist
+        */
+        public shellWrite(args: string[]) {
+            // Check if a filename was inputted
+            if (args.length > 0) {
+            
+            } else {
+                _StdOut.putText("Usage: status <filename>  Please supply a filename.");
+            }
+        }
+       
+        /*
+        / Delete function      
+        /    Delete a file on the Disk, log response msg.
+        /    -Log success if: File successfully deleted
+        /    -Log failure if: Disk not formatted, file does not exist, file is protected (maybe?)
+        */
+        public shellDelete(args: string[]) {
+            // Check if a filename was inputted
+            if (args.length > 0) {
+
+            } else {
+                _StdOut.putText("Usage: status <filename>  Please supply a filename.");
+            }
+        }
+       
+        /*
+        / Format function      
+        /    Format the contents of the Disk, log response msg
+        /    -Log success if: Disk successfully formatted
+        /    -Log failure if: (I dont know)
+        /    This is initially required
+        */
+        public shellFormat(args: string[]) {
+           
+        }
+       
+        /*
+        / LS function      
+        /    List all files located on the Disk, log response msg
+        /    -Log success if: Disk is formatted (if no files exist, a unique msg will display)
+        /    -Log failure if: Disk not formatted
+        */
+        public shellLs(args: string[]) {
+           
+        }
+       
+        /*
+        / Set Schedule function      
+        /    Set the Scheduler to utilize the inputted scheduling algorithm
+        */
+        public shellSetSchedule(args: string[]) {
+            // Check if an algorithm was inputted
+            if (args.length > 0) {
+  
+            } else {
+                _StdOut.putText("Usage: status <algorithm>  Please supply a scheduling algorithm.");
+            }
+        }
+       
+        /*
+        / Get Schedule function      
+        /    Display the currently active scheduling algorithm
+        */
+        public shellGetSchedule(args: string[]) {
+            
+        }
+       
     }
 }
