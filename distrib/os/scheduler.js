@@ -49,6 +49,39 @@ var TSOS;
             }
         }
         /*
+        / SetMode Function
+        /    Set the Scheduler algorithm / philosophy
+        */
+        setMode(modeVal) {
+            // To keep track of algorithm validity (speedier for loop + neat success/fail msg)
+            let validMode = false;
+            _StdOut.putText("Checking if " + modeVal + " is a valid algorithm...");
+            _StdOut.advanceLine();
+            // What he said ^
+            for (let i = 0; i < Scheduler.AVAILABLEMODES.length && !validMode; i++) {
+                if (modeVal === (Scheduler.AVAILABLEMODES[i])) {
+                    this.mode = modeVal;
+                    validMode = true;
+                }
+            }
+            // Display out results
+            if (validMode) {
+                _StdOut.putText("Mode set: " + this.mode);
+            }
+            else {
+                _StdOut.putText("Mode invalid");
+            }
+            return validMode;
+        }
+        /*
+        / GetMode Function
+        /    Retrieve the currently active Scheduler algorithm / philosophy
+        */
+        getMode() {
+            // Retrieve the mode in-action
+            return this.mode;
+        }
+        /*
         / SchedulePIDProcess Function
         /    Schedule a specific PID process to run.
         */

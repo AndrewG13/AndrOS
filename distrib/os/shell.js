@@ -880,6 +880,21 @@ var TSOS;
         shellSetSchedule(args) {
             // Check if an algorithm was inputted
             if (args.length > 0) {
+                // This OS ignores user-inputted case sensitivity because it is not petty
+                args[0] = args[0].toUpperCase();
+                // First check if inputted algorithm is already in-use
+                if (args[0] === _Scheduler.getMode()) {
+                    if (_SarcasticMode) {
+                        _StdOut.putText("That one is currently in-use, bonehead.");
+                    }
+                    else {
+                        _StdOut.putText("Mode " + args[0] + " Already Active.");
+                    }
+                }
+                else {
+                    // Not in-use, check if valid and set it
+                    _Scheduler.setMode(args[0]);
+                }
             }
             else {
                 _StdOut.putText("Usage: status <algorithm>  Please supply a scheduling algorithm.");
@@ -890,6 +905,10 @@ var TSOS;
         /    Display the currently active scheduling algorithm
         */
         shellGetSchedule(args) {
+            if (_SarcasticMode) {
+                _StdOut.putText("What's the matter? Can't remember?");
+            }
+            _StdOut.putText("Mode: " + _Scheduler.getMode());
         }
     }
     TSOS.Shell = Shell;

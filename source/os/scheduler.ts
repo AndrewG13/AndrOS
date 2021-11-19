@@ -12,10 +12,6 @@
 
             // Scheduling Philosophies
             static AVAILABLEMODES : string[] = ["RR", "PRI", "FCFS"]; 
-
-            // Consider having KrnInitProg deqVal, then enq it to put it in the back of the ReadyQueue 
-            // (its state will be "Running")
-            
             public mode : string;
             public quantumVal : number;
 
@@ -65,6 +61,45 @@
                 if (this.quantumVal === -1 || PIDRUNNING === -1) {
                     this.schedIfReady();
                 }
+            }
+
+            /*
+            / SetMode Function
+            /    Set the Scheduler algorithm / philosophy
+            */
+            public setMode(modeVal : string) : boolean {
+
+                // To keep track of algorithm validity (speedier for loop + neat success/fail msg)
+                let validMode : boolean = false;
+                
+                _StdOut.putText("Checking if " + modeVal + " is a valid algorithm...");
+                _StdOut.advanceLine();
+
+                // What he said ^
+                for (let i = 0; i < Scheduler.AVAILABLEMODES.length && !validMode; i++) {
+                    if (modeVal === (Scheduler.AVAILABLEMODES[i])) {
+                        this.mode = modeVal;
+                        validMode = true;
+                    }
+                }
+
+                // Display out results
+                if (validMode) {
+                    _StdOut.putText("Mode set: " + this.mode);
+                } else {
+                    _StdOut.putText("Mode invalid");
+                }
+
+                return validMode;
+            }
+
+            /*
+            / GetMode Function
+            /    Retrieve the currently active Scheduler algorithm / philosophy
+            */
+            public getMode() : string {
+                // Retrieve the mode in-action
+                return this.mode;
             }
 
             /*
