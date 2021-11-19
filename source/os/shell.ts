@@ -9,7 +9,7 @@
 
 // TODO: Write a base class / prototype for system services and let Shell inherit from it.
 
-// Proj4 TODO: Make the MAN messages
+// Proj4 TODO: Make the MAN messages more descriptive, help less descriptive. Encourages users to ACTUALLY CONSULT THE MANUAL!
 
 module TSOS {
     export class Shell {
