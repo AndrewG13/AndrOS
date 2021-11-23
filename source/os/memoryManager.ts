@@ -39,7 +39,7 @@
                 let retInfo : number[] = [-1,0,0];
 
                 // Check if adequate memory is available, stops once found space
-                for (let block : number = 0; (block < PARTITIONQUANTITY) && (retInfo[0] === -1); block++) {
+                for (let block : number = 0; (block < PARTITION_QUANTITY) && (retInfo[0] === -1); block++) {
                     if (this.parti[block] === -1) {
                         retInfo[0] = block;
                     }
@@ -79,7 +79,7 @@
             */
             public deallocateAll() : void {
                 // Clear all partitions
-                for(let block = 0; block < PARTITIONQUANTITY; block++) {
+                for(let block = 0; block < PARTITION_QUANTITY; block++) {
                     this.parti[block] = -1;
                 }
                 // do more here?
@@ -102,7 +102,7 @@
             /   Otherwise returns -1 (available to load)
             */
             public checkRange(partition : number) : number {
-                if ((partition >= 0) && (partition < PARTITIONQUANTITY)) {
+                if ((partition >= 0) && (partition < PARTITION_QUANTITY)) {
                     return this.parti[partition];
                 } else {
                     console.log(partition + " is not valid")

@@ -15,15 +15,19 @@ const APP_VERSION = "64"; // I'm trying to make you laugh like as if all thousan
 // of students you've taught haven't done the same.
 // ... tough competition ...
 const CPU_CLOCK_INTERVAL = 100; // This is in ms (milliseconds) so 1000 = 1 second.
-const TIMER_IRQ = 0; // Pages 23 (timer), 9 (interrupts), and 561 (interrupt priority).
-// NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
-const KEYBOARD_IRQ = 1;
+// Pages 23 (timer), 9 (interrupts), and 561 (interrupt priority).
+const TIMER_IRQ = 0; // Interrupt for Timer, different from hardware/host clock pulses.
+const KEYBOARD_IRQ = 1; // Interrupt for Keyboard device inputs.
 const DISPATCH_IRQ = 2; // Interrupt for Dispatcher Context Switches
-const LOAD_IRQ = 3; // Interrupt for Loading a program into Memory while CPU is running.
-//   This is necessary to "pause" the CPU, so MA & MMU can be temporarily used.
+const LOAD_IRQ = 3; // Interrupt for Loading a program into Memory while CPU is running (needed to pause Memory usage, mdr & mar)
+// Main Memory 
 const MEMORY_SIZE = 0x300; // Main Memory size, 758 addresses, 1 byte stored at each address
-const PARTITIONQUANTITY = 3; // Number of segments/divisions in Memory
+const PARTITION_QUANTITY = 3; // Number of segments/divisions in Memory
 // Only needed to keep the partition array private for good practice. 
+// Disk tsb memory limits
+const TRACK_SIZE = 4; // Tracks contain sectors
+const SECTOR_SIZE = 8; // Sectors contain blocks
+const BLOCK_SIZE = 8; // Blocks hold the data
 var QUANTUM = 6; // Default value for Round Robin
 var PIDRUNNING;
 // These are necessary for the Org & Arch implementation of this project.
@@ -70,6 +74,7 @@ var _MemoryTableCells = new Array();
 var _SarcasticMode = false;
 // Global Device Driver Objects - page 12
 var _krnKeyboardDriver = null;
+var _krnDiskDriver = null;
 var _hardwareClockID = null;
 // For testing (and enrichment)...
 var Glados = null; // This is the function Glados() in glados-ip*.js http://alanclasses.github.io/TSOS/test/ .

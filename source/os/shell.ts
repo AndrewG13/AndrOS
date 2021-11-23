@@ -350,7 +350,7 @@ module TSOS {
         }
 
         /*
-        / Help function      
+        / Help Command      
         /    Displays helpful command info
         */
         public shellHelp(args: string[]) {
@@ -362,7 +362,7 @@ module TSOS {
         }
 
         /*
-        / Shutdown function      
+        / Shutdown Command      
         /    Terminates the OS
         */
         public shellShutdown(args: string[]) {
@@ -373,7 +373,7 @@ module TSOS {
         }
 
         /*
-        / Cls function      
+        / Cls Command      
         /    Clears CLI
         */
         public shellCls(args: string[]) {
@@ -382,9 +382,9 @@ module TSOS {
         }
 
         /*
-        / Man function      
+        / Man Command      
         /    Displays manual for specified command.
-        /    Not to be confused with the Woman function.
+        /    Not to be confused with the Woman Command.
         */
         public shellMan(args: string[]) {
             if (args.length > 0) {
@@ -490,7 +490,7 @@ module TSOS {
         }
 
         /*
-        / Trace function      
+        / Trace Command      
         /    Shows a trace of the OS command flow
         */
         public shellTrace(args: string[]) {
@@ -518,7 +518,7 @@ module TSOS {
         }
 
         /*
-        / Rot13 function      
+        / Rot13 Command      
         /    Ask Alan
         */
         public shellRot13(args: string[]) {
@@ -531,7 +531,7 @@ module TSOS {
         }
 
         /*
-        / Prompt function      
+        / Prompt Command      
         /    Changes prompt to passed in text
         */
         public shellPrompt(args: string[]) {
@@ -546,7 +546,7 @@ module TSOS {
         }
 
         /*
-        / Date function      
+        / Date Command      
         /    Displays current time & date
         */
         public shellDate(args: string[]) {
@@ -574,7 +574,7 @@ module TSOS {
         }
 
         /*
-        / WhereAmI function      
+        / WhereAmI Command      
         /    Displays user location
         */
         public shellWhereami(args: string[]) {
@@ -582,7 +582,7 @@ module TSOS {
         }
 
         /*
-        / Status function      
+        / Status Command      
         /    Displays user specified status
         */
         public shellStatus(args: string[]) {
@@ -606,7 +606,7 @@ module TSOS {
         }
 
         /*
-        / DoABarrelRoll function      
+        / DoABarrelRoll Command      
         /    Rotates the canvas.
         */
         public shellDoabarrelroll(args: string[]) {
@@ -632,7 +632,7 @@ module TSOS {
         }
 
         /*
-        / Load function
+        / Load Command
         /    Load user program into memory if valid
         */
         public shellLoad(args: string[]) {
@@ -744,7 +744,7 @@ module TSOS {
         }
 
         /*
-        /  Run function
+        /  Run Command
         /     Runs the program in memory.
         /     If no program or PID passed, display error.
         */
@@ -795,7 +795,7 @@ module TSOS {
 
 
         /*
-        / Error function      
+        / Error Command      
         /    Initiates an error & BSOD
         */
         public shellError(args: string[]) {
@@ -814,14 +814,14 @@ module TSOS {
         }
 
         /*
-        / Runall function
+        / Runall Command
         /     Run all processes
         */
         public shellRunall(args: string[]) {
             let noProgs = true; // To keep track if any programs 
             
             // Check each block for PID
-            for (let block : number = 0; block < PARTITIONQUANTITY; block++) {
+            for (let block : number = 0; block < PARTITION_QUANTITY; block++) {
                 // Contact MMU for block info
                 let PID = _MemoryManager.checkRange(block);
                 // Check if it has a PCB & PID is "Ready"
@@ -838,7 +838,7 @@ module TSOS {
         }
 
         /*
-        / Clearmem function
+        / Clearmem Command
         /     Clear memory & deallocate partitions.
         */
         public shellClearmem(args: string[]) {
@@ -857,7 +857,7 @@ module TSOS {
         }
 
         /*
-        / Kill function     
+        / Kill Command     
         /    Kill PID process
         */
         public shellKill(args: string[]) {
@@ -891,14 +891,14 @@ module TSOS {
         }
 
         /*
-        /  Killall function     
+        /  Killall Command     
         /     Kill all processes
         */
         public shellKillall(args: string[]) {
             if (PCBList.length === 0) {
                 _StdOut.putText("No Programs in memory.");
             } else {
-                for (let block = 0; block < PARTITIONQUANTITY; block++) {
+                for (let block = 0; block < PARTITION_QUANTITY; block++) {
                     // Check if block has a PCB
                     let PID : number = _MemoryManager.checkRange(block);
                     if (PID >= 0) {
@@ -912,7 +912,7 @@ module TSOS {
         }
 
         /*
-        / PS function      
+        / PS Command      
         /    List all processes (PID & State)
         */
         public shellPs(args: string[]) {
@@ -940,7 +940,7 @@ module TSOS {
         }
 
         /*
-        / Quantum function  
+        / Quantum Command  
         /    Set the RR quantum
         */
         public shellQuantum(args: string[]) {
@@ -961,7 +961,7 @@ module TSOS {
         }
 
         /*
-        / Create function      
+        / Create Command      
         /    Create a file on the Disk, log response msg.
         /    -Log success if: file created
         /    -Log failure if: Disk not formatted, file name not unique, Disk full (maybe?)
@@ -976,7 +976,7 @@ module TSOS {
         }
        
         /*
-        / Read function      
+        / Read Command      
         /    Read a file on the Disk, log its content.
         /    -Log failure if: Disk not formatted, file does not exist
         */
@@ -990,7 +990,7 @@ module TSOS {
         }
        
         /*
-        / Write function      
+        / Write Command      
         /    Write to a file on the Disk, log response msg.
         /    -Log failure if: Disk not formatted, file does not exist
         */
@@ -1004,7 +1004,7 @@ module TSOS {
         }
        
         /*
-        / Delete function      
+        / Delete Command      
         /    Delete a file on the Disk, log response msg.
         /    -Log success if: File successfully deleted
         /    -Log failure if: Disk not formatted, file does not exist, file is protected (maybe?)
@@ -1019,7 +1019,7 @@ module TSOS {
         }
        
         /*
-        / Format function      
+        / Format Command      
         /    Format the contents of the Disk, log response msg
         /    -Log success if: Disk successfully formatted
         /    -Log failure if: (I dont know)
@@ -1030,7 +1030,7 @@ module TSOS {
         }
        
         /*
-        / LS function      
+        / LS Command      
         /    List all files located on the Disk, log response msg
         /    -Log success if: Disk is formatted (if no files exist, a unique msg will display)
         /    -Log failure if: Disk not formatted
@@ -1040,7 +1040,7 @@ module TSOS {
         }
        
         /*
-        / Set Schedule function      
+        / Set Schedule Command      
         /    Set the Scheduler to utilize the inputted scheduling algorithm
         */
         public shellSetSchedule(args: string[]) {
@@ -1068,12 +1068,13 @@ module TSOS {
         }
        
         /*
-        / Get Schedule function      
+        / Get Schedule Command      
         /    Display the currently active scheduling algorithm
         */
         public shellGetSchedule(args: string[]) {
             if (_SarcasticMode) {
                 _StdOut.putText("What's the matter? Can't remember?");
+                _StdOut.advanceLine();
             }
 
             _StdOut.putText("Mode: " + _Scheduler.getMode());

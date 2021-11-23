@@ -45,9 +45,12 @@ module TSOS {
             _krnKeyboardDriver.driverEntry();                    // Call the driverEntry() initialization routine.
             this.krnTrace(_krnKeyboardDriver.status);
 
-            //
-            // ... more?
-            //
+            // Load the Disk Device Driver
+            this.krnTrace("Loading the disk device driver.");
+            _krnDiskDriver = new DeviceDriverDisk();     // Construct it.
+            _krnDiskDriver.driverEntry();                // Call the driverEntry() initialization routine.
+            this.krnTrace(_krnDiskDriver.status);
+            
 
             // Enable the OS Interrupts.  (Not the CPU clock interrupt, as that is done in the hardware sim.)
             this.krnTrace("Enabling the interrupts.");

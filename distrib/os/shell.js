@@ -243,7 +243,7 @@ var TSOS;
             _StdOut.putText("Version: " + APP_NAME + "" + APP_VERSION);
         }
         /*
-        / Help function
+        / Help Command
         /    Displays helpful command info
         */
         shellHelp(args) {
@@ -254,7 +254,7 @@ var TSOS;
             }
         }
         /*
-        / Shutdown function
+        / Shutdown Command
         /    Terminates the OS
         */
         shellShutdown(args) {
@@ -264,7 +264,7 @@ var TSOS;
             // I got that final prompt to not happen!
         }
         /*
-        / Cls function
+        / Cls Command
         /    Clears CLI
         */
         shellCls(args) {
@@ -272,9 +272,9 @@ var TSOS;
             _StdOut.resetXY();
         }
         /*
-        / Man function
+        / Man Command
         /    Displays manual for specified command.
-        /    Not to be confused with the Woman function.
+        /    Not to be confused with the Woman Command.
         */
         shellMan(args) {
             if (args.length > 0) {
@@ -379,7 +379,7 @@ var TSOS;
             }
         }
         /*
-        / Trace function
+        / Trace Command
         /    Shows a trace of the OS command flow
         */
         shellTrace(args) {
@@ -408,7 +408,7 @@ var TSOS;
             }
         }
         /*
-        / Rot13 function
+        / Rot13 Command
         /    Ask Alan
         */
         shellRot13(args) {
@@ -421,7 +421,7 @@ var TSOS;
             }
         }
         /*
-        / Prompt function
+        / Prompt Command
         /    Changes prompt to passed in text
         */
         shellPrompt(args) {
@@ -436,7 +436,7 @@ var TSOS;
             }
         }
         /*
-        / Date function
+        / Date Command
         /    Displays current time & date
         */
         shellDate(args) {
@@ -459,14 +459,14 @@ var TSOS;
                 + dateTime.getFullYear());
         }
         /*
-        / WhereAmI function
+        / WhereAmI Command
         /    Displays user location
         */
         shellWhereami(args) {
             _StdOut.putText("The Lylat System: Corneria");
         }
         /*
-        / Status function
+        / Status Command
         /    Displays user specified status
         */
         shellStatus(args) {
@@ -488,7 +488,7 @@ var TSOS;
             }
         }
         /*
-        / DoABarrelRoll function
+        / DoABarrelRoll Command
         /    Rotates the canvas.
         */
         shellDoabarrelroll(args) {
@@ -509,7 +509,7 @@ var TSOS;
             _Console.resetXY();
         }
         /*
-        / Load function
+        / Load Command
         /    Load user program into memory if valid
         */
         shellLoad(args) {
@@ -604,7 +604,7 @@ var TSOS;
             _StdOut.putText("Load Successful: PID:" + newPCB.PID);
         }
         /*
-        /  Run function
+        /  Run Command
         /     Runs the program in memory.
         /     If no program or PID passed, display error.
         */
@@ -650,7 +650,7 @@ var TSOS;
             }
         }
         /*
-        / Error function
+        / Error Command
         /    Initiates an error & BSOD
         */
         shellError(args) {
@@ -664,13 +664,13 @@ var TSOS;
             _Kernel.krnShutdown();
         }
         /*
-        / Runall function
+        / Runall Command
         /     Run all processes
         */
         shellRunall(args) {
             let noProgs = true; // To keep track if any programs 
             // Check each block for PID
-            for (let block = 0; block < PARTITIONQUANTITY; block++) {
+            for (let block = 0; block < PARTITION_QUANTITY; block++) {
                 // Contact MMU for block info
                 let PID = _MemoryManager.checkRange(block);
                 // Check if it has a PCB & PID is "Ready"
@@ -685,7 +685,7 @@ var TSOS;
             }
         }
         /*
-        / Clearmem function
+        / Clearmem Command
         /     Clear memory & deallocate partitions.
         */
         shellClearmem(args) {
@@ -703,7 +703,7 @@ var TSOS;
             }
         }
         /*
-        / Kill function
+        / Kill Command
         /    Kill PID process
         */
         shellKill(args) {
@@ -734,7 +734,7 @@ var TSOS;
             }
         }
         /*
-        /  Killall function
+        /  Killall Command
         /     Kill all processes
         */
         shellKillall(args) {
@@ -742,7 +742,7 @@ var TSOS;
                 _StdOut.putText("No Programs in memory.");
             }
             else {
-                for (let block = 0; block < PARTITIONQUANTITY; block++) {
+                for (let block = 0; block < PARTITION_QUANTITY; block++) {
                     // Check if block has a PCB
                     let PID = _MemoryManager.checkRange(block);
                     if (PID >= 0) {
@@ -755,7 +755,7 @@ var TSOS;
             }
         }
         /*
-        / PS function
+        / PS Command
         /    List all processes (PID & State)
         */
         shellPs(args) {
@@ -782,7 +782,7 @@ var TSOS;
             }
         }
         /*
-        / Quantum function
+        / Quantum Command
         /    Set the RR quantum
         */
         shellQuantum(args) {
@@ -803,7 +803,7 @@ var TSOS;
             }
         }
         /*
-        / Create function
+        / Create Command
         /    Create a file on the Disk, log response msg.
         /    -Log success if: file created
         /    -Log failure if: Disk not formatted, file name not unique, Disk full (maybe?)
@@ -817,7 +817,7 @@ var TSOS;
             }
         }
         /*
-        / Read function
+        / Read Command
         /    Read a file on the Disk, log its content.
         /    -Log failure if: Disk not formatted, file does not exist
         */
@@ -830,7 +830,7 @@ var TSOS;
             }
         }
         /*
-        / Write function
+        / Write Command
         /    Write to a file on the Disk, log response msg.
         /    -Log failure if: Disk not formatted, file does not exist
         */
@@ -843,7 +843,7 @@ var TSOS;
             }
         }
         /*
-        / Delete function
+        / Delete Command
         /    Delete a file on the Disk, log response msg.
         /    -Log success if: File successfully deleted
         /    -Log failure if: Disk not formatted, file does not exist, file is protected (maybe?)
@@ -857,7 +857,7 @@ var TSOS;
             }
         }
         /*
-        / Format function
+        / Format Command
         /    Format the contents of the Disk, log response msg
         /    -Log success if: Disk successfully formatted
         /    -Log failure if: (I dont know)
@@ -866,7 +866,7 @@ var TSOS;
         shellFormat(args) {
         }
         /*
-        / LS function
+        / LS Command
         /    List all files located on the Disk, log response msg
         /    -Log success if: Disk is formatted (if no files exist, a unique msg will display)
         /    -Log failure if: Disk not formatted
@@ -874,7 +874,7 @@ var TSOS;
         shellLs(args) {
         }
         /*
-        / Set Schedule function
+        / Set Schedule Command
         /    Set the Scheduler to utilize the inputted scheduling algorithm
         */
         shellSetSchedule(args) {
@@ -901,12 +901,13 @@ var TSOS;
             }
         }
         /*
-        / Get Schedule function
+        / Get Schedule Command
         /    Display the currently active scheduling algorithm
         */
         shellGetSchedule(args) {
             if (_SarcasticMode) {
                 _StdOut.putText("What's the matter? Can't remember?");
+                _StdOut.advanceLine();
             }
             _StdOut.putText("Mode: " + _Scheduler.getMode());
         }

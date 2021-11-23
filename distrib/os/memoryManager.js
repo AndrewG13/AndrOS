@@ -28,7 +28,7 @@ var TSOS;
             //   Index 3 = Limit
             let retInfo = [-1, 0, 0];
             // Check if adequate memory is available, stops once found space
-            for (let block = 0; (block < PARTITIONQUANTITY) && (retInfo[0] === -1); block++) {
+            for (let block = 0; (block < PARTITION_QUANTITY) && (retInfo[0] === -1); block++) {
                 if (this.parti[block] === -1) {
                     retInfo[0] = block;
                 }
@@ -63,7 +63,7 @@ var TSOS;
         */
         deallocateAll() {
             // Clear all partitions
-            for (let block = 0; block < PARTITIONQUANTITY; block++) {
+            for (let block = 0; block < PARTITION_QUANTITY; block++) {
                 this.parti[block] = -1;
             }
             // do more here?
@@ -83,7 +83,7 @@ var TSOS;
         /   Otherwise returns -1 (available to load)
         */
         checkRange(partition) {
-            if ((partition >= 0) && (partition < PARTITIONQUANTITY)) {
+            if ((partition >= 0) && (partition < PARTITION_QUANTITY)) {
                 return this.parti[partition];
             }
             else {
