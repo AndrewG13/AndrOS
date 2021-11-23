@@ -12,6 +12,15 @@
 
      module TSOS {
 
+        // MyTODO: 
+        // Session storage functions like a Map, call it like this:
+        //sessionStorage.setItem(key,val); // set
+        //sessionStorage.getItem(key);       // get
+        //sessionStorage.removeItem(key);    // rem
+        //
+        // Implementation should have the key being a combination of t.s.b.
+        //                                val being the data stored at that location
+
         export class Disk {
 
             // Disk Memory, __ addresses, _ byte stored at each block
@@ -20,11 +29,15 @@
             private sector : number[];
             private block  : number[];
 
+            private formatted : boolean;
+
             constructor() {
                 this.track = new Array(TRACK_SIZE);
                 this.sector = new Array(SECTOR_SIZE);
                 this.block = new Array(BLOCK_SIZE);
-                this.init();
+
+                this.formatted = false;
+                //this.init();
             }
 
             /*
@@ -43,6 +56,8 @@
                         }
                     }
                 }
+
+                this.formatted = true;
 
             }
 
@@ -64,6 +79,19 @@
             public resetBlock(b : number) : void {
                 // Clear the specific block on the Disk
 
+            }
+
+            public format() {
+                this.init();
+                _StdOut.putText("Disk Formatted");
+            }
+
+            /*
+            / Disk Status Function
+            /    Gets format status of the Disk (whether it is usable or not)
+            */
+            public status() {
+                return this.formatted;
             }
     
             
