@@ -11,29 +11,39 @@
      ------------ */
 var TSOS;
 (function (TSOS) {
+    // MyTODO: 
+    // Session storage functions like a Map, call it like this:
+    //sessionStorage.setItem(key,val); // set
+    //sessionStorage.getItem(key);       // get
+    //sessionStorage.removeItem(key);    // rem
+    //
+    // Implementation should have the key being a combination of t.s.b.
+    //                                val being the data stored at that location
+    // ----
+    // Make sure to incorporate the Directories & FDL (File Data Locations) seperately and accordingly
+    // Dir. Range: 000 - 077 
     class Disk {
         constructor() {
-            this.track = new Array(TRACK_SIZE);
-            this.sector = new Array(SECTOR_SIZE);
-            this.block = new Array(BLOCK_SIZE);
-            this.init();
+            this.formatted = false;
+            //this.init();
         }
         /*
         / Init Function
         /   Initializes memory registers
         */
         init() {
-            // Change all bytes in memory = 0
+            // Declare & initialize all blocks on the Disk
             for (let t = 0; t < TRACK_SIZE; t++) {
-                //this.track[t] = 0x00;
                 for (let s = 0; s < SECTOR_SIZE; s++) {
-                    //this.sector[s] = 0x00;
                     for (let b = 0; b < BLOCK_SIZE; b++) {
-                        //this.block[b] = 0x00;
-                        // session storage here?
+                        // Place in Session Storage
+                        // Format: Key = {t s b}
+                        //         Val = {0 / / / -------- etc.}
+                        sessionStorage.setItem(t + "" + s + "" + b, "0///" + TSOS.AsciiLib.nullBlock());
                     }
                 }
             }
+            this.formatted = true;
         }
         /*
         / Reset Function
@@ -50,6 +60,17 @@ var TSOS;
         */
         resetBlock(b) {
             // Clear the specific block on the Disk
+        }
+        format() {
+            this.init();
+            _StdOut.putText("Disk Formatted");
+        }
+        /*
+        / Disk Status Function
+        /    Gets format status of the Disk (whether it is usable or not)
+        */
+        status() {
+            return this.formatted;
         }
         /*
         / Display function

@@ -98,6 +98,9 @@ module TSOS {
             _Memory.init();
             _MemoryAccessor = new MemoryAccessor();
 
+            // ... Create and initialize Disk memory
+            _Disk = new Disk();
+
             // Create the memory table display
             let memRows = MEMORY_SIZE / 0x08; // number of rows
             let memCols = 0x08;               // number of columns (8 bytes)

@@ -58,6 +58,10 @@ export class AsciiLib {
         }
         return AsciiLib._ascii.indexOf(str);
       }
+
+      public static nullBlock() : string {
+        return "----------------------------------------------------------------";
+      }
     
     }
   }

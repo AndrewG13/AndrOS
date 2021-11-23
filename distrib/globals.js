@@ -42,6 +42,7 @@ var goodluck = new Audio("distrib/images/Good_Luck_Starfo_ 64.mp3");
 var _CPU; // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
 var _Memory;
 var _MemoryAccessor;
+var _Disk;
 // Software (OS)
 var _MemoryManager = null;
 var _OSclock = 0; // Page 23.

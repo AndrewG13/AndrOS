@@ -860,10 +860,11 @@ var TSOS;
         / Format Command
         /    Format the contents of the Disk, log response msg
         /    -Log success if: Disk successfully formatted
-        /    -Log failure if: (I dont know)
-        /    This is initially required
+        /    -Log failure if: Already formatted
+        /    This is initially required to store programs on the Disk
         */
         shellFormat(args) {
+            _krnDiskDriver.krnDskFormatRtn();
         }
         /*
         / LS Command

@@ -73,6 +73,8 @@ var TSOS;
             _Memory = new TSOS.Memory();
             _Memory.init();
             _MemoryAccessor = new TSOS.MemoryAccessor();
+            // ... Create and initialize Disk memory
+            _Disk = new TSOS.Disk();
             // Create the memory table display
             let memRows = MEMORY_SIZE / 0x08; // number of rows
             let memCols = 0x08; // number of columns (8 bytes)

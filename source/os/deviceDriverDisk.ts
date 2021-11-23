@@ -23,10 +23,42 @@
             //this.isr = this.krnKbdDispatchKeyPress;
         }
 
+        public krnDiskStatus() : boolean {
+            return _Disk.status(); 
+        }
+
         public krnDskDriverEntry() {
             // Initialization routine for this, the kernel-mode Keyboard Device Driver.
             this.status = "loaded";
             // More?
+        }
+
+        public krnDskCreateRtn() {
+
+        }
+
+        public krnDskReadRtn() {
+            
+        }
+
+        public krnDskWriteRtn() {
+            
+        }
+
+        public krnDskFormatRtn() {
+            if (!this.krnDiskStatus()) {
+                _Disk.format();
+            } else {
+                _StdOut.putText("Disk Already Formatted");
+            }
+        }
+
+        public krnDskDeleteRtn() {
+            
+        }
+
+        public krnDskLSRtn() {
+            
         }
 
     }

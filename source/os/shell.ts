@@ -1026,7 +1026,7 @@ module TSOS {
         /    This is initially required to store programs on the Disk
         */
         public shellFormat(args: string[]) {
-           
+           _krnDiskDriver.krnDskFormatRtn();
         }
        
         /*

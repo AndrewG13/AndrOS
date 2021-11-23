@@ -46,6 +46,9 @@ var TSOS;
             }
             return AsciiLib._ascii.indexOf(str);
         }
+        static nullBlock() {
+            return "----------------------------------------------------------------";
+        }
     }
     // Any index with "_" (besides the O.G. 0x5F) is simply a null space.
     AsciiLib._ascii = "________________________________ !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[_]^_'abcdefghijklmnopqrstuvwxyz{|}~_";

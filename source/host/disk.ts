@@ -20,21 +20,18 @@
         //
         // Implementation should have the key being a combination of t.s.b.
         //                                val being the data stored at that location
+        // ----
+        // Make sure to incorporate the Directories & FDL (File Data Locations) seperately and accordingly
+        // Dir. Range: 000 - 077 
 
         export class Disk {
 
-            // Disk Memory, __ addresses, _ byte stored at each block
-            // May change to one triple array (tsb : number[][][])
-            private track  : number[];
-            private sector : number[];
-            private block  : number[];
+            // Disk Memory, 256 total blocks, ___ bytes stored at each block = ___ total bytes of memory.
 
             private formatted : boolean;
 
             constructor() {
-                this.track = new Array(TRACK_SIZE);
-                this.sector = new Array(SECTOR_SIZE);
-                this.block = new Array(BLOCK_SIZE);
+
 
                 this.formatted = false;
                 //this.init();
@@ -44,15 +41,15 @@
             / Init Function
             /   Initializes memory registers
             */
-            public init() : void {
-                // Change all bytes in memory = 0
+            private init() : void {
+                // Declare & initialize all blocks on the Disk
                 for (let t = 0; t < TRACK_SIZE; t++) {
-                    //this.track[t] = 0x00;
                     for (let s = 0; s < SECTOR_SIZE; s++) {
-                        //this.sector[s] = 0x00;
                         for (let b = 0; b <BLOCK_SIZE; b++) {
-                            //this.block[b] = 0x00;
-                            // session storage here?
+                            // Place in Session Storage
+                            // Format: Key = {t s b}
+                            //         Val = {0 / / / -------- etc.}
+                            sessionStorage.setItem(t + "" + s + "" + b ,"0///" + AsciiLib.nullBlock());
                         }
                     }
                 }

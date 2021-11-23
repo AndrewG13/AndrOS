@@ -18,10 +18,31 @@ var TSOS;
             this.driverEntry = this.krnDskDriverEntry;
             //this.isr = this.krnKbdDispatchKeyPress;
         }
+        krnDiskStatus() {
+            return _Disk.status();
+        }
         krnDskDriverEntry() {
             // Initialization routine for this, the kernel-mode Keyboard Device Driver.
             this.status = "loaded";
             // More?
+        }
+        krnDskCreateRtn() {
+        }
+        krnDskReadRtn() {
+        }
+        krnDskWriteRtn() {
+        }
+        krnDskFormatRtn() {
+            if (!this.krnDiskStatus()) {
+                _Disk.format();
+            }
+            else {
+                _StdOut.putText("Disk Already Formatted");
+            }
+        }
+        krnDskDeleteRtn() {
+        }
+        krnDskLSRtn() {
         }
     }
     TSOS.DeviceDriverDisk = DeviceDriverDisk;
