@@ -1,17 +1,5 @@
 Code written while away from my laptop.  Scrap paper, if you will.
 
-    // Todo for Project 3:
-    
-    // ISSUE #24
-    // Make sure MMU knows of memory Partitions, maybe PCB keeps Part # ? 
-    // If not, PCB having Base regs have info regarding that -> B:0x000 = P0, B:0x100 = P1, B:0x200 = P2.
-    // Can make a boolean array to know whether a partition is available or not...
-    //availParti : boolean[] = [true,true,true]; // in MMU
-    
-    // ISSUE #22
-    // Just update the Ready Queue graphic every clock pulse.  This ensures its accurate (to the T)
-
-    // 
 /*************************************************/
     // Blinking cursor code, because I was bored
         let colored = false;
@@ -33,5 +21,7 @@ Code written while away from my laptop.  Scrap paper, if you will.
 symbols links:
 
 https://www.freecodecamp.org/news/javascript-keycode-list-keypress-event-key-codes/
-
 https://www.w3schools.com/charsets/ref_utf_basic_latin.asp
+
+/************************************************/
+
