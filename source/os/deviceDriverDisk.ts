@@ -45,6 +45,10 @@
             
         }
 
+        public krnDskDeleteRtn() {
+            
+        }
+       
         public krnDskFormatRtn() {
             if (!this.krnDiskStatus()) {
                 _Disk.format();
@@ -52,11 +56,7 @@
                 _StdOut.putText("Disk Already Formatted");
             }
         }
-
-        public krnDskDeleteRtn() {
-            
-        }
-
+       
         public krnDskLSRtn() {
             
         }
