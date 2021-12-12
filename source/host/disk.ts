@@ -3,6 +3,9 @@
 
      Simulates a real implementation of how Disk hardware works.
      There are (4) tracks of (8) sectors, each sector hosting its own (8) blocks of memory.
+     Disk Memory consists of: 256 total blocks, 64 bytes stored at each block. 
+     Disk Memory = 16,384 (16k) total bytes of memory.
+
      Layout of each major function of Disk memory:
      - add note
      - add note
@@ -15,18 +18,17 @@
         // MyTODO: 
         // Session storage functions like a Map, call it like this:
         //sessionStorage.setItem(key,val); // set
-        //sessionStorage.getItem(key);       // get
-        //sessionStorage.removeItem(key);    // rem
-        //
-        // Implementation should have the key being a combination of t.s.b.
-        //                                val being the data stored at that location
-        // ----
+        //sessionStorage.getItem(key);     // get
+        //sessionStorage.removeItem(key);  // rem
+        
+        // Implementation should have the {key being a combination of t.s.b.}
+        //                                {val being the data stored at that location}
+        
         // Make sure to incorporate the Directories & FDL (File Data Locations) seperately and accordingly
-        // Dir. Range: 000 - 077 
+        // Dir. Range: 000 - 077  (in Octal) 
+        // FDL  Range: 100 - 377  (in Octal)
 
         export class Disk {
-
-            // Disk Memory, 256 total blocks, ___ bytes stored at each block = ___ total bytes of memory.
 
             private formatted : boolean;
 
