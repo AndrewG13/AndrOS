@@ -105,6 +105,7 @@ var _GLaDOS: any = null; // If the above is linked in, this is the instantiated 
 
 var onDocumentLoad = function() {
 	TSOS.Control.hostInit();
+   //TSOS.Game.initAssets();
 };
 
 // Extra goodies added by yours truly
@@ -113,6 +114,10 @@ var timeDateDisplay = setInterval(timeDate, 1000);
 // Flags for conflicting keycodes
 var ampersand : boolean = false; // 38 ( & or ↑ )
 var leftParen : boolean = false; // 40 ( ( or ↓ )
+
+// All assets related to the Starfox Minigame
+var _Game: HTMLCanvasElement;
+var _GameContext: any;
 
 function timeDate() {
    let currentTime = new Date();
