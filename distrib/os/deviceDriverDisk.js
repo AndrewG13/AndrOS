@@ -39,6 +39,21 @@ var TSOS;
         }
         krnDskLSRtn() {
         }
+        fileExists(filename) {
+            return false;
+        }
+        getInUseByte(tsb) {
+        }
+        getPointerBytes(tsb) {
+        }
+        getDataPortionBytes(tsb) {
+        }
+        setInUseByte(tsb, iu) {
+        }
+        setPointerBytes(tsb, p) {
+        }
+        setDataPortionBytes(tsb, dp) {
+        }
     }
     TSOS.DeviceDriverDisk = DeviceDriverDisk;
 })(TSOS || (TSOS = {}));

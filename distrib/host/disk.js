@@ -15,17 +15,23 @@
 var TSOS;
 (function (TSOS) {
     // MyTODO: 
-    // Session storage functions like a Map, call it like this:
+    // Session storage works like a Map, use it like this:
     //sessionStorage.setItem(key,val); // set
     //sessionStorage.getItem(key);     // get
     //sessionStorage.removeItem(key);  // rem
     // Implementation should have the {key being a combination of t.s.b.}
     //                                {val being the data stored at that location}
-    // Make sure to incorporate the Directories & FDL (File Data Locations) seperately and accordingly
-    // Dir. Range: 000 - 077  (in Octal) 
-    // FDL  Range: 100 - 377  (in Octal)
+    // Make sure to incorporate the Directories & FDL (File Data Locations) seperately and accordingly.
+    // Dir. range: 000 - 077  (in Octal) 
+    // FDL  range: 100 - 377  (in Octal)
+    // In each 64 byte block, the structure is as follows:
+    //         First byte: In-use boolean (0 = available, 1 = used).
+    //       Next 3 bytes: t,s,b sequentially.
+    // Remaining 60 bytes: Data portion (either a file name, or the actual program code (code exceeding 60 bytes makes a new FDL))
     class Disk {
         constructor() {
+            this.DIR_START = "000";
+            this.FLD_START = "100";
             this.formatted = false;
             //this.init();
         }
@@ -58,14 +64,25 @@ var TSOS;
         /*
         / Reset Block Function
         /   Clear a specific block on the Disk
-        /   May need to pass in t & s as well
         */
-        resetBlock(b) {
+        resetBlock(tsb) {
             // Clear the specific block on the Disk
         }
         format() {
             this.init();
             _StdOut.putText("Disk Formatted");
+        }
+        getBlock(tsb) {
+            console.log(sessionStorage.getItem(tsb));
+        }
+        setBlock(tsb, data) {
+            // get all data currently at this block
+            let entireBlock = sessionStorage.getItem(tsb);
+            // get the in-use byte (first byte)
+            let inuse = entireBlock.charAt(0);
+            // get the pointer, could be null = /// (next three bytes)
+            let pointer = entireBlock.substring(1, 4);
+            sessionStorage.setItem(tsb, inuse + pointer + data);
         }
         /*
         / Disk Status Function

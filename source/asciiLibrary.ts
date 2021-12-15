@@ -49,14 +49,26 @@ export class AsciiLib {
       /    Return: hex
       /    Takes in a string char to decode, and returns the number of its ASCII representation
      */
-      public static decode(str : string) : number {
+      public static decode(text : string) : number {
         // Note: All button/control inputs like LF will not work
     
         // Special Cases
-        if (str === "_") {
+        if (text === "_") {
           return 0x5F;
         }
-        return AsciiLib._ascii.indexOf(str);
+        return AsciiLib._ascii.indexOf(text);
+      }
+
+      public static decodeString(str : string) : string {
+        let retval : string = "";
+        for (let i = 0; i < str.length; i++) {
+          let decodedChar : number = this.decode(str.charAt(i));
+          retval += hexLog(decodedChar, 2);
+          console.log(retval);
+        }
+
+        console.log("retval return: " + retval);
+        return retval;
       }
 
       public static nullBlock() : string {

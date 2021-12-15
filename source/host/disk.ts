@@ -35,6 +35,8 @@
 
         export class Disk {
 
+            private DIR_START : string = "000";
+            private FLD_START : string = "100";
             private formatted : boolean;
 
             constructor() {
@@ -90,8 +92,11 @@
             }
 
             public setBlock(tsb : string, data : string) {
+                // get all data currently at this block
                 let entireBlock : string = sessionStorage.getItem(tsb);
+                // get the in-use byte (first byte)
                 let inuse = entireBlock.charAt(0);
+                // get the pointer, could be null = /// (next three bytes)
                 let pointer : string = entireBlock.substring(1, 4);
                 
                 sessionStorage.setItem(tsb,inuse + pointer + data);

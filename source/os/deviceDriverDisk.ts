@@ -55,6 +55,11 @@
             
         }
 
+        public fileExists(filename : string) : boolean {
+            
+            return false;
+        }
+
         private getInUseByte(tsb : string) {
 
         }
