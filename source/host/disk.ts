@@ -16,7 +16,7 @@
      module TSOS {
 
         // MyTODO: 
-        // Session storage functions like a Map, call it like this:
+        // Session storage works like a Map, use it like this:
         //sessionStorage.setItem(key,val); // set
         //sessionStorage.getItem(key);     // get
         //sessionStorage.removeItem(key);  // rem
@@ -24,17 +24,20 @@
         // Implementation should have the {key being a combination of t.s.b.}
         //                                {val being the data stored at that location}
         
-        // Make sure to incorporate the Directories & FDL (File Data Locations) seperately and accordingly
-        // Dir. Range: 000 - 077  (in Octal) 
-        // FDL  Range: 100 - 377  (in Octal)
+        // Make sure to incorporate the Directories & FDL (File Data Locations) seperately and accordingly.
+        // Dir. range: 000 - 077  (in Octal) 
+        // FDL  range: 100 - 377  (in Octal)
+
+        // In each 64 byte block, the structure is as follows:
+        //         First byte: In-use boolean (0 = available, 1 = used).
+        //       Next 3 bytes: t,s,b sequentially.
+        // Remaining 60 bytes: Data portion (either a file name, or the actual program code (code exceeding 60 bytes makes a new FDL))
 
         export class Disk {
 
             private formatted : boolean;
 
             constructor() {
-
-
                 this.formatted = false;
                 //this.init();
             }
@@ -55,9 +58,7 @@
                         }
                     }
                 }
-
                 this.formatted = true;
-
             }
 
             /*
@@ -73,9 +74,8 @@
             /*
             / Reset Block Function
             /   Clear a specific block on the Disk
-            /   May need to pass in t & s as well
             */
-            public resetBlock(b : number) : void {
+            public resetBlock(tsb : string) : void {
                 // Clear the specific block on the Disk
 
             }
@@ -83,6 +83,18 @@
             public format() {
                 this.init();
                 _StdOut.putText("Disk Formatted");
+            }
+
+            public getBlock(tsb : string) {
+                console.log(sessionStorage.getItem(tsb));
+            }
+
+            public setBlock(tsb : string, data : string) {
+                let entireBlock : string = sessionStorage.getItem(tsb);
+                let inuse = entireBlock.charAt(0);
+                let pointer : string = entireBlock.substring(1, 4);
+                
+                sessionStorage.setItem(tsb,inuse + pointer + data);
             }
 
             /*

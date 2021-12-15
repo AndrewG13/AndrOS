@@ -55,5 +55,29 @@
             
         }
 
+        private getInUseByte(tsb : string) {
+
+        }
+
+        private getPointerBytes(tsb : string) {
+
+        }
+
+        private getDataPortionBytes(tsb : string) {
+
+        }
+
+        private setInUseByte(tsb : string, iu : string) {
+
+        }
+
+        private setPointerBytes(tsb : string, p : string) {
+
+        }
+
+        private setDataPortionBytes(tsb : string, dp : string) {
+
+        }
+
     }
 }
