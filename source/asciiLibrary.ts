@@ -64,10 +64,10 @@ export class AsciiLib {
         for (let i = 0; i < str.length; i++) {
           let decodedChar : number = this.decode(str.charAt(i));
           retval += hexLog(decodedChar, 2);
-          console.log(retval);
+          //console.log(retval);
         }
 
-        console.log("retval return: " + retval);
+        console.log("retval: " + retval);
         return retval;
       }
 

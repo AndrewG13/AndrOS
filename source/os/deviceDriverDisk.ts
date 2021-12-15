@@ -27,7 +27,11 @@
             this.status = "loaded";
         }
 
-        public krnDskCreateRtn() {
+        public krnDskCreateRtn(filename : string) {
+
+            if (this.fileExists(filename)) {
+
+            }
 
         }
 
@@ -55,9 +59,20 @@
             
         }
 
-        public fileExists(filename : string) : boolean {
-            
-            return false;
+        private fileExists(filename : string) : string {
+            // Starting index
+            let i : string = "001";
+            // to signify the filename ending
+            filename = filename + "-";
+            while (i !== "OOB") {
+                let data : string = sessionStorage.getItem(i);
+                data = data.substring(4);
+                if (data.includes("filename")) {
+                    // work on this, also make sure filename is in the ASCII FORMAT
+                }
+            }
+
+            return "not found";
         }
 
         private getInUseByte(tsb : string) {
