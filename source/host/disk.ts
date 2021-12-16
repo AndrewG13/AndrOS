@@ -19,7 +19,7 @@
         // Session storage works like a Map, use it like this:
         //sessionStorage.setItem(key,val); // set
         //sessionStorage.getItem(key);     // get
-        //sessionStorage.removeItem(key);  // rem
+        //sessionStorage.removeItem(key);  // rem, dont use
         
         // Implementation should have the {key being a combination of t.s.b.}
         //                                {val being the data stored at that location}
@@ -29,17 +29,17 @@
         // FDL  range: 100 - 377  (in Octal)
 
         // In each 64 byte block, the structure is as follows:
-        //         First byte: In-use boolean (0 = available, 1 = used).
-        //       Next 3 bytes: t,s,b sequentially.
-        // Remaining 60 bytes: Data portion (either a file name, or the actual program code (code exceeding 60 bytes makes a new FDL))
+        //         First byte: In-use boolean      (0 = available, 1 = used)
+        //       Next 3 bytes: t,s,b sequentially  (/// if null pointer)
+        // Remaining 60 bytes: Data portion        (either a file name, or the actual program code (code exceeding 60 bytes makes a new FDL))
 
         export class Disk {
-
-            private DIR_START : string = "000";
-            private FLD_START : string = "100";
-            private nextDir : string = "001";
-            private nextFdl : string = "100";
-            private formatted : boolean;
+            
+            private DIR_START : string = "000"; // tsb where DIR starts
+            private FLD_START : string = "100"; // tsb where DFL starts
+            private nextDir : string = "001";   // to keep track of next available DIR
+            private nextFdl : string = "100";   // to keep track of next available FDL
+            private formatted : boolean;        // format status
 
             constructor() {
                 this.formatted = false;
@@ -78,19 +78,27 @@
             }
 
             /*
-            / Reset Block Function
+            / ResetBlock Function
             /   Clear a specific block on the Disk
             */
             public resetBlock(tsb : string) : void {
                 // Clear the specific block on the Disk
-
             }
 
+            /*
+            / Format Function
+            /    Wipe the Disk (initially required)
+            */
             public format() {
                 this.init();
                 _StdOut.putText("Disk Formatted");
             }
 
+            /*
+            / LS Function
+            /    List all files on the Disk (excludes Swapper files)
+            /    *Lists the active directories
+            */
             public ls() : string {
                 let retlist : string = "";
                 // iterate through entire file directory, looking for in-use files
@@ -98,16 +106,23 @@
                     let data : string = sessionStorage.getItem(i);
                     let inUse : string = data.charAt(0);
                     if (inUse === "1") {
+                        // found a file, add its name to the return value
                         let filename : string = data.substring(4);
                         filename = AsciiLib.encodeString(filename);
                         retlist += filename + ", ";
                     }
                 }
+                 
                 // remove additional comma & space
                 retlist = retlist.substring(0, retlist.length - 2);
                 return retlist;
             }
 
+            /*
+            / Create Function
+            /    Create a file on the Disk
+            /    Driver checks if already on Disk, so no conflicts here
+            */
             public create(filename : string) {
                 // create a file in a known-to-be-ready block
                 sessionStorage.setItem(this.nextDir, "1///" + filename);
@@ -115,6 +130,11 @@
                 this.nextDir = incrementTSB(this.nextDir, "DIR");
             }
 
+            /*
+            / Read Function
+            /   Read contents of a tsb on Disk
+            /   Driver checks if file exists, so no conflicts here
+            */
             public read(tsb : string) : string {
                 let retval : string = "";
                 let data = this.getBlock(tsb);
@@ -142,11 +162,15 @@
                         data = AsciiLib.encodeString(data);
                         retval += data;
                     }
-
                     return retval;
                 }
             }
 
+            /*
+            / Write Function
+            /    Writes content to a file on Disk
+            /    Driver checks if file exists, so no conflicts here
+            */
             public write(tsb : string, asciiText : string[]) {
                 let data = this.getBlock(tsb);
                 let pointer = data.substring(1, 4);
@@ -161,9 +185,8 @@
                     this.wipeChains(pointer);
                 }
 
-
-                // this is where if (over 60 * 2 length, do multiple writes)
-                    while(asciiText.length > 1) {
+                   // If data is too large, continue writing to new FDLs & chaining them  
+                   while(asciiText.length > 1) {
                         // get next available fdl
                         let chainPointer = this.nextFdl;
                         // write
@@ -173,39 +196,51 @@
                         // update both pointers
                         pointer = chainPointer;
                     }
-
                 
-                    // just do normal write (< 60 bytes)
+                    // Now just do normal write (< 60 bytes)
                     sessionStorage.setItem(pointer, "1///" + asciiText[0]);
-                
 
-                return "Text written successfully";
-                
+                return "Data written successfully";
             }
 
+            /*
+            / Delete Function
+            /   Delete a file on Disk & its associated FDL(s)
+            */
             public delete(tsb : string) {
-                let data = this.getBlock(tsb);
+                let data = this.getBlock(tsb); 
                 let pointer = data.substring(1,4);
-                let pointers : string[] = new Array();
-                // Array for all tsbs to delete
+                let pointers : string[] = new Array(); // Array for all tsbs to delete
+
+                // Add the initial pointer to the list
                 pointers.push(tsb);
                 
+                // While further FDLs exists, add them to the list
                 while (pointer !== "///") {
                     pointers.push(pointer);
                     data = this.getBlock(pointer);
                     pointer = data.substring(1,4);
                 }
 
+                // Delete them all!
                 for (let i = 0; i < pointers.length; i++) {
                     sessionStorage.setItem(pointers[i], "0///" + AsciiLib.nullBlock())
                 }
             }
 
+            /*
+            / GetBlock Function
+            /    Helper function to get a block from Disk, given tsb location
+            */
             private getBlock(tsb : string) : string {
                 console.log(sessionStorage.getItem(tsb));
                 return sessionStorage.getItem(tsb);
             }
 
+            /*
+            / SetBlock Function
+            /    Helper function to set a block's data on Disk, given tsb location
+            */
             private setBlock(tsb : string, data : string) {
                 // get all data currently at this block
                 let entireBlock : string = sessionStorage.getItem(tsb);
@@ -217,6 +252,10 @@
                 sessionStorage.setItem(tsb,inuse + pointer + data);
             }
 
+            /*
+            / WipeChains Function
+            /    Helper function wipe ALL chains following a tsb
+            */
             private wipeChains(tsb : string) {
                 if (tsb !== "///") {
                     // get NEXT chained tsb to wipe
