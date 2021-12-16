@@ -37,6 +37,8 @@
 
             private DIR_START : string = "000";
             private FLD_START : string = "100";
+            private nextDir : string = "001";
+            private nextFdl : string = "100";
             private formatted : boolean;
 
             constructor() {
@@ -87,11 +89,34 @@
                 _StdOut.putText("Disk Formatted");
             }
 
-            public getBlock(tsb : string) {
-                console.log(sessionStorage.getItem(tsb));
+            public create(filename : string) {
+                // create a file in a known-to-be-ready block
+                sessionStorage.setItem(this.nextDir, "1///" + filename);
+                // increment the next directory available
+                this.nextDir = incrementTSB(this.nextDir, "DIR");
             }
 
-            public setBlock(tsb : string, data : string) {
+            public read(tsb : string) : string {
+                let data = this.getBlock(tsb);
+                data = data.substring(4);
+                data = AsciiLib.decodeString(data);   
+                return data;             
+            }
+
+            public write() {
+
+            }
+
+            public delete() {
+
+            }
+
+            private getBlock(tsb : string) : string {
+                console.log(sessionStorage.getItem(tsb));
+                return sessionStorage.getItem(tsb);
+            }
+
+            private setBlock(tsb : string, data : string) {
                 // get all data currently at this block
                 let entireBlock : string = sessionStorage.getItem(tsb);
                 // get the in-use byte (first byte)
@@ -119,6 +144,25 @@
             */
             public display(start : number, end : number) {
 
+            }
+
+            private getNextAvail(i : string, option : string) : string {
+
+                let data = sessionStorage.getItem(i);
+                while (data.charAt(0) === "1") {
+                    // increment the next space
+                    i = incrementTSB(i, option);
+                    // check if out of bounds, if so wrap around accordingly                    
+                    if (i === "OOB") {
+                        if (option === "DIR") {
+                            i = "001";
+                        } else {
+                            i = "100";
+                        }
+                    }
+                    data = sessionStorage.getItem(i);
+                }
+                return i;
             }
 
         }

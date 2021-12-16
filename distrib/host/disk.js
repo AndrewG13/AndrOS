@@ -32,6 +32,8 @@ var TSOS;
         constructor() {
             this.DIR_START = "000";
             this.FLD_START = "100";
+            this.nextDir = "001";
+            this.nextFdl = "100";
             this.formatted = false;
             //this.init();
         }
@@ -72,8 +74,25 @@ var TSOS;
             this.init();
             _StdOut.putText("Disk Formatted");
         }
+        create(filename) {
+            // create a file in a known-to-be-ready block
+            sessionStorage.setItem(this.nextDir, "1///" + filename);
+            // increment the next directory available
+            this.nextDir = incrementTSB(this.nextDir, "DIR");
+        }
+        read(tsb) {
+            let data = this.getBlock(tsb);
+            data = data.substring(4);
+            data = TSOS.AsciiLib.decodeString(data);
+            return data;
+        }
+        write() {
+        }
+        delete() {
+        }
         getBlock(tsb) {
             console.log(sessionStorage.getItem(tsb));
+            return sessionStorage.getItem(tsb);
         }
         setBlock(tsb, data) {
             // get all data currently at this block
@@ -98,6 +117,24 @@ var TSOS;
         /   If either parameters are invalid, an error log will print
         */
         display(start, end) {
+        }
+        getNextAvail(i, option) {
+            let data = sessionStorage.getItem(i);
+            while (data.charAt(0) === "1") {
+                // increment the next space
+                i = incrementTSB(i, option);
+                // check if out of bounds, if so wrap around accordingly                    
+                if (i === "OOB") {
+                    if (option === "DIR") {
+                        i = "001";
+                    }
+                    else {
+                        i = "100";
+                    }
+                }
+                data = sessionStorage.getItem(i);
+            }
+            return i;
         }
     }
     TSOS.Disk = Disk;

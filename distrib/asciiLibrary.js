@@ -46,14 +46,15 @@ var TSOS;
             }
             return AsciiLib._ascii.indexOf(text);
         }
+        // returns the ascii numbers, not the actual text
         static decodeString(str) {
             let retval = "";
             for (let i = 0; i < str.length; i++) {
                 let decodedChar = this.decode(str.charAt(i));
                 retval += hexLog(decodedChar, 2);
-                console.log(retval);
+                //console.log(retval);
             }
-            console.log("retval return: " + retval);
+            console.log("retval: " + retval);
             return retval;
         }
         static nullBlock() {

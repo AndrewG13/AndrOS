@@ -969,7 +969,7 @@ module TSOS {
         public shellCreate(args: string[]) {
             // Check if a filename was inputted
             if (args.length > 0) {
-
+                _krnDiskDriver.krnDskCreateRtn(args[0]);
             } else {
                 _StdOut.putText("Usage: status <filename>  Please supply a filename.");
             }

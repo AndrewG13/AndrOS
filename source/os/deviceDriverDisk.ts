@@ -28,15 +28,24 @@
         }
 
         public krnDskCreateRtn(filename : string) {
-
-            if (this.fileExists(filename)) {
-
+            if (this.fileExists(filename) === "not found") {
+                filename = AsciiLib.decodeString(filename);
+                filename = this.appendAsciiFilename(filename);
+                _Disk.create(filename);
+                _StdOut.putText("File created");
+            } else {
+                _StdOut.putText("File already exists");
             }
 
         }
 
-        public krnDskReadRtn() {
-            
+        public krnDskReadRtn(filename : string) {
+            if (this.fileExists(filename) !== "not found") {
+                
+                //_StdOut.putText(filename + ": " + );
+            } else {
+                _StdOut.putText("File already exists");
+            }
         }
 
         public krnDskWriteRtn() {
@@ -61,18 +70,31 @@
 
         private fileExists(filename : string) : string {
             // Starting index
-            let i : string = "001";
-            // to signify the filename ending
-            filename = filename + "-";
-            while (i !== "OOB") {
-                let data : string = sessionStorage.getItem(i);
+            let tsb : string = "001";
+            // "-" to signify the filename ending
+            filename = (AsciiLib.decodeString(filename)) + "--";
+            while (tsb !== "OOB") {
+                let data : string = sessionStorage.getItem(tsb);
                 data = data.substring(4);
-                if (data.includes("filename")) {
-                    // work on this, also make sure filename is in the ASCII FORMAT
+                if (data.includes(filename)) {
+                    // found file, return tsb location
+                    return tsb;
+                } else {
+                    tsb = incrementTSB(tsb, "DIR");
                 }
             }
-
+            // file not found
             return "not found";
+        }
+
+        private appendAsciiFilename(filename : string) : string {
+            // 60 bytes in a data portion of a tsb
+            // 1 byte = 2 characters
+            let length = 60 * 2;
+            for (let i = filename.length + 1; i < length; i++) {
+                filename = filename + "-";
+            }
+            return filename;
         }
 
         private getInUseByte(tsb : string) {

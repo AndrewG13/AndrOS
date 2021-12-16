@@ -59,6 +59,7 @@ export class AsciiLib {
         return AsciiLib._ascii.indexOf(text);
       }
 
+      // returns the ascii numbers, not the actual text
       public static decodeString(str : string) : string {
         let retval : string = "";
         for (let i = 0; i < str.length; i++) {

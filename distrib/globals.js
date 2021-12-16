@@ -113,4 +113,39 @@ function hexLog(value, length) {
     // Console desired output
     return output.toUpperCase();
 }
+/*
+/
+/   Options are DIR or FDL
+/   DIR limit: 077
+/   FDL limit: 377
+*/
+function incrementTSB(tsb, option) {
+    // Grab the numeric values from the passed in tsb
+    let t = parseInt(tsb.charAt(0));
+    let s = parseInt(tsb.charAt(1));
+    let b = parseInt(tsb.charAt(2));
+    // increment, and handle octal overflows
+    b++;
+    if (b == 8) {
+        b = 0;
+        s++;
+    }
+    if (s == 8) {
+        s = 0;
+        t++;
+    }
+    if (t == 4) {
+        // Out of Bounds
+        return "OOB";
+    }
+    // Option DIR:
+    if ((option === "DIR") && (t > 0)) {
+        return "OOB";
+    }
+    // Option FDL:
+    if ((option === "FDL") && (t == 0)) {
+        return "OOB";
+    }
+    return (t + "" + s + "" + b);
+}
 //# sourceMappingURL=globals.js.map
