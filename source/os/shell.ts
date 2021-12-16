@@ -992,7 +992,13 @@ module TSOS {
         public shellCreate(args: string[]) {
             // Check if a filename was inputted
             if (args.length > 0) {
-                _krnDiskDriver.krnDskCreateRtn(args[0]);
+                // check if user inputted swapper-reserved ~ character
+                if (args[0].indexOf("~") !== -1) { // if filename contains ~
+                    _StdOut.putText("Denied: Cannot create reserved file");
+                } else {
+                    // proceed with file creation
+                    _krnDiskDriver.krnDskCreateRtn(args[0]);
+                }
             } else {
                 _StdOut.putText("Usage: create <filename>  Please supply a filename.");
             }
@@ -1006,7 +1012,12 @@ module TSOS {
         public shellRead(args: string[]) {
             // Check if a filename was inputted
             if (args.length > 0) {
-                _krnDiskDriver.krnDskReadRtn(args[0]);
+                if (args[0].indexOf("~") !== -1) {
+                    _StdOut.putText("Denied: Cannot read reserved file");
+                } else {
+                    // proceed with reading
+                    _krnDiskDriver.krnDskReadRtn(args[0]);
+                }
             } else {
                 _StdOut.putText("Usage: read <filename>  Please supply a filename.");
             }
