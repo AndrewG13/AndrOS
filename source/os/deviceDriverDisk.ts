@@ -62,7 +62,8 @@
         public krnDskDeleteRtn(filename : string) {
             let tsbLocation = this.fileExists(filename);
             if (tsbLocation !== "not found") {
-                _StdOut.putText(_Disk.delete(tsbLocation));
+                _Disk.delete(tsbLocation);
+                _StdOut.putText("File deleted");
             } else {
                 _StdOut.putText("File not found");
             }
