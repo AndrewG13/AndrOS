@@ -48,8 +48,15 @@
             }
         }
 
-        public krnDskWriteRtn() {
-            
+        public krnDskWriteRtn(filename : string, text : string) {
+            let tsbLocation = this.fileExists(filename);
+            if (tsbLocation !== "not found") {
+                text = AsciiLib.decodeString(text);
+                text = this.appendAsciiFilename(text);
+                _StdOut.putText(_Disk.write(tsbLocation, text));
+            } else {
+                _StdOut.putText("File does not exist");
+            }
         }
 
         public krnDskDeleteRtn() {
@@ -87,14 +94,14 @@
             return "not found";
         }
 
-        private appendAsciiFilename(filename : string) : string {
+        private appendAsciiFilename(asciiFilename : string) : string {
             // 60 bytes in a data portion of a tsb
             // 1 byte = 2 characters
             let length = 60 * 2;
-            for (let i = filename.length + 1; i < length; i++) {
-                filename = filename + "-";
+            for (let i = asciiFilename.length + 1; i < length; i++) {
+                asciiFilename = asciiFilename + "-";
             }
-            return filename;
+            return asciiFilename;
         }
 
         private getInUseByte(tsb : string) {

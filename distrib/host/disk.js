@@ -53,6 +53,8 @@ var TSOS;
                     }
                 }
             }
+            // override the Master Boot Record's data
+            sessionStorage.setItem("000", "1///" + "4D4252" + TSOS.AsciiLib.nullBlockMBR());
             this.formatted = true;
         }
         /*
@@ -90,7 +92,7 @@ var TSOS;
             }
             else {
                 // get data associated at pointer (in FDL)
-                this.getBlock(pointer);
+                data = this.getBlock(pointer);
                 // extract the data portion
                 data = data.substring(4);
                 // encode the Ascii to text
@@ -98,7 +100,19 @@ var TSOS;
                 return data;
             }
         }
-        write() {
+        write(tsb, asciiText) {
+            let data = this.getBlock(tsb);
+            let pointer = data.substring(1, 4);
+            // check if file points to a FDL
+            if (pointer === "///") {
+                // no pointer, create one for this file
+                pointer = this.nextFdl;
+                sessionStorage.setItem(tsb, "1" + pointer + data.substring(4));
+                this.nextFdl = incrementTSB(this.nextFdl, "FDL");
+            }
+            // this is where (if over 60 * 2 length, do multiple writes)
+            sessionStorage.setItem(pointer, "1///" + asciiText);
+            return "Text written successfully";
         }
         delete() {
         }

@@ -61,7 +61,7 @@ var TSOS;
         static encodeString(hexString) {
             let retval = "";
             // trim leading --- off of string
-            hexString = "" + (parseInt(hexString, 16));
+            hexString = "" + (parseInt(hexString));
             // iterate through, encoding string entirely
             for (let i = 0; i < hexString.length; i = i + 2) {
                 let hex = parseInt((hexString.charAt(i) + hexString.charAt(i + 1)), 16);
@@ -71,6 +71,9 @@ var TSOS;
         }
         static nullBlock() {
             return "----------------------------------------------------------------";
+        }
+        static nullBlockMBR() {
+            return "----------------------------------------------------------";
         }
     }
     // Any index with "_" (besides the O.G. 0x5F) is simply a null space.

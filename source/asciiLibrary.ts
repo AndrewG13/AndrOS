@@ -75,7 +75,7 @@ export class AsciiLib {
       public static encodeString(hexString : string) : string {
         let retval = "";
         // trim leading --- off of string
-        hexString = "" + (parseInt(hexString, 16));
+        hexString = "" + (parseInt(hexString));
         // iterate through, encoding string entirely
         for (let i = 0; i < hexString.length; i = i + 2) {
           let hex = parseInt( (hexString.charAt(i) + hexString.charAt(i + 1) ), 16);
@@ -86,6 +86,10 @@ export class AsciiLib {
 
       public static nullBlock() : string {
         return "----------------------------------------------------------------";
+      }
+
+      public static nullBlockMBR() : string {
+        return "----------------------------------------------------------";
       }
     
     }

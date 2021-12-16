@@ -971,7 +971,7 @@ module TSOS {
             if (args.length > 0) {
                 _krnDiskDriver.krnDskCreateRtn(args[0]);
             } else {
-                _StdOut.putText("Usage: status <filename>  Please supply a filename.");
+                _StdOut.putText("Usage: create <filename>  Please supply a filename.");
             }
         }
        
@@ -985,7 +985,7 @@ module TSOS {
             if (args.length > 0) {
                 _krnDiskDriver.krnDskReadRtn(args[0]);
             } else {
-                _StdOut.putText("Usage: status <filename>  Please supply a filename.");
+                _StdOut.putText("Usage: read <filename>  Please supply a filename.");
             }
         }
        
@@ -997,9 +997,25 @@ module TSOS {
         public shellWrite(args: string[]) {
             // Check if a filename was inputted
             if (args.length > 0) {
-            
+                // check if text is surrounded by quotes
+                let firstChar = args[1].charAt(0);
+                let lastChar = args[args.length - 1].charAt(args[args.length - 1].length - 1);
+                if (firstChar !== "\"" || lastChar !== "\"") {
+                    _StdOut.putText("Usage: write <filename> \"<text>\"  Please surround text with quotes.");
+                } else {
+                    // start appending arguments
+                    let text : string = "";
+                    for (let i = 1; i < args.length; i++) {
+                        text += args[i];
+                    }
+
+                    // remove quotes
+                    text = text.substring(1,text.length - 1);
+                    // call the write routine
+                    _krnDiskDriver.krnDskWriteRtn(args[0], text);
+                }
             } else {
-                _StdOut.putText("Usage: status <filename> \"<text>\"  Please supply a filename.");
+                _StdOut.putText("Usage: write <filename> \"<text>\"  Please supply a filename & \"Text\".");
             }
         }
        
@@ -1014,7 +1030,7 @@ module TSOS {
             if (args.length > 0) {
 
             } else {
-                _StdOut.putText("Usage: status <filename>  Please supply a filename.");
+                _StdOut.putText("Usage: delete <filename>  Please supply a filename.");
             }
         }
        
@@ -1063,7 +1079,7 @@ module TSOS {
                 }
                 
             } else {
-                _StdOut.putText("Usage: status <algorithm>  Please supply a scheduling algorithm.");
+                _StdOut.putText("Usage: setSchedule <algorithm>  Please supply a scheduling algorithm.");
             }
         }
        

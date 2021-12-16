@@ -41,7 +41,16 @@ var TSOS;
                 _StdOut.putText("File not found");
             }
         }
-        krnDskWriteRtn() {
+        krnDskWriteRtn(filename, text) {
+            let tsbLocation = this.fileExists(filename);
+            if (tsbLocation !== "not found") {
+                text = TSOS.AsciiLib.decodeString(text);
+                text = this.appendAsciiFilename(text);
+                _StdOut.putText(_Disk.write(tsbLocation, text));
+            }
+            else {
+                _StdOut.putText("File does not exist");
+            }
         }
         krnDskDeleteRtn() {
         }
@@ -74,14 +83,14 @@ var TSOS;
             // file not found
             return "not found";
         }
-        appendAsciiFilename(filename) {
+        appendAsciiFilename(asciiFilename) {
             // 60 bytes in a data portion of a tsb
             // 1 byte = 2 characters
             let length = 60 * 2;
-            for (let i = filename.length + 1; i < length; i++) {
-                filename = filename + "-";
+            for (let i = asciiFilename.length + 1; i < length; i++) {
+                asciiFilename = asciiFilename + "-";
             }
-            return filename;
+            return asciiFilename;
         }
         getInUseByte(tsb) {
         }
