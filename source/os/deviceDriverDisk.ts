@@ -102,7 +102,12 @@
         }
        
         public krnDskLSRtn() {
-            _StdOut.putText(_Disk.ls());
+            let result : string = _Disk.ls();
+            if (result === "") {
+                _StdOut.putText("*Empty Directory");
+            } else {
+                _StdOut.putText(_Disk.ls());
+            }
         }
 
         private fileExists(filename : string) : string {

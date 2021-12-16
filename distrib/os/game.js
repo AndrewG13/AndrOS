@@ -1,6 +1,8 @@
 /* --------
    Game.ts
 
+   This was not implemented
+
    Controls the functionality of the Starfox Minigame
    -------- */
 var TSOS;

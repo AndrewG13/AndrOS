@@ -94,7 +94,13 @@ var TSOS;
             }
         }
         krnDskLSRtn() {
-            _StdOut.putText(_Disk.ls());
+            let result = _Disk.ls();
+            if (result === "") {
+                _StdOut.putText("*Empty Directory");
+            }
+            else {
+                _StdOut.putText(_Disk.ls());
+            }
         }
         fileExists(filename) {
             // Starting index
