@@ -28,6 +28,7 @@
         }
 
         public krnDskCreateRtn(filename : string) {
+            if (this.krnDiskStatus()) {
             if (this.fileExists(filename) === "not found") {
                 filename = AsciiLib.decodeString(filename);
                 filename = this.appendAsciiFileend(filename);
@@ -36,19 +37,26 @@
             } else {
                 _StdOut.putText("File already exists");
             }
-
+            } else {
+                _StdOut.putText("Disk Unformatted. Run >format");
+            }
         }
 
         public krnDskReadRtn(filename : string) {
+            if (this.krnDiskStatus()) {
             let tsbLocation = this.fileExists(filename);
             if (tsbLocation !== "not found") {
                 _StdOut.putText(_Disk.read(tsbLocation));
             } else {
                 _StdOut.putText("File not found");
             }
+            } else {
+                _StdOut.putText("Disk Unformatted. Run >format");
+            }
         }
 
         public krnDskWriteRtn(filename : string, text : string) {
+            if (this.krnDiskStatus()) {
             let tsbLocation = this.fileExists(filename);
             // variable to pass in potentially larger data portions/text
             let textTotal : string[] = new Array();
@@ -81,15 +89,22 @@
             } else {
                 _StdOut.putText("File does not exist");
             }
+            } else {
+                _StdOut.putText("Disk Unformatted. Run >format")
+            }
         }
 
         public krnDskDeleteRtn(filename : string) {
-            let tsbLocation = this.fileExists(filename);
-            if (tsbLocation !== "not found") {
-                _Disk.delete(tsbLocation);
-                _StdOut.putText("File deleted");
+            if (this.krnDiskStatus()) {
+                let tsbLocation = this.fileExists(filename);
+                if (tsbLocation !== "not found") {
+                    _Disk.delete(tsbLocation);
+                    _StdOut.putText("File deleted");
+                } else {
+                    _StdOut.putText("File not found");
+                }
             } else {
-                _StdOut.putText("File not found");
+                _StdOut.putText("Disk Unformatted. Run >format");
             }
         }
        
@@ -102,12 +117,16 @@
         }
        
         public krnDskLSRtn() {
+            if (this.krnDiskStatus()) {
             let result : string = _Disk.ls();
             if (result === "") {
                 _StdOut.putText("*Empty Directory");
             } else {
                 _StdOut.putText(_Disk.ls());
             }
+        } else {
+            _StdOut.putText("Disk Unformatted. Run >format");
+        }
         }
 
         private fileExists(filename : string) : string {

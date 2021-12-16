@@ -22,67 +22,87 @@ var TSOS;
             this.status = "loaded";
         }
         krnDskCreateRtn(filename) {
-            if (this.fileExists(filename) === "not found") {
-                filename = TSOS.AsciiLib.decodeString(filename);
-                filename = this.appendAsciiFileend(filename);
-                _Disk.create(filename);
-                _StdOut.putText("File created");
+            if (this.krnDiskStatus()) {
+                if (this.fileExists(filename) === "not found") {
+                    filename = TSOS.AsciiLib.decodeString(filename);
+                    filename = this.appendAsciiFileend(filename);
+                    _Disk.create(filename);
+                    _StdOut.putText("File created");
+                }
+                else {
+                    _StdOut.putText("File already exists");
+                }
             }
             else {
-                _StdOut.putText("File already exists");
+                _StdOut.putText("Disk Unformatted. Run >format");
             }
         }
         krnDskReadRtn(filename) {
-            let tsbLocation = this.fileExists(filename);
-            if (tsbLocation !== "not found") {
-                _StdOut.putText(_Disk.read(tsbLocation));
+            if (this.krnDiskStatus()) {
+                let tsbLocation = this.fileExists(filename);
+                if (tsbLocation !== "not found") {
+                    _StdOut.putText(_Disk.read(tsbLocation));
+                }
+                else {
+                    _StdOut.putText("File not found");
+                }
             }
             else {
-                _StdOut.putText("File not found");
+                _StdOut.putText("Disk Unformatted. Run >format");
             }
         }
         krnDskWriteRtn(filename, text) {
-            let tsbLocation = this.fileExists(filename);
-            // variable to pass in potentially larger data portions/text
-            let textTotal = new Array();
-            if (tsbLocation !== "not found") {
-                // get the ascii chars of the text
-                text = TSOS.AsciiLib.decodeString(text);
-                // check if writing will be too large
-                // 1 byte = 2 characters,
-                // 60 bytes per data portion/text, so 120 is the max
-                if (text.length > 120) {
-                    // exceeds max, process each 60 bytes (from front of text) as their own array element
-                    while (text.length > 120) {
-                        let excessBytes = text.substring(0, 120); // chars 0 - 119
-                        textTotal.push(excessBytes);
-                        text = text.substring(120); // trim front 60 bytes off
+            if (this.krnDiskStatus()) {
+                let tsbLocation = this.fileExists(filename);
+                // variable to pass in potentially larger data portions/text
+                let textTotal = new Array();
+                if (tsbLocation !== "not found") {
+                    // get the ascii chars of the text
+                    text = TSOS.AsciiLib.decodeString(text);
+                    // check if writing will be too large
+                    // 1 byte = 2 characters,
+                    // 60 bytes per data portion/text, so 120 is the max
+                    if (text.length > 120) {
+                        // exceeds max, process each 60 bytes (from front of text) as their own array element
+                        while (text.length > 120) {
+                            let excessBytes = text.substring(0, 120); // chars 0 - 119
+                            textTotal.push(excessBytes);
+                            text = text.substring(120); // trim front 60 bytes off
+                        }
+                        // check if there is remaining bytes (didnt exactly reach the end)
+                        if (text.length !== 0) {
+                            text = this.appendAsciiFileend(text);
+                            textTotal.push(text);
+                        }
                     }
-                    // check if there is remaining bytes (didnt exactly reach the end)
-                    if (text.length !== 0) {
+                    else {
+                        // not exceeding, add fileend and proceed writing
                         text = this.appendAsciiFileend(text);
                         textTotal.push(text);
                     }
+                    _StdOut.putText(_Disk.write(tsbLocation, textTotal));
                 }
                 else {
-                    // not exceeding, add fileend and proceed writing
-                    text = this.appendAsciiFileend(text);
-                    textTotal.push(text);
+                    _StdOut.putText("File does not exist");
                 }
-                _StdOut.putText(_Disk.write(tsbLocation, textTotal));
             }
             else {
-                _StdOut.putText("File does not exist");
+                _StdOut.putText("Disk Unformatted. Run >format");
             }
         }
         krnDskDeleteRtn(filename) {
-            let tsbLocation = this.fileExists(filename);
-            if (tsbLocation !== "not found") {
-                _Disk.delete(tsbLocation);
-                _StdOut.putText("File deleted");
+            if (this.krnDiskStatus()) {
+                let tsbLocation = this.fileExists(filename);
+                if (tsbLocation !== "not found") {
+                    _Disk.delete(tsbLocation);
+                    _StdOut.putText("File deleted");
+                }
+                else {
+                    _StdOut.putText("File not found");
+                }
             }
             else {
-                _StdOut.putText("File not found");
+                _StdOut.putText("Disk Unformatted. Run >format");
             }
         }
         krnDskFormatRtn() {
@@ -94,12 +114,17 @@ var TSOS;
             }
         }
         krnDskLSRtn() {
-            let result = _Disk.ls();
-            if (result === "") {
-                _StdOut.putText("*Empty Directory");
+            if (this.krnDiskStatus()) {
+                let result = _Disk.ls();
+                if (result === "") {
+                    _StdOut.putText("*Empty Directory");
+                }
+                else {
+                    _StdOut.putText(_Disk.ls());
+                }
             }
             else {
-                _StdOut.putText(_Disk.ls());
+                _StdOut.putText("Disk Unformatted. Run >format");
             }
         }
         fileExists(filename) {
