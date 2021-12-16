@@ -61,7 +61,8 @@ var TSOS;
         static encodeString(hexString) {
             let retval = "";
             // trim leading --- off of string
-            hexString = "" + (parseInt(hexString));
+            let toTrim = hexString.indexOf("-");
+            hexString = hexString.substring(0, toTrim);
             // iterate through, encoding string entirely
             for (let i = 0; i < hexString.length; i = i + 2) {
                 let hex = parseInt((hexString.charAt(i) + hexString.charAt(i + 1)), 16);

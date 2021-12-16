@@ -63,6 +63,7 @@ var TSOS;
             }
         }
         krnDskLSRtn() {
+            _StdOut.putText(_Disk.ls());
         }
         fileExists(filename) {
             // Starting index

@@ -996,7 +996,7 @@ module TSOS {
         */
         public shellWrite(args: string[]) {
             // Check if a filename was inputted
-            if (args.length > 0) {
+            if (args.length > 1) {
                 // check if text is surrounded by quotes
                 let firstChar = args[1].charAt(0);
                 let lastChar = args[args.length - 1].charAt(args[args.length - 1].length - 1);
@@ -1052,7 +1052,7 @@ module TSOS {
         /    -Log failure if: Disk not formatted
         */
         public shellLs(args: string[]) {
-           
+           _krnDiskDriver.krnDskLSRtn();
         }
        
         /*

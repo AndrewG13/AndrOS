@@ -76,6 +76,22 @@ var TSOS;
             this.init();
             _StdOut.putText("Disk Formatted");
         }
+        ls() {
+            let retlist = "";
+            // iterate through entire file directory, looking for in-use files
+            for (let i = "001"; i !== "OOB"; i = incrementTSB(i, "DIR")) {
+                let data = sessionStorage.getItem(i);
+                let inUse = data.charAt(0);
+                if (inUse === "1") {
+                    let filename = data.substring(4);
+                    filename = TSOS.AsciiLib.encodeString(filename);
+                    retlist += filename + ", ";
+                }
+            }
+            // remove additional comma & space
+            retlist = retlist.substring(0, retlist.length - 2);
+            return retlist;
+        }
         create(filename) {
             // create a file in a known-to-be-ready block
             sessionStorage.setItem(this.nextDir, "1///" + filename);

@@ -72,7 +72,7 @@
         }
        
         public krnDskLSRtn() {
-            
+            _StdOut.putText(_Disk.ls());
         }
 
         private fileExists(filename : string) : string {
