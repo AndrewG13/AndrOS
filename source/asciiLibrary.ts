@@ -24,7 +24,7 @@ export class AsciiLib {
       /*
       / Encode Function
       /    Param: hex number
-      /    Return: encoded string
+      /    Return: encoded char
       /    Takes in a value to encode, and returns the ASCII representation
      */
       public static encode(hex : number) : string {
@@ -44,9 +44,9 @@ export class AsciiLib {
     
       /*
       / Decode Function
-      /    Param: ASCII string
+      /    Param: ASCII char
       /    Return: hex
-      /    Takes in a string char to decode, and returns the number of its ASCII representation
+      /    Takes in a char to decode, and returns the number of its ASCII representation
      */
       public static decode(text : string) : number {
         // Note: All button/control inputs like LF will not work
@@ -58,6 +58,13 @@ export class AsciiLib {
         return AsciiLib._ascii.indexOf(text);
       }
 
+      /*
+      / DecodeString Function
+      /    Param: ASCII string
+      /    Return: hex
+      /    Takes in a string char to decode, and returns the number of its ASCII representation
+      /    * returns the ascii numbers, not the actual English text
+     */
       // returns the ascii numbers, not the actual text
       public static decodeString(str : string) : string {
         let retval : string = "";
@@ -70,11 +77,17 @@ export class AsciiLib {
         return retval;
       }
 
-      // returns the text, not the ascii numbers
+      /*
+      / EncodeString Function
+      /    Param: hex number
+      /    Return: encoded string
+      /    Takes in values to encode, and returns the ASCII representation
+      /    *returns the English text, not the ascii numbers
+     */
       public static encodeString(hexString : string) : string {
         let retval = "";
 
-        // trim leading --- off of string, if any
+        // check if string contains ending --- (denotes a file end)
         let toTrim = hexString.indexOf("-");
         if (toTrim !== -1) {
           // does need to be trimmed
@@ -89,10 +102,12 @@ export class AsciiLib {
         return retval;
       }
 
+      // For the data portion of completely null blocks
       public static nullBlock() : string {
         return "----------------------------------------------------------------";
       }
-
+      
+      // For the data portion of the Master Boot Record
       public static nullBlockMBR() : string {
         return "----------------------------------------------------------";
       }
