@@ -98,9 +98,20 @@
 
             public read(tsb : string) : string {
                 let data = this.getBlock(tsb);
-                data = data.substring(4);
-                data = AsciiLib.decodeString(data);   
-                return data;             
+                let pointer = data.substring(1, 4);
+                // check if file points to a FDL
+                if (pointer === "///") {
+                    // no pointer, return nothing
+                    return "*File empty";
+                } else {
+                    // get data associated at pointer (in FDL)
+                    this.getBlock(pointer);
+                    // extract the data portion
+                    data = data.substring(4);
+                    // encode the Ascii to text
+                    data = AsciiLib.encodeString(data);   
+                    return data;             
+                }
             }
 
             public write() {

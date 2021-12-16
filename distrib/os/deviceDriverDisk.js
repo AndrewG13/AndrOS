@@ -33,11 +33,12 @@ var TSOS;
             }
         }
         krnDskReadRtn(filename) {
-            if (this.fileExists(filename) !== "not found") {
-                //_StdOut.putText(filename + ": " + );
+            let tsbLocation = this.fileExists(filename);
+            if (tsbLocation !== "not found") {
+                _StdOut.putText(_Disk.read(tsbLocation));
             }
             else {
-                _StdOut.putText("File already exists");
+                _StdOut.putText("File not found");
             }
         }
         krnDskWriteRtn() {

@@ -67,8 +67,20 @@ export class AsciiLib {
           retval += hexLog(decodedChar, 2);
           //console.log(retval);
         }
-
         console.log("retval: " + retval);
+        return retval;
+      }
+
+      // returns the text, not the ascii numbers
+      public static encodeString(hexString : string) : string {
+        let retval = "";
+        // trim leading --- off of string
+        hexString = "" + (parseInt(hexString, 16));
+        // iterate through, encoding string entirely
+        for (let i = 0; i < hexString.length; i = i + 2) {
+          let hex = parseInt( (hexString.charAt(i) + hexString.charAt(i + 1) ), 16);
+          retval += "" + this.encode(hex);
+        }
         return retval;
       }
 
