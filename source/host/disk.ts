@@ -152,8 +152,22 @@
                 
             }
 
-            public delete() {
+            public delete(tsb : string) {
+                let data = this.getBlock(tsb);
+                let pointer = data.substring(1,4);
+                let pointers : string[] = new Array();
+                // Array for all tsbs to delete
+                pointers.push(tsb);
+                
+                while (pointer !== "///") {
+                    pointers.push(pointer);
+                    data = this.getBlock(pointer);
+                    pointer = data.substring(1,4);
+                }
 
+                for (let i = 0; i < pointers.length; i++) {
+                    sessionStorage.setItem(pointers[i], "0///" + AsciiLib.nullBlock())
+                }
             }
 
             private getBlock(tsb : string) : string {

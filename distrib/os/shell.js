@@ -870,6 +870,7 @@ var TSOS;
         shellDelete(args) {
             // Check if a filename was inputted
             if (args.length > 0) {
+                _krnDiskDriver.krnDskDeleteRtn(args[0]);
             }
             else {
                 _StdOut.putText("Usage: delete <filename>  Please supply a filename.");

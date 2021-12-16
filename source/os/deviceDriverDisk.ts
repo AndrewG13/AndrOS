@@ -59,8 +59,13 @@
             }
         }
 
-        public krnDskDeleteRtn() {
-            
+        public krnDskDeleteRtn(filename : string) {
+            let tsbLocation = this.fileExists(filename);
+            if (tsbLocation !== "not found") {
+                _StdOut.putText(_Disk.delete(tsbLocation));
+            } else {
+                _StdOut.putText("File not found");
+            }
         }
        
         public krnDskFormatRtn() {
