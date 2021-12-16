@@ -72,8 +72,8 @@
                 // To keep track of algorithm validity (speedier for loop + neat success/fail msg)
                 let validMode : boolean = false;
                 
-                _StdOut.putText("Checking if " + modeVal + " is a valid algorithm...");
-                _StdOut.advanceLine();
+                //_StdOut.putText("Checking if " + modeVal + " is a valid algorithm...");
+                //_StdOut.advanceLine();
 
                 // What he said ^
                 for (let i = 0; i < Scheduler.AVAILABLEMODES.length && !validMode; i++) {
@@ -100,6 +100,31 @@
             public getMode() : string {
                 // Retrieve the mode in-action
                 return this.mode;
+            }
+
+            private applyMode(mode : string) {
+                switch (mode) {
+                    case "RR":
+                        // Reset to default (6)
+                        QUANTUM = 6;
+                        break;
+                    case "FCFS":
+                        // You mentioned this in class. I hope this simple step is okay!
+                        QUANTUM = Number.MAX_SAFE_INTEGER;
+                        // Quantum setting will be disabled when in FCFS
+                        break;
+                    case "PRI":
+                        // stuff
+                        break;
+                    default:
+                        // This will NEVER occur, if it does its at the fault of the developer.
+                        // Because nothing else is at the fault of the developer.
+                        if (_SarcasticMode) {
+                            _StdOut.putText("ERROR 0x0064: Wait... How did this possibly occur?");
+                        } else {
+                            _StdOut.putText("ERROR 0x0064: Scheduler Malfunction");
+                        }
+                }
             }
 
             /*

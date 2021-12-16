@@ -806,15 +806,20 @@ var TSOS;
         */
         shellQuantum(args) {
             if (args.length > 0) {
-                let setQ = parseInt(args[0]);
-                // Check if Quantum is numeric
-                let validity = (args[0].search(/[^\d]/));
-                if (validity === 0) {
-                    _StdOut.putText("Quantum Not an Integer.");
+                if (_Scheduler.getMode() === "RR") {
+                    let setQ = parseInt(args[0]);
+                    // Check if Quantum is numeric
+                    let validity = (args[0].search(/[^\d]/));
+                    if (validity === 0) {
+                        _StdOut.putText("Quantum Not an Integer.");
+                    }
+                    else {
+                        // Quantum is valid, set it
+                        QUANTUM = setQ;
+                    }
                 }
                 else {
-                    // Quantum is valid, set it
-                    QUANTUM = setQ;
+                    _StdOut.putText("Denied: Cannot change Quantum for " + _Scheduler.getMode());
                 }
             }
             else {
@@ -935,6 +940,7 @@ var TSOS;
             // Check if an algorithm was inputted
             if (args.length > 0) {
                 // This OS ignores user-inputted case sensitivity because it is not petty
+                // okay thats a lie, have you seen my additions to Sarcastic mode?
                 args[0] = args[0].toUpperCase();
                 // First check if inputted algorithm is already in-use
                 if (args[0] === _Scheduler.getMode()) {
