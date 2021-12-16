@@ -285,8 +285,31 @@ module TSOS {
             // 1. Remove leading and trailing spaces.
             buffer = Utils.trim(buffer);
 
-            // 2. Separate on spaces so we can determine the command and command-line args, if any.
-            var tempList = buffer.split(" ");
+            var tempList : string[];
+            // * if quotes are included, skip the spaces within them 
+            //   (assume there will be no args past them)
+
+            // So check if quotes exist
+            if (buffer.indexOf( "\"" ) === -1) {
+                // they don't, proceed as normal
+                
+                // 2. Separate on spaces so we can determine the command and command-line args, if any.
+                tempList = buffer.split(" ");
+            } else {
+                // they do, only remove the spaces prior to the first quote
+                let quoteIndex = buffer.indexOf( "\"" );
+
+                // to remove spaces
+                let frontBuffer = buffer.substring(0, quoteIndex);
+                // to not remove spaces
+                let backBuffer = buffer.substring(quoteIndex);
+
+                tempList = frontBuffer.split(" ");
+                tempList.push(backBuffer);
+            }
+
+            // // 2. Separate on spaces so we can determine the command and command-line args, if any.
+            //var tempList = buffer.split(" ");
 
             // 3. Take the first (zeroth) element and use that as the command.
             var cmd = tempList.shift();  // Yes, you can do that to an array in JavaScript. See the Queue class.

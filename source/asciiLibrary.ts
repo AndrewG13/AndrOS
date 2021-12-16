@@ -30,7 +30,6 @@ export class AsciiLib {
       public static encode(hex : number) : string {
         // Special Cases
         if (hex == 0x0A) {
-          console.log();
           return "";
         } else
         if (hex == 0x5F) {

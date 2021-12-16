@@ -20,7 +20,6 @@ var TSOS;
         static encode(hex) {
             // Special Cases
             if (hex == 0x0A) {
-                console.log();
                 return "";
             }
             else if (hex == 0x5F) {
