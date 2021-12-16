@@ -99,6 +99,7 @@ var TSOS;
             this.nextDir = incrementTSB(this.nextDir, "DIR");
         }
         read(tsb) {
+            let retval = "";
             let data = this.getBlock(tsb);
             let pointer = data.substring(1, 4);
             // check if file points to a FDL
@@ -109,11 +110,22 @@ var TSOS;
             else {
                 // get data associated at pointer (in FDL)
                 data = this.getBlock(pointer);
-                // extract the data portion
+                // check if it points to another fdl
+                pointer = data.substring(1, 4);
+                // extract the last (possibly only) data portion
                 data = data.substring(4);
                 // encode the Ascii to text
                 data = TSOS.AsciiLib.encodeString(data);
-                return data;
+                retval += data;
+                // while chaining exists, continue to read chained fdls (except last)
+                while (pointer !== "///") {
+                    data = this.getBlock(pointer);
+                    pointer = data.substring(1, 4);
+                    data = data.substring(4);
+                    data = TSOS.AsciiLib.encodeString(data);
+                    retval += data;
+                }
+                return retval;
             }
         }
         write(tsb, asciiText) {
@@ -121,13 +133,28 @@ var TSOS;
             let pointer = data.substring(1, 4);
             // check if file points to a FDL
             if (pointer === "///") {
-                // no pointer, create one for this file
+                // no pointer, create one for this directory to point to next file
                 pointer = this.nextFdl;
                 sessionStorage.setItem(tsb, "1" + pointer + data.substring(4));
                 this.nextFdl = incrementTSB(this.nextFdl, "FDL");
             }
-            // this is where (if over 60 * 2 length, do multiple writes)
-            sessionStorage.setItem(pointer, "1///" + asciiText);
+            else {
+                // wipe ALL previous data
+                this.wipeChains(pointer);
+            }
+            // this is where if (over 60 * 2 length, do multiple writes)
+            while (asciiText.length > 1) {
+                // get next available fdl
+                let chainPointer = this.nextFdl;
+                // write
+                sessionStorage.setItem(pointer, "1" + chainPointer + asciiText.shift());
+                // update nextfdl variable
+                this.nextFdl = incrementTSB(this.nextFdl, "FDL");
+                // update both pointers
+                pointer = chainPointer;
+            }
+            // just do normal write (< 60 bytes)
+            sessionStorage.setItem(pointer, "1///" + asciiText[0]);
             return "Text written successfully";
         }
         delete(tsb) {
@@ -157,6 +184,16 @@ var TSOS;
             // get the pointer, could be null = /// (next three bytes)
             let pointer = entireBlock.substring(1, 4);
             sessionStorage.setItem(tsb, inuse + pointer + data);
+        }
+        wipeChains(tsb) {
+            if (tsb !== "///") {
+                // get NEXT chained tsb to wipe
+                let nextTsb = (sessionStorage.getItem(tsb)).substring(1, 4);
+                // wipe CURRENT tsb
+                sessionStorage.setItem(tsb, "0///" + TSOS.AsciiLib.nullBlock());
+                // recursively wipe!
+                this.wipeChains(nextTsb);
+            }
         }
         /*
         / Disk Status Function

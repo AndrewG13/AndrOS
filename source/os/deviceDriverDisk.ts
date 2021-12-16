@@ -30,7 +30,7 @@
         public krnDskCreateRtn(filename : string) {
             if (this.fileExists(filename) === "not found") {
                 filename = AsciiLib.decodeString(filename);
-                filename = this.appendAsciiFilename(filename);
+                filename = this.appendAsciiFileend(filename);
                 _Disk.create(filename);
                 _StdOut.putText("File created");
             } else {
@@ -50,10 +50,34 @@
 
         public krnDskWriteRtn(filename : string, text : string) {
             let tsbLocation = this.fileExists(filename);
+            // variable to pass in potentially larger data portions/text
+            let textTotal : string[] = new Array();
             if (tsbLocation !== "not found") {
+                // get the ascii chars of the text
                 text = AsciiLib.decodeString(text);
-                text = this.appendAsciiFilename(text);
-                _StdOut.putText(_Disk.write(tsbLocation, text));
+                // check if writing will be too large
+                // 1 byte = 2 characters,
+                // 60 bytes per data portion/text, so 120 is the max
+                if (text.length > 120) {
+                    // exceeds max, process each 60 bytes (from front of text) as their own array element
+                    while (text.length > 120) {
+                        let excessBytes = text.substring(0, 120); // chars 0 - 119
+                        textTotal.push(excessBytes);
+                        text = text.substring(120); // trim front 60 bytes off
+                    }
+                    // check if there is remaining bytes (didnt exactly reach the end)
+                    if (text.length !== 0) {
+                        text = this.appendAsciiFileend(text);
+                        textTotal.push(text);
+                    }
+
+                } else {
+                    // not exceeding, add fileend and proceed writing
+                    text = this.appendAsciiFileend(text);
+                    textTotal.push(text);
+                }
+                _StdOut.putText(_Disk.write(tsbLocation, textTotal));
+
             } else {
                 _StdOut.putText("File does not exist");
             }
@@ -100,7 +124,7 @@
             return "not found";
         }
 
-        private appendAsciiFilename(asciiFilename : string) : string {
+        private appendAsciiFileend(asciiFilename : string) : string {
             // 60 bytes in a data portion of a tsb
             // 1 byte = 2 characters
             let length = 60 * 2;

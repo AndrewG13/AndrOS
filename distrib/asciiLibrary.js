@@ -60,9 +60,12 @@ var TSOS;
         // returns the text, not the ascii numbers
         static encodeString(hexString) {
             let retval = "";
-            // trim leading --- off of string
+            // trim leading --- off of string, if any
             let toTrim = hexString.indexOf("-");
-            hexString = hexString.substring(0, toTrim);
+            if (toTrim !== -1) {
+                // does need to be trimmed
+                hexString = hexString.substring(0, toTrim);
+            }
             // iterate through, encoding string entirely
             for (let i = 0; i < hexString.length; i = i + 2) {
                 let hex = parseInt((hexString.charAt(i) + hexString.charAt(i + 1)), 16);

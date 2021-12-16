@@ -74,9 +74,13 @@ export class AsciiLib {
       // returns the text, not the ascii numbers
       public static encodeString(hexString : string) : string {
         let retval = "";
-        // trim leading --- off of string
+
+        // trim leading --- off of string, if any
         let toTrim = hexString.indexOf("-");
-        hexString = hexString.substring(0, toTrim);
+        if (toTrim !== -1) {
+          // does need to be trimmed
+          hexString = hexString.substring(0, toTrim);
+        }
   
         // iterate through, encoding string entirely
         for (let i = 0; i < hexString.length; i = i + 2) {
