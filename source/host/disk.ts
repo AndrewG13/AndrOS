@@ -43,7 +43,6 @@
 
             constructor() {
                 this.formatted = false;
-                //this.init();
             }
 
             /*
@@ -123,11 +122,15 @@
             /    Create a file on the Disk
             /    Driver checks if already on Disk, so no conflicts here
             */
-            public create(filename : string) {
-                // create a file in a known-to-be-ready block
-                sessionStorage.setItem(this.nextDir, "1///" + filename);
+            public create(filename : string) : string {
+                // grab next known-to-be-ready spot
+                let tsb : string = this.nextDir;
+                // create a file in this block
+                sessionStorage.setItem(tsb, "1///" + filename);
                 // increment the next directory available
                 this.nextDir = incrementTSB(this.nextDir, "DIR");
+                // return its location
+                return tsb;
             }
 
             /*
