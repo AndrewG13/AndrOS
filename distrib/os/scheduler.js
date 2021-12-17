@@ -99,7 +99,7 @@ var TSOS;
                     // stuff
                     break;
                 default:
-                    // This will NEVER occur, if it does its at the fault of the developer.
+                    // This will NEVER occur. If it does, its at the fault of the developer.
                     // Because nothing else is at the fault of the developer.
                     if (_SarcasticMode) {
                         _StdOut.putText("ERROR 0x0064: Wait... How did this possibly occur?");
