@@ -661,6 +661,7 @@ module TSOS {
         public shellLoad(args: string[]) {
             // Must cast into HTMLInputElement, since regular HTMLElements don't have .value (a textfield)
             let input : string = (<HTMLInputElement>document.getElementById("taProgramInput")).value;
+            let loadingInMem : boolean = true;
 
             // Remove all whitespace from input:
             //    \s+ = Any neighboring whitespace/tabs/new lines
@@ -696,6 +697,7 @@ module TSOS {
                     // so no paritions are available.
                     // check if Disk is formatted & free space, if so load it in
                     if (_krnDiskDriver.krnDiskStatus()) {
+                        loadingInMem = false;
                         // first create a standard reserved filename for these kinds of programs
                         let reservedName : string = "~SwapperFile~"; // ~ is a reserved char
                         // load this user code into the Disk & get its location
@@ -720,11 +722,13 @@ module TSOS {
                     
                     // If CPU is currently running, interrupt to allow MA & MMU to load program.
                     // If CPU is not running, no need to interrupt!
-                    if (_CPU.isExecuting) {
-                        _KernelInterruptQueue.enqueue(new Interrupt(LOAD_IRQ,[partition, numOfBytes, input]));
-                    } else {
-                        _OsShell.loadIntoMemory(partition, numOfBytes, input);
-                    }  
+                    if (loadingInMem) {
+                        if (_CPU.isExecuting) {
+                            _KernelInterruptQueue.enqueue(new Interrupt(LOAD_IRQ,[partition, numOfBytes, input]));
+                        } else {
+                            _OsShell.loadIntoMemory(partition, numOfBytes, input);
+                        }  
+                    }
                 }
             } else {   
                 if (_SarcasticMode) {

@@ -534,6 +534,7 @@ var TSOS;
         shellLoad(args) {
             // Must cast into HTMLInputElement, since regular HTMLElements don't have .value (a textfield)
             let input = document.getElementById("taProgramInput").value;
+            let loadingInMem = true;
             // Remove all whitespace from input:
             //    \s+ = Any neighboring whitespace/tabs/new lines
             //    /g  = for the entire String
@@ -562,7 +563,23 @@ var TSOS;
                 // Contact the Memory Manager if memory is available
                 let partition = _MemoryManager.verifyMemory();
                 if (partition[0] === -1) {
-                    failLog += "*Insufficient Memory ";
+                    // so no paritions are available.
+                    // check if Disk is formatted & free space, if so load it in
+                    if (_krnDiskDriver.krnDiskStatus()) {
+                        loadingInMem = false;
+                        // first create a standard reserved filename for these kinds of programs
+                        let reservedName = "~SwapperFile~"; // ~ is a reserved char
+                        // load this user code into the Disk & get its location
+                        let tsb = _krnDiskDriver.krnDskCreateRtn(reservedName);
+                        // now write input to it (not in ascii bullshit)
+                        // cleverly append tsb to the back of the reserved name,
+                        // to differentiate reserved files & their locations
+                        _krnDiskDriver.krnDskWriteRtn(reservedName + tsb, input);
+                        _StdOut.putText("Load Successful (Disk)");
+                    }
+                    else {
+                        failLog += "*Insufficient Memory & Disk Unformatted ";
+                    }
                 }
                 // If user code failed, display why and cease 'load'
                 if (failLog !== "") {
@@ -572,11 +589,13 @@ var TSOS;
                     // Code successful!
                     // If CPU is currently running, interrupt to allow MA & MMU to load program.
                     // If CPU is not running, no need to interrupt!
-                    if (_CPU.isExecuting) {
-                        _KernelInterruptQueue.enqueue(new TSOS.Interrupt(LOAD_IRQ, [partition, numOfBytes, input]));
-                    }
-                    else {
-                        _OsShell.loadIntoMemory(partition, numOfBytes, input);
+                    if (loadingInMem) {
+                        if (_CPU.isExecuting) {
+                            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(LOAD_IRQ, [partition, numOfBytes, input]));
+                        }
+                        else {
+                            _OsShell.loadIntoMemory(partition, numOfBytes, input);
+                        }
                     }
                 }
             }
@@ -890,8 +909,14 @@ var TSOS;
                     }
                     // remove quotes
                     text = text.substring(1, text.length - 1);
-                    // call the write routine
-                    _krnDiskDriver.krnDskWriteRtn(args[0], text);
+                    // check if user is trying to write to a reserved (swapper) file
+                    if (text.indexOf("~") !== -1) {
+                        _StdOut.putText("Denied: Cannot write to reserved file");
+                    }
+                    else {
+                        // all good, call the write routine
+                        _krnDiskDriver.krnDskWriteRtn(args[0], text);
+                    }
                 }
             }
             else {

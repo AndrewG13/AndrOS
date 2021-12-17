@@ -48,13 +48,13 @@
         public krnDskCreateRtn(filename : string) : string {
             // check if formatted
             if (this.krnDiskStatus()) {
-                // check if filename is available
-                if (this.fileExists(filename) === "not found") {
+                // check if filename is available, or if this is a reserved file
+                if (this.fileExists(filename) === "not found" || filename.indexOf("~") !== -1) {
                    // available, decode filename & create the file
                    filename = AsciiLib.decodeString(filename);
                    filename = this.appendAsciiFileend(filename);
                    let tsb : string = _Disk.create(filename);
-                   _StdOut.putText("File created");
+                   _StdOut.putText("File created ");
                    // return location
                    return tsb;
                 } else {
@@ -100,7 +100,19 @@
 
                     // get its tsb appended at the end of this passed-in filename
                     let tsb : string = filename.substring(13);
-                    
+                    let inputTotal : string[] = new Array();
+                    // handle chars of user input 
+                    while (text.length > 120) { // 60 bytes, each byte = 2 chars
+                        let excessCode = text.substring(0, 120);
+                        inputTotal.push(excessCode);
+                        text = text.substring(120);
+                    }
+                    if (text.length !== 0) {
+                        text = this.appendAsciiFileend(text);
+                        inputTotal.push(text);
+                    }
+                    // write user code to reserved file
+                    _Disk.write(tsb, inputTotal);
                 } else {
                     let tsbLocation = this.fileExists(filename);
                     // variable to pass in potentially larger data portions/text

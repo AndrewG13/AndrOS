@@ -35,7 +35,6 @@ var TSOS;
             this.nextDir = "001"; // to keep track of next available DIR
             this.nextFdl = "100"; // to keep track of next available FDL
             this.formatted = false;
-            //this.init();
         }
         /*
         / Init Function
@@ -108,10 +107,14 @@ var TSOS;
         /    Driver checks if already on Disk, so no conflicts here
         */
         create(filename) {
-            // create a file in a known-to-be-ready block
-            sessionStorage.setItem(this.nextDir, "1///" + filename);
+            // grab next known-to-be-ready spot
+            let tsb = this.nextDir;
+            // create a file in this block
+            sessionStorage.setItem(tsb, "1///" + filename);
             // increment the next directory available
             this.nextDir = incrementTSB(this.nextDir, "DIR");
+            // return its location
+            return tsb;
         }
         /*
         / Read Function

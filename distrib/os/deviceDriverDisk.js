@@ -11,6 +11,7 @@ var TSOS;
             // Override the base method pointers.
             // MyTODO: look into what the hell ^ means...
             super();
+            this.RESERVED_TSB = 13; // index of tsb in a reserved file's name
             this.driverEntry = this.krnDskDriverEntry;
             //this.isr = ???
         }
@@ -39,13 +40,15 @@ var TSOS;
         krnDskCreateRtn(filename) {
             // check if formatted
             if (this.krnDiskStatus()) {
-                // check if filename is available
-                if (this.fileExists(filename) === "not found") {
+                // check if filename is available, or if this is a reserved file
+                if (this.fileExists(filename) === "not found" || filename.indexOf("~") !== -1) {
                     // available, decode filename & create the file
                     filename = TSOS.AsciiLib.decodeString(filename);
                     filename = this.appendAsciiFileend(filename);
-                    _Disk.create(filename);
-                    _StdOut.putText("File created");
+                    let tsb = _Disk.create(filename);
+                    _StdOut.putText("File created ");
+                    // return location
+                    return tsb;
                 }
                 else {
                     _StdOut.putText("File already exists");
@@ -54,6 +57,8 @@ var TSOS;
             else {
                 _StdOut.putText("Disk Unformatted. Run >format");
             }
+            // if not created, return useless result
+            return "Not created";
         }
         /*
         / KernelDiskRead Routine
@@ -82,37 +87,58 @@ var TSOS;
         */
         krnDskWriteRtn(filename, text) {
             if (this.krnDiskStatus()) {
-                let tsbLocation = this.fileExists(filename);
-                // variable to pass in potentially larger data portions/text
-                let textTotal = new Array();
-                if (tsbLocation !== "not found") {
-                    // get the ascii chars of the text
-                    text = TSOS.AsciiLib.decodeString(text);
-                    // check if writing will be too large
-                    // 1 byte = 2 characters,
-                    // 60 bytes per data portion/text, so 120 is the max
-                    if (text.length > 120) {
-                        // exceeds max, process each 60 bytes (from front of text) as their own array element
-                        while (text.length > 120) {
-                            let excessBytes = text.substring(0, 120); // chars 0 - 119
-                            textTotal.push(excessBytes);
-                            text = text.substring(120); // trim front 60 bytes off
+                // first check if we are dealing with a reserved file
+                if (filename.indexOf("~") !== -1) {
+                    // deal with the reserved file
+                    // get its tsb appended at the end of this passed-in filename
+                    let tsb = filename.substring(13);
+                    let inputTotal = new Array();
+                    // handle chars of user input 
+                    while (text.length > 120) { // 60 bytes, each byte = 2 chars
+                        let excessCode = text.substring(0, 120);
+                        inputTotal.push(excessCode);
+                        text = text.substring(120);
+                    }
+                    if (text.length !== 0) {
+                        text = this.appendAsciiFileend(text);
+                        inputTotal.push(text);
+                    }
+                    // write user code to reserved file
+                    _Disk.write(tsb, inputTotal);
+                }
+                else {
+                    let tsbLocation = this.fileExists(filename);
+                    // variable to pass in potentially larger data portions/text
+                    let textTotal = new Array();
+                    if (tsbLocation !== "not found") {
+                        // get the ascii chars of the text
+                        text = TSOS.AsciiLib.decodeString(text);
+                        // check if writing will be too large
+                        // 1 byte = 2 characters,
+                        // 60 bytes per data portion/text, so 120 is the max
+                        if (text.length > 120) {
+                            // exceeds max, process each 60 bytes (from front of text) as their own array element
+                            while (text.length > 120) {
+                                let excessBytes = text.substring(0, 120); // chars 0 - 119
+                                textTotal.push(excessBytes);
+                                text = text.substring(120); // trim front 60 bytes off
+                            }
+                            // check if there is remaining bytes (didnt exactly reach the end)
+                            if (text.length !== 0) {
+                                text = this.appendAsciiFileend(text);
+                                textTotal.push(text);
+                            }
                         }
-                        // check if there is remaining bytes (didnt exactly reach the end)
-                        if (text.length !== 0) {
+                        else {
+                            // not exceeding, add fileend and proceed writing
                             text = this.appendAsciiFileend(text);
                             textTotal.push(text);
                         }
+                        _StdOut.putText(_Disk.write(tsbLocation, textTotal));
                     }
                     else {
-                        // not exceeding, add fileend and proceed writing
-                        text = this.appendAsciiFileend(text);
-                        textTotal.push(text);
+                        _StdOut.putText("File does not exist");
                     }
-                    _StdOut.putText(_Disk.write(tsbLocation, textTotal));
-                }
-                else {
-                    _StdOut.putText("File does not exist");
                 }
             }
             else {
