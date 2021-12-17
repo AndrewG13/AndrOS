@@ -222,5 +222,9 @@ module TSOS {
                 Control.displayPCB(pcb);
 
             }
+
+            public static displayDisk() {
+                
+            }
     }
 }

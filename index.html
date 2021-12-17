@@ -28,6 +28,7 @@
    <script type="text/javascript" src="distrib/os/processControlBlock.js"></script>
    <script type="text/javascript" src="distrib/os/memoryManager.js"></script>
    <script type="text/javascript" src="distrib/os/scheduler.js"></script>
+   <script type="text/javascript" src="distrib/os/swapper.js"></script>
    <script type="text/javascript" src="distrib/os/deviceDriver.js"></script>
    <script type="text/javascript" src="distrib/os/deviceDriverKeyboard.js"></script>
    <script type="text/javascript" src="distrib/os/deviceDriverDisk.js"></script>
@@ -176,7 +177,8 @@
 </canvas>
 
 <br>
-
+<div style="display: grid;
+            grid-template-columns: auto auto;">
 <div id="divMemory" class="classMemory">
    <label>Memory Display</label>
    <table id="tableMemory">
@@ -184,6 +186,20 @@
    </table>
 </div>
 
+<div id="divDisk">
+   <label>Disk Display</label>
+   <table id="tableDisk">
+      <tr class="diskMembers">
+         <th>TSB</th>
+         <th>In-Use</th>
+         <th>Pointer</th>
+         <th>Data Portion</th>
+      </tr>
+
+   </table>
+</div>
+
+</div>
 <p class="footerText" style="clear:both;">
    <br>
    Copyright &copy; 2008 - 2021 No Rights Reserved.

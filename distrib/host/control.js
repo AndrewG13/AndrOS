@@ -176,6 +176,8 @@ var TSOS;
             // Populate display with PCB attributes
             Control.displayPCB(pcb);
         }
+        static displayDisk() {
+        }
     }
     // * Proj 3, this will be reworked for multiple running PCBs
     //static HtmlPCBs : HTMLTableCellElement[] = new Array();

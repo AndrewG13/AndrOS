@@ -79,7 +79,14 @@ h3 {
   display: block;
 }
 
-.PCB_Members, .CPU_Members {
+#tableDisk {
+  background-color: darkslategrey;
+  border: 1.5px solid orangered;
+  overflow: scroll;
+  width: 660px;
+}
+
+.PCB_Members, .CPU_Members, .diskMembers {
   color: coral;
   text-align: center;
   background-color: maroon;
