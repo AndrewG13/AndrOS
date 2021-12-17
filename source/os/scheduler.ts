@@ -79,6 +79,7 @@
                 for (let i = 0; i < Scheduler.AVAILABLEMODES.length && !validMode; i++) {
                     if (modeVal === (Scheduler.AVAILABLEMODES[i])) {
                         this.mode = modeVal;
+                        this.applyMode(modeVal);
                         validMode = true;
                     }
                 }
@@ -88,6 +89,8 @@
                     _StdOut.putText("Mode set: " + this.mode);
                 } else {
                     _StdOut.putText("Mode invalid");
+                    _StdOut.advanceLine();
+                    _StdOut.putText("Available modes: [RR, FCFS, PRI]");
                 }
 
                 return validMode;
@@ -117,7 +120,7 @@
                         // stuff
                         break;
                     default:
-                        // This will NEVER occur, if it does its at the fault of the developer.
+                        // This will NEVER occur. If it does, its at the fault of the developer.
                         // Because nothing else is at the fault of the developer.
                         if (_SarcasticMode) {
                             _StdOut.putText("ERROR 0x0064: Wait... How did this possibly occur?");

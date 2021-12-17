@@ -14,7 +14,7 @@ var TSOS;
         /*
         / Encode Function
         /    Param: hex number
-        /    Return: encoded string
+        /    Return: encoded char
         /    Takes in a value to encode, and returns the ASCII representation
        */
         static encode(hex) {
@@ -33,9 +33,9 @@ var TSOS;
         }
         /*
         / Decode Function
-        /    Param: ASCII string
+        /    Param: ASCII char
         /    Return: hex
-        /    Takes in a string char to decode, and returns the number of its ASCII representation
+        /    Takes in a char to decode, and returns the number of its ASCII representation
        */
         static decode(text) {
             // Note: All button/control inputs like LF will not work
@@ -45,6 +45,13 @@ var TSOS;
             }
             return AsciiLib._ascii.indexOf(text);
         }
+        /*
+        / DecodeString Function
+        /    Param: ASCII string
+        /    Return: hex
+        /    Takes in a string char to decode, and returns the number of its ASCII representation
+        /    * returns the ascii numbers, not the actual English text
+       */
         // returns the ascii numbers, not the actual text
         static decodeString(str) {
             let retval = "";
@@ -56,10 +63,16 @@ var TSOS;
             console.log("retval: " + retval);
             return retval;
         }
-        // returns the text, not the ascii numbers
+        /*
+        / EncodeString Function
+        /    Param: hex number
+        /    Return: encoded string
+        /    Takes in values to encode, and returns the ASCII representation
+        /    *returns the English text, not the ascii numbers
+       */
         static encodeString(hexString) {
             let retval = "";
-            // trim leading --- off of string, if any
+            // check if string contains ending --- (denotes a file end)
             let toTrim = hexString.indexOf("-");
             if (toTrim !== -1) {
                 // does need to be trimmed
@@ -72,9 +85,11 @@ var TSOS;
             }
             return retval;
         }
+        // For the data portion of completely null blocks
         static nullBlock() {
             return "----------------------------------------------------------------";
         }
+        // For the data portion of the Master Boot Record
         static nullBlockMBR() {
             return "----------------------------------------------------------";
         }

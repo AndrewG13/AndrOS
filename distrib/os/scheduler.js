@@ -61,6 +61,7 @@ var TSOS;
             for (let i = 0; i < Scheduler.AVAILABLEMODES.length && !validMode; i++) {
                 if (modeVal === (Scheduler.AVAILABLEMODES[i])) {
                     this.mode = modeVal;
+                    this.applyMode(modeVal);
                     validMode = true;
                 }
             }
@@ -70,6 +71,8 @@ var TSOS;
             }
             else {
                 _StdOut.putText("Mode invalid");
+                _StdOut.advanceLine();
+                _StdOut.putText("Available modes: [RR, FCFS, PRI]");
             }
             return validMode;
         }
