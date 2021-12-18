@@ -1,5 +1,16 @@
 ### Andrew Giardina - Operating Systems Project
 
+It pains me to say it is incomplete at this time :(
+Please grade branch: projectFinale
+
+Main issues: 
+- Swapper unimplemented
+- Disk html table unfinished
+- Priority algorithm unimplemented
+
+I will still be committing to this (4:30pm today due to job), but I'm sure you will have graded it already.
+Not the best time management + personal issues clouded the final development of this. I am sorry to disappoint you.
+
 > #  **AndrOS**
 *Not to be confused with the Starfox 64 villain*
 
