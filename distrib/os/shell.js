@@ -589,13 +589,23 @@ var TSOS;
                     // Code successful!
                     // If CPU is currently running, interrupt to allow MA & MMU to load program.
                     // If CPU is not running, no need to interrupt!
-                    if (loadingInMem) {
+                    if (loadingInMem) { // user code going in Main Memory
                         if (_CPU.isExecuting) {
                             _KernelInterruptQueue.enqueue(new TSOS.Interrupt(LOAD_IRQ, [partition, numOfBytes, input]));
                         }
                         else {
                             _OsShell.loadIntoMemory(partition, numOfBytes, input);
                         }
+                    }
+                    else { // user code going on Disk
+                        // Create a PCB & enqueue on Ready Queue (and PCB list)
+                        let newPCB = new TSOS.PCB(0x000, 0x00, 0x00, 0x00, false, true);
+                        //newPCB.base = partition[1];
+                        //newPCB.limit = partition[2];
+                        _SchedulerReadyQueue.enqueue(newPCB);
+                        PCBList[newPCB.PID] = newPCB;
+                        _StdOut.advanceLine();
+                        _StdOut.putText("PID: " + newPCB.PID);
                     }
                 }
             }
@@ -630,7 +640,7 @@ var TSOS;
                 _MemoryAccessor.writeImmediate(reg, data);
             }
             // Create a PCB & enqueue on Ready Queue (and PCB list)
-            let newPCB = new TSOS.PCB(0x000, 0x00, 0x00, 0x00, false);
+            let newPCB = new TSOS.PCB(0x000, 0x00, 0x00, 0x00, false, false);
             newPCB.base = partition[1];
             newPCB.limit = partition[2];
             _SchedulerReadyQueue.enqueue(newPCB);

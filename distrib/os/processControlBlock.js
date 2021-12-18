@@ -7,7 +7,7 @@
 var TSOS;
 (function (TSOS) {
     class PCB {
-        constructor(savedPC, savedAcc, savedXreg, savedYreg, savedZflag) {
+        constructor(savedPC, savedAcc, savedXreg, savedYreg, savedZflag, loadedToDisk) {
             this.state = PCB.STATES[0];
             this.PID = PCB.PID++;
             this.IR = 0x00;
@@ -16,6 +16,7 @@ var TSOS;
             this.Xreg = savedXreg;
             this.Yreg = savedYreg;
             this.Zflag = savedZflag;
+            this.onDisk = loadedToDisk;
             // this.priority = ?
             // These will be assigned by the Memory Manager (triggered in "Load").
             // For now default to null.

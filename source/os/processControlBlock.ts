@@ -33,8 +33,9 @@
             // public priority : number; // * Proj 4
             public base : number;    // Beginning index
             public limit : number;   // Ending index
+            public onDisk : boolean; // is this PCB's program on Disk?
 
-            constructor(savedPC : number, savedAcc : number, savedXreg : number, savedYreg : number, savedZflag : boolean) {
+            constructor(savedPC : number, savedAcc : number, savedXreg : number, savedYreg : number, savedZflag : boolean, loadedToDisk : boolean) {
                 this.state = PCB.STATES[0];
                 this.PID = PCB.PID++;
                 this.IR = 0x00;
@@ -43,6 +44,8 @@
                 this.Xreg = savedXreg;
                 this.Yreg = savedYreg;
                 this.Zflag = savedZflag;
+                this.onDisk = loadedToDisk;
+
                 // this.priority = ?
 
                 // These will be assigned by the Memory Manager (triggered in "Load").
